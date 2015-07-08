@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <title>Tree JS APP</title>
+        <style>
+            body {margin: 0;}
+            /*canvas {width: 500px;height: 500px}*/
+            
+            .content {
+                /*position:absolute;*/
+                position: relative;
+                margin:0px auto;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 800px;
+                height: 800px;
+                z-index: 1;
+            }
+            
+            .content2 {
+                position: absolute;
+                left: 42%;
+                
+               
+                transform: translateY(-50%);
+                width: 300px;
+                height: 300px;
+                z-index: 2;
+                background: white;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="js/three.min.js"></script>
+        <div id="content" class="content">      
+            <script>
+
+            var contentDiv = document.getElementById("content");
+            console.log(contentDiv);
+
+
+
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(45, contentDiv.clientWidth / contentDiv.clientHeight, 1, 100);
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(contentDiv.clientWidth, contentDiv.clientHeight);
+            
+            
+            
+//            document.body.appendChild(renderer.domElement);
+            contentDiv.appendChild(renderer.domElement);
+
+            var geometry = new THREE.BoxGeometry(1, 1, 1);
+            var material = new THREE.MeshBasicMaterial({color: 0x0ff00});
+            var cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+            camera.position.z = 5;
+
+
+
+
+
+            function render() {
+
+                requestAnimationFrame(render);
+
+
+                cube.rotation.x += 0.025;
+                cube.rotation.y += 0.025;
+
+
+                renderer.render(scene, camera);
+
+            }
+            render();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </script>
+            
+        </div>
+        <div id="content2" class="content2">
+            this comes inside the second div
+            
+            The specific animation should play behind this div.
+        </div>
+
+    </body>
+
+</html>
