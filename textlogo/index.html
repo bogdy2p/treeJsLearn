@@ -40,7 +40,6 @@
         <div id="container">
 
 
-
         </div>
 
         <script src="js/three.min.js"></script>
@@ -96,7 +95,7 @@
             var composer;
             var effectFXAA;
 
-            var torusObject, group, textMesh1, textMesh2, textGeo, material, clickedFlag;
+            var platforma, torusObject, group, textMesh1, textMesh2, textGeo, material, clickedFlag;
 
             var animationStopped = false;
             var SCREEN_WIDTH, SCREEN_HEIGHT;
@@ -282,6 +281,42 @@
                 torusObject.position.z = 0;
 
                 scene.add(torusObject);
+
+                //////////////////////////////////////////////////////////
+                /// CUSTOM OBJECT FROM 3DS / MAYA TO THE SCENE
+                //////////////////////////////////////////////////////////
+
+
+                var loader = new THREE.JSONLoader(); //initialize he loader util.
+                
+                loader.load('Platforma.json', function (geometry) {
+
+//                    var material = new THREE.MeshLambertMaterial({
+//                        map: THREE.ImageUtils.loadTexture('modelPlatforma.json'), // Specify and load the texture
+//                        colorAmbient: [0.48, 0.48, 0.48, ],
+//                        colorDiffuse: [0.48, 0.48, 0.48],
+//                        colorSpecular: [0.899, 0.899, 0.899],
+//                    });
+                    var material = new THREE.MeshFaceMaterial([
+                        new THREE.MeshPhongMaterial({color: 0xffff00, shading: THREE.FlatShading}), // front
+                        new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading}) // side
+                    ]);
+
+
+
+                    //create a mesh with models geometry and material
+                    var mesh = new THREE.Mesh(geometry, material);
+//                    console.log(mesh);
+                    mesh.rotation.y = -Math.PI / 5;
+                    mesh.scale.x = 4;
+                    mesh.scale.y = 4;
+                    mesh.scale.z = 4;
+
+                    scene.add(mesh);
+                    platforma = mesh;
+                });
+                //////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////////
 
 
                 // RENDERER   //AND RAYCASTER ADDED BY PBC
@@ -555,12 +590,12 @@
                         new THREE.MeshPhongMaterial({color: 0xffFFFF, shading: THREE.FlatShading}), // front
                         new THREE.MeshPhongMaterial({color: 0xff00ff, shading: THREE.SmoothShading}) // side
                     ]);
-                    
+
 //                    console.log(group.children[0]);
-                    
+
                     group.children[0].material = newmaterial;
                     var scaleAmount = 0.6;
-                    
+
                     group.scale.x = scaleAmount;
                     group.scale.y = scaleAmount;
                     group.scale.z = scaleAmount;
@@ -681,6 +716,7 @@
 
 
                     torusObject.rotation.x += 0.00005 * time;
+                    platforma.rotation.x += 0.000005 * time;
                 }
 
 
