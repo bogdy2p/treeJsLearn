@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>three.js webgl - geometry - text</title>
+        <title>Cigarette</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <style>
@@ -253,7 +253,7 @@
                 group.position.y = 80;
                 group.position.z = -40;
 
-                scene.add(group);
+//                scene.add(group);
 
                 createText();
 
@@ -281,7 +281,7 @@
                 torusObject.position.y = 100;
                 torusObject.position.z = -40;
 
-                scene.add(torusObject);
+//                scene.add(torusObject);
 
                 //////////////////////////////////////////////////////////
                 /// CUSTOM OBJECT FROM 3DS / MAYA TO THE SCENE
@@ -290,7 +290,7 @@
 
                 var loader = new THREE.JSONLoader(); //initialize the loader util.
 
-                var asd = loader.load('Platforma.json', function (geometry) {
+                var asd = loader.load('FiltruTigara.json', function (geometry) {
 
 //                    var material = new THREE.MeshLambertMaterial({
 //                        map: THREE.ImageUtils.loadTexture('modelPlatforma.json'), // Specify and load the texture
@@ -299,47 +299,26 @@
 //                        colorSpecular: [0.899, 0.899, 0.899],
 //                    });
                     var material2 = new THREE.MeshFaceMaterial([
-                        new THREE.MeshPhongMaterial({color: 0xFFFF33, shading: THREE.FlatShading}), // front
+                        new THREE.MeshPhongMaterial({color: 0xFFFF33, shading: THREE.SmoothShading}), // front
                         new THREE.MeshPhongMaterial({color: 0xFF0000, shading: THREE.SmoothShading}) // side
                     ]);
                     //create a mesh with models geometry and material
-                    platforma1 = new THREE.Mesh(geometry, material2);
+                    filtruTigara = new THREE.Mesh(geometry, material2);
 
-                    platforma1.rotation.x = 0;
-                    platforma1.rotation.y = 0;
-                    platforma1.scale.x = 5;
-                    platforma1.scale.y = 5;
-                    platforma1.scale.z = 5;
-                    platforma1.position.x = -240;
-                    platforma1.position.z = -40;
+                    filtruTigara.rotation.x = 0;
+                    filtruTigara.rotation.y = 0;
+                    filtruTigara.scale.x = 5;
+                    filtruTigara.scale.y = 5;
+                    filtruTigara.scale.z = 5;
+                    filtruTigara.position.x = 0;
+                    filtruTigara.position.z = 0;
 
-                    scene.add(platforma1);
+                    scene.add(filtruTigara);
 
 
 
-                    platforma2 = new THREE.Mesh(geometry, material2);
-                    platforma2.rotation.x = 0;
-                    platforma2.rotation.y = 0;
-//                    platforma2.rotation.y = -Math.PI / 5;
-                    platforma2.scale.x = 5;
-                    platforma2.scale.y = 5;
-                    platforma2.scale.z = 5;
-                    platforma2.position.x = 236;
-                    platforma2.position.z = -40;
-
-                    scene.add(platforma2);
-//                    return platforma1;
+                   
                 });
-//                scene.add(asd);
-//                scene.add(platforma2);
-                //////////////////////////////////////////////////////////
-                //////////////////////////////////////////////////////////
-
-//                var platforma1 = generateLeftPlatform();
-
-//                console.log(platforma1);
-
-
 
                 // RENDERER   //AND RAYCASTER ADDED BY PBC
 
@@ -576,13 +555,8 @@
             }
 
             function onDocumentMouseDown(event) {
-//                console.log(event);
-//                console.log("you pressed button: ");
-//                console.log(event.button);
-//                console.log("ButtonS : ");
-//                console.log(event.buttons);
+//           
                 event.preventDefault();
-//                alert("ON DOCUMENT MOUSE DOWN");
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
                 document.addEventListener('mouseup', onDocumentMouseUp, false);
                 document.addEventListener('mouseout', onDocumentMouseOut, false);
@@ -600,15 +574,12 @@
                 if (intersectedText.length > 0) {
                     var isoDate = new Date(Date.now()).toISOString();
                     console.log("you clicked the text @ " + isoDate);
-                    console.log(group);
-//                    pointLight.color.setHSL(redish, 1, 0.5);
 
                     var newmaterial = new THREE.MeshFaceMaterial([
                         new THREE.MeshPhongMaterial({color: 0xffFFFF, shading: THREE.FlatShading}), // front
                         new THREE.MeshPhongMaterial({color: 0xff00ff, shading: THREE.SmoothShading}) // side
                     ]);
 
-//                    console.log(group.children[0]);
 
                     group.children[0].material = newmaterial;
                     var scaleAmount = 0.6;
@@ -726,9 +697,6 @@
                     torusObject.rotation.x += spinspeed * 5;
                 }
                 
-//                if (time > 0.0)
-                
-                console.log(platforma1.rotation);
 
                 camera.lookAt(cameraTarget);
                 renderer.clear();
