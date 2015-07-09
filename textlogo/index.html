@@ -591,7 +591,7 @@
                 mouseVector.x = 2 * (event.clientX / SCREEN_WIDTH) - 1;
                 mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
 
-
+                console.log(mouseVector);
                 raycaster.setFromCamera(mouseVector, camera);
 
                 var intersectedText = raycaster.intersectObjects(group.children);
@@ -600,7 +600,7 @@
                 if (intersectedText.length > 0) {
                     var isoDate = new Date(Date.now()).toISOString();
                     console.log("you clicked the text @ " + isoDate);
-                    console.log(group);
+//                    console.log(group);
 //                    pointLight.color.setHSL(redish, 1, 0.5);
 
                     var newmaterial = new THREE.MeshFaceMaterial([
@@ -728,7 +728,7 @@
                 
 //                if (time > 0.0)
                 
-                console.log(platforma1.rotation);
+//                console.log(platforma1.rotation);
 
                 camera.lookAt(cameraTarget);
                 renderer.clear();
