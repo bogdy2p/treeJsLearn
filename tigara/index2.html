@@ -51,72 +51,60 @@
             var pointCloud;
             var particlePositions;
             var linesMesh;
+            var mouseX = 0, mouseY = 0;
+            var mouseXOnMouseDown = 0;
+
+            var targetRotation = 0;
+            var targetRotationOnMouseDown = 0;
+
+            var windowHalfX = window.innerWidth / 2;
+            var windowHalfY = window.innerHeight / 2;
+
+
+            var pointLight;
+
+
 
             var maxParticleCount = 1000;
             var particleCount = 500;
             var r = 800;
             var rHalf = r / 2;
 
-            var effectController = {
-                showDots: true,
-                showLines: true,
-                minDistance: 150,
-                limitConnections: false,
-                maxConnections: 20,
-                particleCount: 500
-            }
+        
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
 
             init();
             animate();
-
-//            function initGUI() {
-//
-//                var gui = new dat.GUI();
-//
-//                gui.add(effectController, "showDots").onChange(function (value) {
-//                    pointCloud.visible = value;
-//                });
-//                gui.add(effectController, "showLines").onChange(function (value) {
-//                    linesMesh.visible = value;
-//                });
-//                gui.add(effectController, "minDistance", 10, 300);
-//                gui.add(effectController, "limitConnections");
-//                gui.add(effectController, "maxConnections", 0, 30, 1);
-//                gui.add(effectController, "particleCount", 0, maxParticleCount, 1).onChange(function (value) {
-//
-//                    particleCount = parseInt(value);
-//                    particles.drawcalls[ 0 ].count = particleCount;
-//
-//                });
-//
-//            }
 
             function init() {
 
                 container = document.getElementById('container');
 
-                camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
-                
-                var centerVector = new THREE.Vector3(150,0,0);
-                
-                
-//                camera.lookAt(centerVector);
+                camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+//                var centerVector = new THREE.Vector3(150, 0, 0);
+                camera.position.x = 20;
                 camera.position.z = 120;
+                camera.position.y = 30;
+
 
                 // LIGHTS
 
                 controls = new THREE.OrbitControls(camera, container);
+                controls.noZoom = false;
+                controls.minDistance = 60;
+                controls.maxDistance = 200;
+                controls.noPan = true;
 
                 scene = new THREE.Scene();
 
-                var ambientLight = new THREE.AmbientLight(0x404040, 0.5);
-                scene.add(ambientLight);
+                var ambientLight = new THREE.AmbientLight(0x222222, 0.2);
+//                scene.add(ambientLight);
 
-                var dirLight = new THREE.DirectionalLight(0xffffff, 0.325);
+                var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
                 dirLight.position.set(0, 0, 1).normalize();
-                scene.add(dirLight);
+//                scene.add(dirLight);
 
-                var pointLight = new THREE.PointLight(0xffffff, 1.5);
+                pointLight = new THREE.PointLight(0xffffff, 1);
                 pointLight.position.set(0, 100, 90);
                 scene.add(pointLight);
 
@@ -136,7 +124,7 @@
 //                        colorSpecular: [0.899, 0.899, 0.899],
 //                    });
                     var material2 = new THREE.MeshFaceMaterial([
-                        new THREE.MeshPhongMaterial({color: 0xFFFF33, shading: THREE.SmoothShading}), // front
+                        new THREE.MeshPhongMaterial({color: 0x999999, shading: THREE.SmoothShading}), // front
                         new THREE.MeshPhongMaterial({color: 0xFF0000, shading: THREE.SmoothShading}) // side
                     ]);
                     //create a mesh with models geometry and material
@@ -157,7 +145,7 @@
                 // Add Charger 
                 //Grosime,Lungime,Latime
                 var chargerGeometry = new THREE.BoxGeometry(15, 50, 10);
-                var chargerMaterial = new THREE.MeshBasicMaterial({color: 0x00ff66});
+                var chargerMaterial = new THREE.MeshPhongMaterial({color: 0x666677, shininess: 10, specular:0x999999, metal:true});
                 var chargerCube = new THREE.Mesh(chargerGeometry, chargerMaterial);
 
                 chargerCube.position.x = 15;
@@ -165,14 +153,14 @@
                 scene.add(chargerCube);
 
                 var disrupterGeometry = new THREE.BoxGeometry(15, 50, 10);
-                var disrupterMaterial = new THREE.MeshBasicMaterial({color: 0x88ff00});
+                var disrupterMaterial = new THREE.MeshPhongMaterial({color: 0x88ff00,shininess: 8, specular:0x999999, metal:true,transparent:true,opacity:0.5});
                 var disrupterCube = new THREE.Mesh(disrupterGeometry, disrupterMaterial);
                 scene.add(disrupterCube);
 
                 //Big Action Button
 
                 var actuatorGeometry = new THREE.CylinderGeometry(3, 3, 2, 32);
-                var actuatorMaterial = new THREE.MeshBasicMaterial({color: 0x004433});
+                var actuatorMaterial = new THREE.MeshPhongMaterial({color: 0x004433});
                 var actuatorCylinder = new THREE.Mesh(actuatorGeometry, actuatorMaterial);
 
                 actuatorCylinder.position.x = -7;
@@ -229,6 +217,7 @@
                 //
 
                 renderer = new THREE.WebGLRenderer({antialias: true});
+                renderer.setClearColor(0xffffff, 0.4);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -244,11 +233,22 @@
                 stats.domElement.style.top = '0px';
                 container.appendChild(stats.domElement);
 
+
+
+                renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
+                renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
+                renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
+
+
+
                 window.addEventListener('resize', onWindowResize, false);
 
             }
 
             function onWindowResize() {
+
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
 
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
@@ -261,18 +261,70 @@
 
 
                 requestAnimationFrame(animate);
-
-                stats.update();
                 render();
+                stats.update();
+
 
             }
+
+
+
+            function onDocumentMouseDown(event) {
+                event.preventDefault();
+
+
+                renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+                renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+                renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
+
+                mouseXOnMouseDown = event.clientX - windowHalfX;
+                targetRotationOnMouseDown = targetRotation;
+
+
+//                console.log(camera.position);
+            }
+
+
+
+            function onDocumentMouseMove(event) {
+
+                mouseX = event.clientX - windowHalfX;
+                targetRotationX = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.02;
+            }
+
+            function onDocumentMouseUp(event) {
+                renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+                renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+                renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
+            }
+
+            function onDocumentMouseOut(event) {
+                renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+                renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
+                renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
+            }
+
+            function onDocumentTouchStart(event) {
+
+            }
+
+            function onDocumentTouchMove(event) {
+
+            }
+
 
             function render() {
 
                 var time = Date.now() * 0.001;
 
+                camera.lookAt(scene.position);
+
                 group.rotation.y = time * 0.1;
                 renderer.render(scene, camera);
+
+                var newlightposition = camera.position;
+
+                pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
 
             }
 
