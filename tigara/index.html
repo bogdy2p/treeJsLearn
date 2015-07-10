@@ -45,19 +45,20 @@
         </div>
         <div id ="leftcontrols">
 
-            <button id="btn1" onclick="removeBattery();">asd</button>
+            <button id="btn1" onclick="removeBattery();">Button1-RemoveBattery</button>
 
-
-
+            <button id="btn2" onclick="">Button2-NOTHING YET</button>
             aAAAAAAAAAAAAAAAAAAAAAA</div>
         <div id ="rightcontrols"></div>
 
 
-        <script src="js/libs/dat.gui.min.js"></script>
+        <!--<script src="js/libs/dat.gui.min.js"></script>-->
         <script src="js/three.min.js"></script>
-        <script src="js/Tween.js"></script>
+        <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script src="js/libs/stats.min.js"></script>
+        <script src="js/Tween.js"></script>
+        <script src="dat-gui/build/DAT.GUI.js"></script>
 
         <script>
 
@@ -94,13 +95,129 @@
                 var duration5 = 5000; //miliseconds
                 var currentTime;
                 var timeSpent = 0;
+                var tweenBatteryOut, tweenBatteryIn;
+                var startTime = Date.now();
 
 
+                var userOpts = {
+                    range: 2000,
+                    duration: 1500,
+                    delay: 00,
+                    easing: 'Exponential.EaseIn',
+                }
 
+//                console.log(userOpts);
 
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
                 init();
                 animate();
+
+                function setupTweenBatteryOut()
+                {
+                    // 
+                    var update = function () {
+                        chargerCube.position.x = current.x;
+                    }
+                    var current = {x: 15};
+
+                    // remove previous tweens if needed
+                    TWEEN.removeAll();
+
+                    // convert the string from dat-gui into tween.js functions 
+                    var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                    console.log(easing2);
+//                    console.log(easing);
+                    // build the tween to go ahead
+                    tweenBatteryOut = new TWEEN.Tween(current)
+                            .to({x: +userOpts.range}, userOpts.duration)
+                            .delay(userOpts.delay)
+                            .easing(easing2)
+                            .onUpdate(update);
+                    // build the tween to go backward
+//                    var tweenBack = new TWEEN.Tween(current)
+//                            .to({x: -userOpts.range}, userOpts.duration)
+//                            .delay(userOpts.delay)
+//                            .easing(easing)
+//                            .onUpdate(update);
+
+                    // after tweenHead do tweenBack
+//                    tweenHead.chain(tweenBack);
+                    // after tweenBack do tweenHead, so it is cycling
+//                    tweenBack.chain(tweenHead);
+
+                    // start the first
+//                    tweenHead.start();
+                }
+
+                function setupTweenBatteryIn()
+                {
+                    // 
+                    var update = function () {
+                        chargerCube.position.x = current.x;
+                    }
+                    var current = {x: 2000};
+
+                    // remove previous tweens if needed
+                    TWEEN.removeAll();
+
+                    // convert the string from dat-gui into tween.js functions 
+                    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+
+//                    console.log(easing);
+                    // build the tween to go ahead
+                    tweenBatteryIn = new TWEEN.Tween(current)
+                            .to({x: 15}, userOpts.duration * 3 / 4)
+                            .delay(userOpts.delay)
+                            .easing(easing)
+                            .onUpdate(update);
+                    // build the tween to go backward
+//                    var tweenBack = new TWEEN.Tween(current)
+//                            .to({x: -userOpts.range}, userOpts.duration)
+//                            .delay(userOpts.delay)
+//                            .easing(easing)
+//                            .onUpdate(update);
+
+                    // after tweenHead do tweenBack
+//                    tweenHead.chain(tweenBack);
+                    // after tweenBack do tweenHead, so it is cycling
+//                    tweenBack.chain(tweenHead);
+
+                    // start the first
+//                    tweenHead.start();
+                }
+
+                function buildGui(options, callback)
+                {
+                    // collect all available easing in TWEEN library
+//                    var easings = {};
+//                    Object.keys(TWEEN.Easing).forEach(function (family) {
+//                        Object.keys(TWEEN.Easing[family]).forEach(function (direction) {
+//                            var name = family + '.' + direction;
+//                            easings[name] = name;
+//                        });
+//                    });
+//                    // the callback notified on UI change
+//                    var change = function () {
+//                        callback(options)
+//                    }
+                    // create and initialize the UI
+////                    var gui = new DAT.GUI({height: 4 * 32 - 1});
+//                    gui.add(options, 'range').name('Range coordinate').min(64).max(1280).onChange(change);
+//                    gui.add(options, 'duration').name('Duration (ms)').min(100).max(4000).onChange(change);
+//                    gui.add(options, 'delay').name('Delay (ms)').min(0).max(1000).onChange(change);
+//                    gui.add(options, 'easing').name('Easing Curve').options(easings).onChange(change);
+                }
+
+
+
+
+
+
+
+
+
+
+
                 function init() {
 
                     container = document.getElementById('container');
@@ -121,6 +238,17 @@
                     controls.maxDistance = 200;
                     controls.noPan = true;
                     scene = new THREE.Scene();
+
+
+
+//                    buildGui(userOpts, function () {
+//                        setupTweenBatteryOut();
+//                        setupTweenBatteryIn();
+//                    });
+
+                    
+
+
                     var ambientLight = new THREE.AmbientLight(0x222222, 0.2);
 //                scene.add(ambientLight);
 
@@ -256,10 +384,11 @@
                 }
 
                 function animate() {
-
-                    requestAnimationFrame(animate);
                     render();
+                    requestAnimationFrame(animate);
+
                     stats.update();
+                    TWEEN.update();
                 }
 
 
@@ -329,23 +458,6 @@
                                 console.log("nothing clicked");
                                 break;
                         }
-
-                        var isoDate = new Date(Date.now()).toISOString();
-//                    pointLight.color.setHSL(redish, 1, 0.5);
-
-//                    var newmaterial = new THREE.MeshFaceMaterial([
-//                        new THREE.MeshPhongMaterial({color: 0xffFFFF, shading: THREE.FlatShading}), // front
-//                        new THREE.MeshPhongMaterial({color: 0xff00ff, shading: THREE.SmoothShading}) // side
-//                    ]);
-
-//                    console.log(group.children[0]);
-
-//                    group.children[0].material = newmaterial;
-//                    var scaleAmount = 0.6;
-
-//                    group.scale.x = scaleAmount;
-//                    group.scale.y = scaleAmount;
-//                    group.scale.z = scaleAmount;
 
                     }
 
@@ -425,11 +537,23 @@
 
                 function removeBattery() {
 
-                    currentTime = Date.now();
-                    animateRemove1();
+                    setupTweenBatteryOut();
+                    setupTweenBatteryIn();
+
+
+                    tweenBatteryOut.start();
                     setTimeout(function () {
-                        animateRemove2();
-                    }, 1500);
+                        var newChargerMaterial = new THREE.MeshPhongMaterial({color: 0x666677, shininess: 10, specular: 0x990000, metal: true, side: 2});
+                        chargerCube.material = newChargerMaterial;
+                    }, 1400);
+
+                    setTimeout(function () {
+                        tweenBatteryOut.stop();
+                        tweenBatteryIn.start();
+                    }, 2000);
+                    setTimeout(function () {
+                        tweenBatteryIn.stop();
+                    }, 3500);
 
 
                 }
@@ -450,21 +574,10 @@
 
                 }
 
-                function animateRemove2() {
-                    if (timeSpent <= duration5) {
-                        requestAnimationFrame(animateRemove2);
-                        var now = Date.now();
-                        var deltat = now - currentTime;
-                        currentTime = now;
-                        var fract = deltat / duration1;
-                        var angle = Math.PI * 2 * fract;
-                        chargerCube.position.x += 1.5;
-                        timeSpent += deltat;
-                        render();
-                        stats.update();
-                    }
 
-                }
+
+
+
         </script>
     </body>
 </html>
