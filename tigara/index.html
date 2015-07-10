@@ -57,6 +57,7 @@
         <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script src="js/libs/stats.min.js"></script>
+        <script src ="js/ColladaLoader.js"></script>
         <script src="js/Tween.js"></script>
         <script src="dat-gui/build/DAT.GUI.js"></script>
 
@@ -147,9 +148,9 @@
                             .delay(userOpts.delay)
                             .easing(easing2)
                             .onUpdate(update);
-                    
+
                     tweenBatteryUp.chain(tweenBatteryOut);
-                  
+
                     // start the first
 //                    tweenHead.start();
                 }
@@ -157,14 +158,14 @@
                 function setupTweenBatteryIn()
                 {
                     // 
-                    var complete = function (){
+                    var complete = function () {
                         console.log("BATTERY ATTACHED. PLAYING A CLICK SOUND !");
-                        setTimeout(function(){
+                        setTimeout(function () {
                             alert("PLAYING CLICK SOUND NOW");
-                        },300);
-                        
+                        }, 300);
+
                     }
-                    
+
                     var update = function () {
                         chargerCube.position.x = current.x;
                         chargerCube.position.y = current.y;
@@ -176,7 +177,7 @@
 
                     // convert the string from dat-gui into tween.js functions 
                     var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-                    
+
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
 //                    console.log(easing);
                     // build the tween to go ahead
@@ -215,14 +216,14 @@
                         filtruTigara.position.x = current.x;
                         filtruTigara.position.y = current.y;
                     }
-                    var current = {x: 2000, y: userOpts.liftoff, rotY:0};
+                    var current = {x: 2000, y: userOpts.liftoff, rotY: 0};
 
                     // remove previous tweens if needed
                     TWEEN.removeAll();
 
                     // convert the string from dat-gui into tween.js functions 
                     var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-                    
+
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
 //                    console.log(easing);
                     // build the tween to go ahead
@@ -266,7 +267,7 @@
 
                     // convert the string from dat-gui into tween.js functions 
                     var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-                    
+
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
 //                    console.log(easing);
                     // build the tween to go ahead
@@ -310,7 +311,7 @@
 
                     // convert the string from dat-gui into tween.js functions 
                     var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-                    
+
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
 //                    console.log(easing);
                     // build the tween to go ahead
@@ -395,6 +396,27 @@
                         filtruTigara.position.z = 0;
                         scene.add(filtruTigara);
                     });
+
+                    var colladaLoader = new THREE.ColladaLoader();
+                    colladaLoader.load('InnokinCollada.dae', function colladaReady(collada) {
+                        player = collada.scene;
+                        skin = collada.skins[0];
+                        
+                        player.rotation.x = -Math.PI/2;
+                        
+                        player.position.x = 35;
+                        
+                        player.scale.x = 1.5;
+                        player.scale.y = 1.5;
+                        player.scale.z = 1.5;
+                        
+                        console.log(player);
+                        
+                        scene.add(player);
+                    });
+
+
+
                     // Add Charger 
                     //Grosime,Lungime,Latime
                     var chargerGeometry = new THREE.BoxGeometry(15, 50, 10);
@@ -403,7 +425,7 @@
                     chargerCube.position.x = 15;
                     scene.add(chargerCube);
                     var disrupterGeometry = new THREE.BoxGeometry(15, 50, 10);
-                    var disrupterMaterial = new THREE.MeshPhongMaterial({color: 0x88ff00, shininess: 8, specular: 0x999999, metal: true, transparent: true, opacity: 0.5});
+                    var disrupterMaterial = new THREE.MeshPhongMaterial({color: 0x88ff00, shininess: 8, specular: 0x999999, metal: true, transparent: true, opacity: 0.7});
                     disrupterCube = new THREE.Mesh(disrupterGeometry, disrupterMaterial);
                     scene.add(disrupterCube);
                     //Big Action Button
@@ -485,7 +507,7 @@
 
                     stats.update();
                     TWEEN.update();
-                    
+
                 }
 
                 function onDocumentMouseDown(event) {
@@ -628,17 +650,17 @@
                     setTimeout(function () {
                         tweenBatteryIn.stop();
                     }, 4700);
-                    setTimeout(function() {
+                    setTimeout(function () {
 //                        alert("Click sound");
                     }, 5200);
                 }
 
-                function removeFilter(){
-                    
+                function removeFilter() {
+
                     setupTweenFilterRotate();
                     setupTweenFilterGoUp();
-                    setupTweenFilterGoOut();                  
-                    
+                    setupTweenFilterGoOut();
+
                 }
 
 //                function animateRemove1() {
