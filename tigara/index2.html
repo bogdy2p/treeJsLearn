@@ -55,39 +55,28 @@
             var mouseXOnMouseDown = 0;
             var SCREEN_WIDTH, SCREEN_HEIGHT;
             var targetRotation = 0;
+            var actuatorCylinder;
             var targetRotationOnMouseDown = 0;
-
             var windowHalfX = window.innerWidth / 2;
             var windowHalfY = window.innerHeight / 2;
-
-
             var pointLight;
-
-
-
             var maxParticleCount = 1000;
             var particleCount = 500;
             var r = 800;
             var rHalf = r / 2;
-
-
             document.addEventListener('mousemove', onDocumentMouseMove, false);
-
             init();
             animate();
-
             function init() {
 
                 container = document.getElementById('container');
                 SCREEN_WIDTH = window.innerWidth;
                 SCREEN_HEIGHT = window.innerHeight;
-
                 camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
 //                var centerVector = new THREE.Vector3(150, 0, 0);
                 camera.position.x = 20;
                 camera.position.z = 120;
                 camera.position.y = 50;
-
                 raycaster = new THREE.Raycaster();
                 // LIGHTS
 
@@ -96,9 +85,7 @@
                 controls.minDistance = 60;
                 controls.maxDistance = 200;
                 controls.noPan = true;
-
                 scene = new THREE.Scene();
-
                 var ambientLight = new THREE.AmbientLight(0x222222, 0.2);
 //                scene.add(ambientLight);
 
@@ -109,10 +96,8 @@
                 pointLight = new THREE.PointLight(0xffffff, 1);
                 pointLight.position.set(0, 100, 90);
                 scene.add(pointLight);
-
                 group = new THREE.Group();
                 scene.add(group);
-
                 ///////ADD FILTRU
 
                 var loader = new THREE.JSONLoader(); //initialize the loader util.
@@ -139,52 +124,39 @@
                     filtruTigara.position.x = 0;
                     filtruTigara.position.y = 24;
                     filtruTigara.position.z = 0;
-
                     scene.add(filtruTigara);
                 });
-
-
                 // Add Charger 
                 //Grosime,Lungime,Latime
                 var chargerGeometry = new THREE.BoxGeometry(15, 50, 10);
                 var chargerMaterial = new THREE.MeshPhongMaterial({color: 0x666677, shininess: 10, specular: 0x999999, metal: true, side: 2});
                 var chargerCube = new THREE.Mesh(chargerGeometry, chargerMaterial);
-
                 chargerCube.position.x = 15;
-
                 scene.add(chargerCube);
-
                 var disrupterGeometry = new THREE.BoxGeometry(15, 50, 10);
                 var disrupterMaterial = new THREE.MeshPhongMaterial({color: 0x88ff00, shininess: 8, specular: 0x999999, metal: true, transparent: true, opacity: 0.5});
                 var disrupterCube = new THREE.Mesh(disrupterGeometry, disrupterMaterial);
                 scene.add(disrupterCube);
-
                 //Big Action Button
 
                 var actuatorGeometry = new THREE.CylinderGeometry(3, 3, 2, 32);
                 var actuatorMaterial = new THREE.MeshPhongMaterial({color: 0x004433});
-
-
-
 //                console.log(actuatorMaterial);
 
 
-                var actuatorCylinder = new THREE.Mesh(actuatorGeometry, actuatorMaterial);
-
+                actuatorCylinder = new THREE.Mesh(actuatorGeometry, actuatorMaterial);
                 actuatorCylinder.position.x = -7;
                 actuatorCylinder.position.y = 18;
                 actuatorCylinder.position.z = 0;
                 actuatorCylinder.rotation.x = -Math.PI / 2;
                 actuatorCylinder.rotation.z = -Math.PI / 2;
                 scene.add(actuatorCylinder);
-
                 ////////
                 ///Plus Button
 
                 var plusButtonGeometry = new THREE.CylinderGeometry(1, 1, 2, 32);
                 var plusButtonMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
                 var plusButtonCylinder = new THREE.Mesh(plusButtonGeometry, plusButtonMaterial);
-
                 plusButtonCylinder.position.x = -7;
                 plusButtonCylinder.position.y = 12;
                 plusButtonCylinder.position.z = 0;
@@ -196,21 +168,15 @@
                 var minusButtonGeometry = new THREE.CylinderGeometry(1, 1, 2, 32);
                 var minusButtonMaterial = new THREE.MeshBasicMaterial({color: 0x00ffff});
                 var minusButtonCylinder = new THREE.Mesh(minusButtonGeometry, minusButtonMaterial);
-
                 minusButtonCylinder.position.x = -7;
                 minusButtonCylinder.position.y = 7;
                 minusButtonCylinder.position.z = 0;
                 minusButtonCylinder.rotation.x = -Math.PI / 2;
                 minusButtonCylinder.rotation.z = -Math.PI / 2;
                 scene.add(minusButtonCylinder);
-
-
-
-
                 var displayGeometry = new THREE.PlaneGeometry(8, 20, 32);
                 var displayMaterial = new THREE.MeshPhongMaterial({color: 0xff0000, side: THREE.DoubleSide});
                 var displayPlane = new THREE.Mesh(displayGeometry, displayMaterial);
-
                 displayPlane.position.x = -7.6;
                 displayPlane.position.y = -12;
                 displayPlane.position.z = 0;
@@ -218,51 +184,34 @@
 //                displayPlane.rotation.z = -Math.PI/2;
 
                 scene.add(displayPlane);
-
-
-
-
                 //
 
                 renderer = new THREE.WebGLRenderer({antialias: true});
                 renderer.setClearColor(0xffffff, 0.4);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
-
                 renderer.gammaInput = true;
                 renderer.gammaOutput = true;
-
                 container.appendChild(renderer.domElement);
-
                 //
 
                 stats = new Stats();
                 stats.domElement.style.position = 'absolute';
                 stats.domElement.style.top = '0px';
                 container.appendChild(stats.domElement);
-
-
-
                 renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
                 renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
                 renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
-
-
-
                 window.addEventListener('resize', onWindowResize, false);
-
             }
 
             function onWindowResize() {
 
                 windowHalfX = window.innerWidth / 2;
                 windowHalfY = window.innerHeight / 2;
-
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
-
                 renderer.setSize(window.innerWidth, window.innerHeight);
-
             }
 
             function animate() {
@@ -271,20 +220,15 @@
                 requestAnimationFrame(animate);
                 render();
                 stats.update();
-
-
             }
 
 
 
             function onDocumentMouseDown(event) {
                 event.preventDefault();
-
-
                 renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                 renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                 renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
-
 //                mouseXOnMouseDown = event.clientX - windowHalfX;
 //                targetRotationOnMouseDown = targetRotation;
 
@@ -297,10 +241,6 @@
 //                console.log(mouseVector);
 
                 raycaster.setFromCamera(mouseVector, camera);
-
-
-
-
 //                console.log(raycaster);
 
 
@@ -311,17 +251,42 @@
 //                console.log(intersectedText);
 
                 if (intersectedObjects.length > 0) {
-                    
+
                     var Object = intersectedObjects[0];
-                    
-                    
-                    console.log(Object.object.id);
-                    
-                    console.log(Object);
-                    
+
+                    switch (Object.object.id) {
+
+                        case 8:
+                            console.log("That's the battery mate!");
+                            break;
+                        case 9:
+                            console.log("You clicked the disruptor");
+                            break;
+                        case 10:
+                            console.log("Lighter should START");
+
+                            startButtonClick();
+
+
+                            break;
+                        case 11:
+                            console.log("You pressed the +");
+                            break;
+                        case 12:
+                            console.log("You pressed the -");
+                            break;
+                        case 13:
+                            console.log("Why did you click the screen ?");
+                            break;
+                        case 14:
+                            console.log("Why click the Filter ?");
+                            break;
+                        default:
+                            console.log("nothing clicked");
+                            break;
+                    }
+
                     var isoDate = new Date(Date.now()).toISOString();
-//                    console.log("you clicked the text @ " + isoDate);
-//                    console.log(group);
 //                    pointLight.color.setHSL(redish, 1, 0.5);
 
 //                    var newmaterial = new THREE.MeshFaceMaterial([
@@ -355,6 +320,11 @@
                 renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                 renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                 renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
+
+                resetButtonPositions();
+
+
+
             }
 
             function onDocumentMouseOut(event) {
@@ -371,20 +341,30 @@
 
             }
 
+            function startButtonClick() {
+
+                console.log("ENTERED STARTBUTTON CLICKED");
+                actuatorCylinder.position.x += 1;
+
+
+
+            }
+
+            function resetButtonPositions() {
+
+                actuatorCylinder.position.x =-7;
+
+
+            }
 
             function render() {
 
                 var time = Date.now() * 0.001;
-
                 camera.lookAt(scene.position);
-
                 group.rotation.y = time * 0.1;
                 renderer.render(scene, camera);
-
                 var newlightposition = camera.position;
-
                 pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
-
             }
 
         </script>
