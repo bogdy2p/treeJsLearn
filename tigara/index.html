@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>three.js webgl - buffergeometry - lines drawcalls</title>
+        <title>three.js webgl - InnoKin Sketch</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <style>
@@ -41,7 +41,7 @@
 
         <div id="container"></div>
         <div id="info">
-            <a href="http://threejs.org" target="_blank">three.js</a> webgl - buffergeometry drawcalls - by <a href="https://twitter.com/fernandojsg">fernandojsg</a>
+            <a href="http://threejs.org" target="_blank">three.js</a> webgl - Innoking sketch  - by <a href="https://twitter.com/fernandojsg">ThePBC</a>
         </div>
         <div id ="leftcontrols">
 
@@ -95,18 +95,19 @@
                 var duration5 = 5000; //miliseconds
                 var currentTime;
                 var timeSpent = 0;
-                var tweenBatteryOut, tweenBatteryIn;
+                var tweenBatteryOut, tweenBatteryIn, tweenBatteryUp, tweenBatteryDown;
                 var startTime = Date.now();
 
 
                 var userOpts = {
+                    liftoff: 20,
                     range: 2000,
                     duration: 1500,
-                    delay: 00,
+                    delay: 0,
                     easing: 'Exponential.EaseIn',
+                    quintic_in: 'Quintic.EaseOut',
                 }
 
-//                console.log(userOpts);
 
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
                 init();
@@ -116,9 +117,10 @@
                 {
                     // 
                     var update = function () {
+                        chargerCube.position.y = current.y;
                         chargerCube.position.x = current.x;
                     }
-                    var current = {x: 15};
+                    var current = {x: 15, y: 0};
 
                     // remove previous tweens if needed
                     TWEEN.removeAll();
@@ -127,24 +129,27 @@
                     var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
                     console.log(easing2);
 //                    console.log(easing);
-                    // build the tween to go ahead
+//                    
+//                    
+//                    
+                    // build the tween lift the battery from the support
+
+                    tweenBatteryUp = new TWEEN.Tween(current)
+                            .to({y: +userOpts.liftoff}, userOpts.duration / 2)
+                            .delay(userOpts.delay)
+                            .easing(easing2)
+                            .onUpdate(update);
+
+
+
                     tweenBatteryOut = new TWEEN.Tween(current)
                             .to({x: +userOpts.range}, userOpts.duration)
                             .delay(userOpts.delay)
                             .easing(easing2)
                             .onUpdate(update);
-                    // build the tween to go backward
-//                    var tweenBack = new TWEEN.Tween(current)
-//                            .to({x: -userOpts.range}, userOpts.duration)
-//                            .delay(userOpts.delay)
-//                            .easing(easing)
-//                            .onUpdate(update);
-
-                    // after tweenHead do tweenBack
-//                    tweenHead.chain(tweenBack);
-                    // after tweenBack do tweenHead, so it is cycling
-//                    tweenBack.chain(tweenHead);
-
+                    
+                    tweenBatteryUp.chain(tweenBatteryOut);
+                  
                     // start the first
 //                    tweenHead.start();
                 }
@@ -152,31 +157,47 @@
                 function setupTweenBatteryIn()
                 {
                     // 
+                    var complete = function (){
+                        console.log("BATTERY ATTACHED. PLAYING A CLICK SOUND !");
+                        setTimeout(function(){
+                            alert("PLAYING CLICK SOUND NOW");
+                        },300);
+                        
+                    }
+                    
                     var update = function () {
                         chargerCube.position.x = current.x;
+                        chargerCube.position.y = current.y;
                     }
-                    var current = {x: 2000};
+                    var current = {x: 2000, y: userOpts.liftoff};
 
                     // remove previous tweens if needed
                     TWEEN.removeAll();
 
                     // convert the string from dat-gui into tween.js functions 
                     var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-
+                    
+                    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
 //                    console.log(easing);
                     // build the tween to go ahead
                     tweenBatteryIn = new TWEEN.Tween(current)
-                            .to({x: 15}, userOpts.duration * 3 / 4)
+                            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
                             .delay(userOpts.delay)
-                            .easing(easing)
+                            .easing(quintic)
                             .onUpdate(update);
                     // build the tween to go backward
+                    tweenBatteryDown = new TWEEN.Tween(current)
+                            .to({x: 15, y: 0}, userOpts.duration / 2)
+                            .delay(userOpts.delay)
+                            .easing(easing)
+                            .onUpdate(update)
+                            .onComplete(complete);
 //                    var tweenBack = new TWEEN.Tween(current)
 //                            .to({x: -userOpts.range}, userOpts.duration)
 //                            .delay(userOpts.delay)
 //                            .easing(easing)
 //                            .onUpdate(update);
-
+                    tweenBatteryIn.chain(tweenBatteryDown);
                     // after tweenHead do tweenBack
 //                    tweenHead.chain(tweenBack);
                     // after tweenBack do tweenHead, so it is cycling
@@ -186,37 +207,138 @@
 //                    tweenHead.start();
                 }
 
-                function buildGui(options, callback)
+                function setupTweenFilterRotate()
                 {
-                    // collect all available easing in TWEEN library
-//                    var easings = {};
-//                    Object.keys(TWEEN.Easing).forEach(function (family) {
-//                        Object.keys(TWEEN.Easing[family]).forEach(function (direction) {
-//                            var name = family + '.' + direction;
-//                            easings[name] = name;
-//                        });
-//                    });
-//                    // the callback notified on UI change
-//                    var change = function () {
-//                        callback(options)
-//                    }
-                    // create and initialize the UI
-////                    var gui = new DAT.GUI({height: 4 * 32 - 1});
-//                    gui.add(options, 'range').name('Range coordinate').min(64).max(1280).onChange(change);
-//                    gui.add(options, 'duration').name('Duration (ms)').min(100).max(4000).onChange(change);
-//                    gui.add(options, 'delay').name('Delay (ms)').min(0).max(1000).onChange(change);
-//                    gui.add(options, 'easing').name('Easing Curve').options(easings).onChange(change);
+                    // 
+                    var update = function () {
+                        filtruTigara.rotation.y = current.rotY;
+                        filtruTigara.position.x = current.x;
+                        filtruTigara.position.y = current.y;
+                    }
+                    var current = {x: 2000, y: userOpts.liftoff, rotY:0};
+
+                    // remove previous tweens if needed
+                    TWEEN.removeAll();
+
+                    // convert the string from dat-gui into tween.js functions 
+                    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                    
+                    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+//                    console.log(easing);
+                    // build the tween to go ahead
+//                    tweenFilterRotate = new TWEEN.Tween(current)
+//                            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
+//                            .delay(userOpts.delay)
+//                            .easing(quintic)
+//                            .onUpdate(update);
+                    // build the tween to go backward
+//                    tweenBatteryDown = new TWEEN.Tween(current)
+//                            .to({x: 15, y: 0}, userOpts.duration / 2)
+//                            .delay(userOpts.delay)
+//                            .easing(easing)
+//                            .onUpdate(update);
+//                    var tweenBack = new TWEEN.Tween(current)
+//                            .to({x: -userOpts.range}, userOpts.duration)
+//                            .delay(userOpts.delay)
+//                            .easing(easing)
+//                            .onUpdate(update);
+//                    tweenBatteryIn.chain(tweenBatteryDown);
+                    // after tweenHead do tweenBack
+//                    tweenHead.chain(tweenBack);
+                    // after tweenBack do tweenHead, so it is cycling
+//                    tweenBack.chain(tweenHead);
+
+                    // start the first
+//                    tweenHead.start();
                 }
 
+                function setupTweenFilterGoUp()
+                {
+                    // 
+                    var update = function () {
+                        chargerCube.position.x = current.x;
+                        chargerCube.position.y = current.y;
+                    }
+                    var current = {x: 2000, y: userOpts.liftoff};
 
+                    // remove previous tweens if needed
+                    TWEEN.removeAll();
 
+                    // convert the string from dat-gui into tween.js functions 
+                    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                    
+                    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+//                    console.log(easing);
+                    // build the tween to go ahead
+                    tweenBatteryIn = new TWEEN.Tween(current)
+                            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
+                            .delay(userOpts.delay)
+                            .easing(quintic)
+                            .onUpdate(update);
+                    // build the tween to go backward
+                    tweenBatteryDown = new TWEEN.Tween(current)
+                            .to({x: 15, y: 0}, userOpts.duration / 2)
+                            .delay(userOpts.delay)
+                            .easing(easing)
+                            .onUpdate(update);
+//                    var tweenBack = new TWEEN.Tween(current)
+//                            .to({x: -userOpts.range}, userOpts.duration)
+//                            .delay(userOpts.delay)
+//                            .easing(easing)
+//                            .onUpdate(update);
+                    tweenBatteryIn.chain(tweenBatteryDown);
+                    // after tweenHead do tweenBack
+//                    tweenHead.chain(tweenBack);
+                    // after tweenBack do tweenHead, so it is cycling
+//                    tweenBack.chain(tweenHead);
 
+                    // start the first
+//                    tweenHead.start();
+                }
 
+                function setupTweenFilterGoOut()
+                {
+                    // 
+                    var update = function () {
+                        chargerCube.position.x = current.x;
+                        chargerCube.position.y = current.y;
+                    }
+                    var current = {x: 2000, y: userOpts.liftoff};
 
+                    // remove previous tweens if needed
+                    TWEEN.removeAll();
 
+                    // convert the string from dat-gui into tween.js functions 
+                    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                    
+                    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+//                    console.log(easing);
+                    // build the tween to go ahead
+                    tweenBatteryIn = new TWEEN.Tween(current)
+                            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
+                            .delay(userOpts.delay)
+                            .easing(quintic)
+                            .onUpdate(update);
+                    // build the tween to go backward
+                    tweenBatteryDown = new TWEEN.Tween(current)
+                            .to({x: 15, y: 0}, userOpts.duration / 2)
+                            .delay(userOpts.delay)
+                            .easing(easing)
+                            .onUpdate(update);
+//                    var tweenBack = new TWEEN.Tween(current)
+//                            .to({x: -userOpts.range}, userOpts.duration)
+//                            .delay(userOpts.delay)
+//                            .easing(easing)
+//                            .onUpdate(update);
+                    tweenBatteryIn.chain(tweenBatteryDown);
+                    // after tweenHead do tweenBack
+//                    tweenHead.chain(tweenBack);
+                    // after tweenBack do tweenHead, so it is cycling
+//                    tweenBack.chain(tweenHead);
 
-
-
+                    // start the first
+//                    tweenHead.start();
+                }
 
                 function init() {
 
@@ -225,10 +347,9 @@
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
                     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
-//                var centerVector = new THREE.Vector3(150, 0, 0);
-                    camera.position.x = 20;
-                    camera.position.z = 120;
-                    camera.position.y = 50;
+                    camera.position.x = -70;
+                    camera.position.z = 90;
+                    camera.position.y = 70;
                     raycaster = new THREE.Raycaster();
                     // LIGHTS
 
@@ -240,21 +361,12 @@
                     scene = new THREE.Scene();
 
 
-
-//                    buildGui(userOpts, function () {
-//                        setupTweenBatteryOut();
-//                        setupTweenBatteryIn();
-//                    });
-
-                    
-
-
                     var ambientLight = new THREE.AmbientLight(0x222222, 0.2);
-//                scene.add(ambientLight);
+//                  scene.add(ambientLight);
 
                     var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
                     dirLight.position.set(0, 0, 1).normalize();
-//                scene.add(dirLight);
+//                  scene.add(dirLight);
 
                     pointLight = new THREE.PointLight(0xffffff, 1);
                     pointLight.position.set(0, 100, 90);
@@ -267,12 +379,6 @@
 
                     var asd = loader.load('FiltruTigara.json', function (geometry) {
 
-//                    var material = new THREE.MeshLambertMaterial({
-//                        map: THREE.ImageUtils.loadTexture('modelPlatforma.json'), // Specify and load the texture
-//                        colorAmbient: [0.48, 0.48, 0.48, ],
-//                        colorDiffuse: [0.48, 0.48, 0.48],
-//                        colorSpecular: [0.899, 0.899, 0.899],
-//                    });
                         var material2 = new THREE.MeshFaceMaterial([
                             new THREE.MeshPhongMaterial({color: 0x999999, shading: THREE.SmoothShading}), // front
                             new THREE.MeshPhongMaterial({color: 0xFF0000, shading: THREE.SmoothShading}) // side
@@ -304,7 +410,7 @@
 
                     var actuatorGeometry = new THREE.CylinderGeometry(3, 3, 2, 32);
                     var actuatorMaterial = new THREE.MeshPhongMaterial({color: 0x004433});
-//                console.log(actuatorMaterial);
+//                  console.log(actuatorMaterial);
 
 
                     actuatorCylinder = new THREE.Mesh(actuatorGeometry, actuatorMaterial);
@@ -344,13 +450,7 @@
                     displayPlane.position.y = -12;
                     displayPlane.position.z = 0;
                     displayPlane.rotation.y = -Math.PI / 2;
-
                     scene.add(displayPlane);
-                    //
-
-
-
-
 
                     renderer = new THREE.WebGLRenderer({antialias: true});
                     renderer.setClearColor(0xffffff, 0.4);
@@ -359,10 +459,6 @@
                     renderer.gammaInput = true;
                     renderer.gammaOutput = true;
                     container.appendChild(renderer.domElement);
-                    //
-
-
-
 
                     stats = new Stats();
                     stats.domElement.style.position = 'absolute';
@@ -389,36 +485,22 @@
 
                     stats.update();
                     TWEEN.update();
+                    
                 }
-
-
-
 
                 function onDocumentMouseDown(event) {
                     event.preventDefault();
                     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
-//                mouseXOnMouseDown = event.clientX - windowHalfX;
-//                targetRotationOnMouseDown = targetRotation;
 
                     var mouseVector = new THREE.Vector3();
                     mouseVector.x = 2 * (event.clientX / SCREEN_WIDTH) - 1;
                     mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
-//                mouseVector.z = 0.5;
-
-//                console.log(raycaster);
-//                console.log(mouseVector);
 
                     raycaster.setFromCamera(mouseVector, camera);
-//                console.log(raycaster);
-
 
                     var intersectedObjects = raycaster.intersectObjects(scene.children);
-//                var intersectedTorus = raycaster.intersectObjects(scene.children);
-
-//                console.log(intersectedTorus);
-//                console.log(intersectedText);
 
                     if (intersectedObjects.length > 0) {
 
@@ -434,9 +516,7 @@
                                 break;
                             case 10:
                                 console.log("Lighter should START");
-
                                 startButtonClick();
-
 
                                 break;
                             case 11:
@@ -476,9 +556,7 @@
                     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
-
                     resetButtonPositions();
-
 
 
                 }
@@ -536,43 +614,48 @@
 
 
                 function removeBattery() {
-
                     setupTweenBatteryOut();
                     setupTweenBatteryIn();
-
-
-                    tweenBatteryOut.start();
+                    tweenBatteryUp.start();
                     setTimeout(function () {
                         var newChargerMaterial = new THREE.MeshPhongMaterial({color: 0x666677, shininess: 10, specular: 0x990000, metal: true, side: 2});
                         chargerCube.material = newChargerMaterial;
-                    }, 1400);
-
+                    }, 2400);
                     setTimeout(function () {
                         tweenBatteryOut.stop();
                         tweenBatteryIn.start();
-                    }, 2000);
+                    }, 3000);
                     setTimeout(function () {
                         tweenBatteryIn.stop();
-                    }, 3500);
-
-
+                    }, 4700);
+                    setTimeout(function() {
+//                        alert("Click sound");
+                    }, 5200);
                 }
 
-                function animateRemove1() {
-                    if (timeSpent <= duration1) {
-                        requestAnimationFrame(animateRemove1);
-                        var now = Date.now();
-                        var deltat = now - currentTime;
-                        currentTime = now;
-                        var fract = deltat / duration1;
-                        var angle = Math.PI * 2 * fract;
-                        chargerCube.position.y += 0.5;
-                        timeSpent += deltat;
-                        render();
-                        stats.update();
-                    }
-
+                function removeFilter(){
+                    
+                    setupTweenFilterRotate();
+                    setupTweenFilterGoUp();
+                    setupTweenFilterGoOut();                  
+                    
                 }
+
+//                function animateRemove1() {
+//                    if (timeSpent <= duration1) {
+//                        requestAnimationFrame(animateRemove1);
+//                        var now = Date.now();
+//                        var deltat = now - currentTime;
+//                        currentTime = now;
+//                        var fract = deltat / duration1;
+//                        var angle = Math.PI * 2 * fract;
+//                        chargerCube.position.y += 0.5;
+//                        timeSpent += deltat;
+//                        render();
+//                        stats.update();
+//                    }
+//
+//                }
 
 
 
