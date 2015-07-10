@@ -55,7 +55,7 @@
             var mouseXOnMouseDown = 0;
             var SCREEN_WIDTH, SCREEN_HEIGHT;
             var targetRotation = 0;
-            var actuatorCylinder, minusButtonCylinder, plusButtonCylinder;
+            var actuatorCylinder, minusButtonCylinder, plusButtonCylinder,filtruTigara;
             var targetRotationOnMouseDown = 0;
             var windowHalfX = window.innerWidth / 2;
             var windowHalfY = window.innerHeight / 2;
@@ -102,7 +102,7 @@
 
                 var loader = new THREE.JSONLoader(); //initialize the loader util.
 
-                var asd = loader.load('FminusiltruTigara.json', function (geometry) {
+                var asd = loader.load('FiltruTigara.json', function (geometry) {
 
 //                    var material = new THREE.MeshLambertMaterial({
 //                        map: THREE.ImageUtils.loadTexture('modelPlatforma.json'), // Specify and load the texture
@@ -337,11 +337,12 @@
             }
 
             function onDocumentTouchStart(event) {
-
+//                    alert("TOUCH DETECTED");
+//                    alert(event);
             }
 
             function onDocumentTouchMove(event) {
-
+//                    alert("TOUCH MOVEMENT DETECTED");
             }
 
             function startButtonClick() {
