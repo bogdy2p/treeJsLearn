@@ -55,7 +55,7 @@
             var mouseXOnMouseDown = 0;
             var SCREEN_WIDTH, SCREEN_HEIGHT;
             var targetRotation = 0;
-            var actuatorCylinder;
+            var actuatorCylinder, minusButtonCylinder, plusButtonCylinder;
             var targetRotationOnMouseDown = 0;
             var windowHalfX = window.innerWidth / 2;
             var windowHalfY = window.innerHeight / 2;
@@ -102,7 +102,7 @@
 
                 var loader = new THREE.JSONLoader(); //initialize the loader util.
 
-                var asd = loader.load('FiltruTigara.json', function (geometry) {
+                var asd = loader.load('FminusiltruTigara.json', function (geometry) {
 
 //                    var material = new THREE.MeshLambertMaterial({
 //                        map: THREE.ImageUtils.loadTexture('modelPlatforma.json'), // Specify and load the texture
@@ -156,7 +156,7 @@
 
                 var plusButtonGeometry = new THREE.CylinderGeometry(1, 1, 2, 32);
                 var plusButtonMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
-                var plusButtonCylinder = new THREE.Mesh(plusButtonGeometry, plusButtonMaterial);
+                plusButtonCylinder = new THREE.Mesh(plusButtonGeometry, plusButtonMaterial);
                 plusButtonCylinder.position.x = -7;
                 plusButtonCylinder.position.y = 12;
                 plusButtonCylinder.position.z = 0;
@@ -167,7 +167,7 @@
                 ///Minus Button
                 var minusButtonGeometry = new THREE.CylinderGeometry(1, 1, 2, 32);
                 var minusButtonMaterial = new THREE.MeshBasicMaterial({color: 0x00ffff});
-                var minusButtonCylinder = new THREE.Mesh(minusButtonGeometry, minusButtonMaterial);
+                minusButtonCylinder = new THREE.Mesh(minusButtonGeometry, minusButtonMaterial);
                 minusButtonCylinder.position.x = -7;
                 minusButtonCylinder.position.y = 7;
                 minusButtonCylinder.position.z = 0;
@@ -271,9 +271,12 @@
                             break;
                         case 11:
                             console.log("You pressed the +");
+                            plusButtonClick();
+
                             break;
                         case 12:
                             console.log("You pressed the -");
+                            minusButtonClick();
                             break;
                         case 13:
                             console.log("Why did you click the screen ?");
@@ -345,15 +348,23 @@
 
                 console.log("ENTERED STARTBUTTON CLICKED");
                 actuatorCylinder.position.x += 1;
+            }
 
+            function plusButtonClick() {
+                console.log("plusbuttonclick function");
+                plusButtonCylinder.position.x += 1;
+            }
 
-
+            function minusButtonClick() {
+                console.log("Minusbutton click function");
+                minusButtonCylinder.position.x += 1;
             }
 
             function resetButtonPositions() {
 
-                actuatorCylinder.position.x =-7;
-
+                actuatorCylinder.position.x = -7;
+                minusButtonCylinder.position.x = -7;
+                plusButtonCylinder.position.x = -7;
 
             }
 
