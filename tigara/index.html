@@ -73,7 +73,7 @@
 
         <script>
 
-                var group, group1, group2, group3;
+                var group, grupFiltru, grupBaterie, group2, group3;
 
 
                 var disruptor;
@@ -382,19 +382,19 @@
 //                    dirLight.position.set(0, 0, 1).normalize();
 //                  scene.add(dirLight);
 
-                    pointLight = new THREE.PointLight(0xffffff, 1);
-                    pointLight.position.set(0, 100, 90);
+                    pointLight = new THREE.PointLight(0xffffff, 0.5);
+                    pointLight.position.set(100, 10, 90);
                     scene.add(pointLight);
                     group = new THREE.Group();
                     scene.add(group);
 
 
 
-//                    
-//                    group1 = new THREE.Group();
-//                    group.add(group1);
-//                    group2 = new THREE.Group();
-//                    group.add(group2);
+
+                    grupFiltru = new THREE.Group();
+                    scene.add(grupFiltru);
+                    grupBaterie = new THREE.Group();
+                    scene.add(grupBaterie);
 //                    group3 = new THREE.Group();
 //                    group.add(group3);
 
@@ -415,19 +415,6 @@
 
                     var axisHelper = new THREE.AxisHelper(25);
                     scene.add(axisHelper);
-//                    asdmaterial = new THREE.MeshFaceMaterial([
-//                        new THREE.MeshPhongMaterial({color: 0xffff00, shading: THREE.FlatShading}), // front
-//                        new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading}) // side
-//                    ]);
-//
-//
-//                    var tetra = new THREE.Mesh(
-//                            new THREE.TetrahedronGeometry(10, 0),
-//                            asdmaterial
-//                            );
-////                    tetra.position.y = 100;
-////                    tetra.rotation.x = -Math.PI / 2;
-//                    scene.add(tetra);
 
 
 
@@ -684,8 +671,14 @@
                 function disrupter() {
 
 
-                    console.log(scene);
+//                    console.log(scene);
 
+
+                    var grupbaterie = scene.children[3];
+                    console.log(grupbaterie);
+
+
+                    grupbaterie.position.z += 2;
 //                    var number = 11;
 //                    var redcolor = new THREE.Color(255, 00, 00);
 //                    var disruptor = scene.children[1].children[number].children[2].children[0];
@@ -734,8 +727,7 @@
                     colladaLoader.load('js/daes/Baterie.dae', function colladaReady(collada) {
                         battery = collada.scene;
                         batterySkin = collada.skins[0];
-                        group.add(battery);
-
+                        grupBaterie.add(battery);
                         battery.position.z = 4;
                         battery.position.x = 3.5;
 
@@ -743,7 +735,7 @@
                     colladaLoader.load('js/daes/CapacBaterie.dae', function colladaReady(collada) {
                         batterySupport = collada.scene;
                         batterySupportSkin = collada.skins[0];
-                        group.add(batterySupport);
+                        grupBaterie.add(batterySupport);
                         batterySupport.position.x = 5;
                         batterySupport.position.z = 0.3;
 //                    
@@ -751,7 +743,7 @@
                     colladaLoader.load('js/daes/Sipca.dae', function colladaReady(collada) {
                         sipca = collada.scene;
                         sipcaSkin = collada.skins[0];
-                        group.add(sipca);
+                        grupFiltru.add(sipca);
 //                       
                         sipca.position.x = 1.5;
 
@@ -759,8 +751,7 @@
                     colladaLoader.load('js/daes/Sticla.dae', function colladaReady(collada) {
                         sticla = collada.scene;
                         sticlaSkin = collada.skins[0];
-                        group.add(sticla);
-
+                        grupFiltru.add(sticla);
                         sticla.position.x = 1.5;
 //    
 
@@ -801,36 +792,44 @@
                         buttonSmall2.position.y = -0.05;
                         buttonSmall2.position.x = 1.5;
                     });
-                    colladaLoader.load('js/daes/ButonInterior.dae', function colladaReady(collada) {
-                        interiorButton = collada.scene;
-                        interiorButtonSkin = collada.skins[0];
-                        group.add(interiorButton);
-                    });
+//                    colladaLoader.load('js/daes/ButonInterior.dae', function colladaReady(collada) {
+//                        interiorButton = collada.scene;
+//                        interiorButtonSkin = collada.skins[0];
+//                        group.add(interiorButton);
+//                    });
                     colladaLoader.load('js/daes/FiletMecanismBaterie.dae', function colladaReady(collada) {
                         batteryThread = collada.scene;
                         batteryThreadSkin = collada.skins[0];
-                        group.add(batteryThread);
+                        grupFiltru.add(batteryThread);
                         batteryThread.position.x = 1.5;
                     });
-                    colladaLoader.load('js/daes/FiletSipca.dae', function colladaReady(collada) {
-                        sipcaThread = collada.scene;
-                        sipcaThreadSkin = collada.skins[0];
-                        group.add(sipcaThread);
-                        sipcaThread.position.x = 1.5;
-                    });
+//                    colladaLoader.load('js/daes/FiletSipca.dae', function colladaReady(collada) {
+//                        sipcaThread = collada.scene;
+//                        sipcaThreadSkin = collada.skins[0];
+//                        group.add(sipcaThread);
+//                        sipcaThread.position.x = 2.5;
+//                    });
                     colladaLoader.load('js/daes/Logo.dae', function colladaReady(collada) {
                         logo = collada.scene;
                         logoSkin = collada.skins[0];
-                        group.add(logo);
+                        grupBaterie.add(logo);
                         logo.position.x = 3;
                         logo.position.z = -4;
                         logo.position.y = -0.2;
                     });
-//                    group.position.x = 20;
+
+                    grupFiltru.position.z = -28;
                     group.position.z = -20;
+                    grupBaterie.position.z = -20;
+                    grupFiltru.scale.x = 2;
+                    grupFiltru.scale.y = 2;
+                    grupFiltru.scale.z = 2;
                     group.scale.x = 2;
                     group.scale.y = 2;
                     group.scale.z = 2;
+                    grupBaterie.scale.x = 2;
+                    grupBaterie.scale.y = 2;
+                    grupBaterie.scale.z = 2;
                 }
 
 
@@ -838,78 +837,18 @@
 
                 function basicColorize() {
 
-//                    alert("BASIC COLORIZING");
-//                    var i = 6;
 
-
-
-
-//                    console.log(scene.children[1]);
-//                    for (i = 7; i < 13; i++) {
+//                    for (i = 0; i < 9; i++) {
 //                    var object = scene.children[1].children[i]; //.children[2];
 //                        console.log(object);
-
-
-
 //                    }
 
-
-///                    object.position.x = 0;
-
-                    //0 = STICLA
-                    //1 = rama_ecran
-                    //2 = buton_mare
-                    //3- buton_mic_1
-                    //4- buton_interior
-                    //5- buton_mic_2
-                    //7 -baterie
-                    //8 = Cylinder001
-                    //9 = LOGO
-                    //10 = Object004
-                    //11 = Object005 
-                    // 12 = mecanism_tigara
-
-
-                    var capac_baterie = scene.children[1].children[6];
-                    var capac_baterie_mesh = capac_baterie.children[0];
-
-//                    console.log(capac_baterie_mesh);
-//                    capac_baterie_mesh.position.x = 5;
-//                    capac_baterie_mesh.position.y= 40;
-                    var mecanism_tigara = scene.children[1].children[12];
+                    var mecanism_tigara = scene.children[1].children[4];
                     var mecanism_tigara_mesh = mecanism_tigara.children[2].children[0];
-//                    console.log(mecanism_tigara_mesh);
-                    var redcolor = new THREE.Color(255, 00, 00);
-
-                    var testMaterial = new THREE.MeshPhongMaterial({color: 0x999999, shininess: 8, specular: 0x999999, metal: true, transparent: true, opacity: 1});
+//                    var redcolor = new THREE.Color(255, 00, 00);
+//
+                    var testMaterial = new THREE.MeshPhongMaterial({color: 0x999999, shininess: 3, specular: 0x999999, metal: true, transparent: true, opacity: 1});
                     mecanism_tigara_mesh.material = testMaterial;
-
-
-
-
-                    var ecran = scene.children[1].children[1].children[2];
-                    var ecran_mesh = ecran.children;
-//                 
-
-
-                    var butonMare = scene.children[1].children[2].children[2];
-                    butonMare_mesh = butonMare.children;
-
-
-
-
-                    var butonMic1 = scene.children[1].children[3].children[2];
-                    butonMic1_mesh = butonMic1.children;
-//                    butonMic1.position.z = -4.05;
-//                    butonMic1.position.y = -0.05;
-//                    butonMic1.position.x = 1.5;
-
-                    var butonMic2 = scene.children[1].children[5].children[2];
-                    butonMic2_mesh = butonMic2.children;
-
-
-
-
 
                 }
 
