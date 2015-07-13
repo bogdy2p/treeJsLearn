@@ -47,8 +47,18 @@
 
             <button id="btn1" onclick="removeBattery();">Button1-RemoveBattery</button>
 
-            <button id="btn2" onclick="">Button2-NOTHING YET</button>
-            aAAAAAAAAAAAAAAAAAAAAAA</div>
+            <button id="btn2" onclick="test();">Button2</button>
+            <button id="btn3" onclick="butonmic1();">Button mic 1</button>
+            <button id="btn4" onclick="butonmic2();">Button mic 2</button>
+            <button id="btn5" onclick="sticla();">STICLA</button>
+            <button id="btn6" onclick="disrupter();">DISRUPTOR</button>
+
+
+
+
+
+            aAAAAAAAAAAAAAAAAAAAAAA
+        </div>
         <div id ="rightcontrols"></div>
 
 
@@ -63,7 +73,11 @@
 
         <script>
 
-                var group;
+                var group, group1, group2, group3;
+
+
+                var disruptor;
+                var battery;
                 var container, stats;
                 var leftControls, rightControls;
                 var particlesData = [];
@@ -81,13 +95,9 @@
                 var windowHalfX = window.innerWidth / 2;
                 var windowHalfY = window.innerHeight / 2;
                 var pointLight;
-                var maxParticleCount = 1000;
-                var particleCount = 500;
-                var r = 800;
-                var rHalf = r / 2;
 
 
-                var ctrBtn1, ctrBtn2, ctrBtn3;
+                var chargerMaterial;
 
                 var duration1 = 1000; //miliseconds
                 var duration2 = 2000; //miliseconds
@@ -326,6 +336,7 @@
                             .delay(userOpts.delay)
                             .easing(easing)
                             .onUpdate(update);
+                    colladaLoader
 //                    var tweenBack = new TWEEN.Tween(current)
 //                            .to({x: -userOpts.range}, userOpts.duration)
 //                            .delay(userOpts.delay)
@@ -348,25 +359,27 @@
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
                     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
-                    camera.position.x = -70;
-                    camera.position.z = 90;
-                    camera.position.y = 70;
+                    camera.position.x = 100;
+                    camera.position.z = 100;
+                    camera.position.y = 100;
+
                     raycaster = new THREE.Raycaster();
                     // LIGHTS
 
                     controls = new THREE.OrbitControls(camera, container);
                     controls.noZoom = false;
-                    controls.minDistance = 60;
+                    controls.minDistance = 15;
                     controls.maxDistance = 200;
                     controls.noPan = true;
+
                     scene = new THREE.Scene();
 
 
-                    var ambientLight = new THREE.AmbientLight(0x222222, 0.2);
+//                    var ambientLight = new THREE.AmbientLight(0x222222, 0.2);
 //                  scene.add(ambientLight);
 
-                    var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
-                    dirLight.position.set(0, 0, 1).normalize();
+//                    var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
+//                    dirLight.position.set(0, 0, 1).normalize();
 //                  scene.add(dirLight);
 
                     pointLight = new THREE.PointLight(0xffffff, 1);
@@ -374,105 +387,49 @@
                     scene.add(pointLight);
                     group = new THREE.Group();
                     scene.add(group);
+
+
+
+//                    
+//                    group1 = new THREE.Group();
+//                    group.add(group1);
+//                    group2 = new THREE.Group();
+//                    group.add(group2);
+//                    group3 = new THREE.Group();
+//                    group.add(group3);
+
                     ///////ADD FILTRU
 
-                    var loader = new THREE.JSONLoader(); //initialize the loader util.
-
-                    var asd = loader.load('FiltruTigara.json', function (geometry) {
-
-                        var material2 = new THREE.MeshFaceMaterial([
-                            new THREE.MeshPhongMaterial({color: 0x999999, shading: THREE.SmoothShading}), // front
-                            new THREE.MeshPhongMaterial({color: 0xFF0000, shading: THREE.SmoothShading}) // side
-                        ]);
-                        //create a mesh with models geometry and material
-                        filtruTigara = new THREE.Mesh(geometry, material2);
-                        filtruTigara.rotation.x = 0;
-                        filtruTigara.rotation.y = 0;
-                        filtruTigara.scale.x = 1;
-                        filtruTigara.scale.y = 1;
-                        filtruTigara.scale.z = 1;
-                        filtruTigara.position.x = 0;
-                        filtruTigara.position.y = 24;
-                        filtruTigara.position.z = 0;
-                        scene.add(filtruTigara);
-                    });
-
-                    var colladaLoader = new THREE.ColladaLoader();
-                    colladaLoader.load('InnokinCollada.dae', function colladaReady(collada) {
-                        player = collada.scene;
-                        skin = collada.skins[0];
-                        
-                        player.rotation.x = -Math.PI/2;
-                        
-                        player.position.x = 35;
-                        
-                        player.scale.x = 1.5;
-                        player.scale.y = 1.5;
-                        player.scale.z = 1.5;
-                        
-                        console.log(player);
-                        
-                        scene.add(player);
-                    });
 
 
-
+                    //load the 3d Model files
+                    //////////////////////////////////////////////
+                    load3Dmodels();
+                    //////////////////////////////////////////////
                     // Add Charger 
                     //Grosime,Lungime,Latime
-                    var chargerGeometry = new THREE.BoxGeometry(15, 50, 10);
-                    var chargerMaterial = new THREE.MeshPhongMaterial({color: 0x666677, shininess: 10, specular: 0x999999, metal: true, side: 2});
-                    chargerCube = new THREE.Mesh(chargerGeometry, chargerMaterial);
-                    chargerCube.position.x = 15;
-                    scene.add(chargerCube);
-                    var disrupterGeometry = new THREE.BoxGeometry(15, 50, 10);
-                    var disrupterMaterial = new THREE.MeshPhongMaterial({color: 0x88ff00, shininess: 8, specular: 0x999999, metal: true, transparent: true, opacity: 0.7});
-                    disrupterCube = new THREE.Mesh(disrupterGeometry, disrupterMaterial);
-                    scene.add(disrupterCube);
-                    //Big Action Button
-
-                    var actuatorGeometry = new THREE.CylinderGeometry(3, 3, 2, 32);
-                    var actuatorMaterial = new THREE.MeshPhongMaterial({color: 0x004433});
-//                  console.log(actuatorMaterial);
+                    setTimeout(function () {
+                        basicColorize();
+                    }, 1800);
 
 
-                    actuatorCylinder = new THREE.Mesh(actuatorGeometry, actuatorMaterial);
-                    actuatorCylinder.position.x = -7;
-                    actuatorCylinder.position.y = 18;
-                    actuatorCylinder.position.z = 0;
-                    actuatorCylinder.rotation.x = -Math.PI / 2;
-                    actuatorCylinder.rotation.z = -Math.PI / 2;
-                    scene.add(actuatorCylinder);
-                    ////////
-                    ///Plus Button
+                    var axisHelper = new THREE.AxisHelper(25);
+                    scene.add(axisHelper);
+//                    asdmaterial = new THREE.MeshFaceMaterial([
+//                        new THREE.MeshPhongMaterial({color: 0xffff00, shading: THREE.FlatShading}), // front
+//                        new THREE.MeshPhongMaterial({color: 0xffffff, shading: THREE.SmoothShading}) // side
+//                    ]);
+//
+//
+//                    var tetra = new THREE.Mesh(
+//                            new THREE.TetrahedronGeometry(10, 0),
+//                            asdmaterial
+//                            );
+////                    tetra.position.y = 100;
+////                    tetra.rotation.x = -Math.PI / 2;
+//                    scene.add(tetra);
 
-                    var plusButtonGeometry = new THREE.CylinderGeometry(1, 1, 2, 32);
-                    var plusButtonMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
-                    plusButtonCylinder = new THREE.Mesh(plusButtonGeometry, plusButtonMaterial);
-                    plusButtonCylinder.position.x = -7;
-                    plusButtonCylinder.position.y = 12;
-                    plusButtonCylinder.position.z = 0;
-                    plusButtonCylinder.rotation.x = -Math.PI / 2;
-                    plusButtonCylinder.rotation.z = -Math.PI / 2;
-                    scene.add(plusButtonCylinder);
-                    ////////
-                    ///Minus Button
-                    var minusButtonGeometry = new THREE.CylinderGeometry(1, 1, 2, 32);
-                    var minusButtonMaterial = new THREE.MeshBasicMaterial({color: 0x00ffff});
-                    minusButtonCylinder = new THREE.Mesh(minusButtonGeometry, minusButtonMaterial);
-                    minusButtonCylinder.position.x = -7;
-                    minusButtonCylinder.position.y = 7;
-                    minusButtonCylinder.position.z = 0;
-                    minusButtonCylinder.rotation.x = -Math.PI / 2;
-                    minusButtonCylinder.rotation.z = -Math.PI / 2;
-                    scene.add(minusButtonCylinder);
-                    var displayGeometry = new THREE.PlaneGeometry(8, 20, 32);
-                    var displayMaterial = new THREE.MeshPhongMaterial({color: 0xff0000, side: THREE.DoubleSide});
-                    var displayPlane = new THREE.Mesh(displayGeometry, displayMaterial);
-                    displayPlane.position.x = -7.6;
-                    displayPlane.position.y = -12;
-                    displayPlane.position.z = 0;
-                    displayPlane.rotation.y = -Math.PI / 2;
-                    scene.add(displayPlane);
+
 
                     renderer = new THREE.WebGLRenderer({antialias: true});
                     renderer.setClearColor(0xffffff, 0.4);
@@ -616,9 +573,9 @@
 
                 function resetButtonPositions() {
 
-                    actuatorCylinder.position.x = -7;
-                    minusButtonCylinder.position.x = -7;
-                    plusButtonCylinder.position.x = -7;
+//                    actuatorCylinder.position.x = -7;
+//                    minusButtonCylinder.position.x = -7;
+//                    plusButtonCylinder.position.x = -7;
 
                 }
 
@@ -626,7 +583,7 @@
 
                     var time = Date.now() * 0.001;
                     camera.lookAt(scene.position);
-                    group.rotation.y = time * 0.1;
+//                    group.rotation.y = time * 0.1;
 
 
                     renderer.render(scene, camera);
@@ -663,21 +620,306 @@
 
                 }
 
-//                function animateRemove1() {
-//                    if (timeSpent <= duration1) {
-//                        requestAnimationFrame(animateRemove1);
-//                        var now = Date.now();
-//                        var deltat = now - currentTime;
-//                        currentTime = now;
-//                        var fract = deltat / duration1;
-//                        var angle = Math.PI * 2 * fract;
-//                        chargerCube.position.y += 0.5;
-//                        timeSpent += deltat;
-//                        render();
-//                        stats.update();
-//                    }
+
+                function test() {
+
+//                    asd = scene.children[1].children[3].children[2].children[0].material.materials;
 //
-//                }
+//                    a = scene.children[1];
+//                    console.log(a);
+//
+//
+//                    bigbuttonMaterial = scene.children[0];
+//
+//
+//                    color = new THREE.Color(255, 00, 00);
+//                    asd[0].color = color;
+//                    asd[1].color = color;
+//                    asd[2].color = color;
+//                    asd[0].setColor(30,200,00);
+//                    asd[1].setColor(30,200,00);
+//                    asd[2].color = { 30, 200, 00};
+//                            asd[1].color = { 30, 200, 00};
+//                            asd[0].color = { 30, 200, 00};
+//                    asd[2].material = chargerMaterial;
+//                    asd[1].material = chargerMaterial;
+//                    console.log(asd[0]);
+
+//                    console.log(scene.children[1].children[3].children[2]);
+                }
+
+
+
+                function butonmic1() {
+
+                    var butonmic1 = scene.children[1].children[2];
+                    console.log(butonmic1);
+
+                }
+
+                function butonmic2() {
+
+                    var butonmic2 = scene.children[1].children[2];
+                    console.log(butonmic2);
+
+                }
+
+
+                function sticla() {
+                    var glass = scene.children[1].children[6].children[2].children[0];
+//                    console.log(glass);
+                    var redcolor = new THREE.Color(255, 00, 00);
+                    // create a transparent material.
+
+                    var glassMaterial = new THREE.MeshPhongMaterial({color: 0x8800ff, shininess: 3, specular: 0x333333, transparent: true, opacity: 0.4});
+
+
+                    glass.material = glassMaterial;
+
+//                    sticla.material.color = redcolor;
+
+
+                }
+
+                function disrupter() {
+
+
+                    console.log(scene);
+
+//                    var number = 11;
+//                    var redcolor = new THREE.Color(255, 00, 00);
+//                    var disruptor = scene.children[1].children[number].children[2].children[0];
+//
+//
+//                    console.log(scene.children[1].children);
+//
+//                    var testMaterial = new THREE.MeshPhongMaterial({color: 0x8800ff, shininess: 3, specular: 0x999999, transparent: true, opacity: 1});
+////
+//                    disruptor.material = testMaterial;
+//                    disruptor.material.color = redcolor;
+//                    disruptor.position.x = 10;
+                }
+
+
+
+
+                function load3Dmodels() {
+
+
+                    var objectScale = 2;
+
+
+                    var colladaLoader = new THREE.ColladaLoader();
+
+
+
+                    //LOADING ORDER
+                    //1. DISRUPTOR
+                    //2. BATTERY
+                    //3. BATTERYCASE
+                    //4. SIPCA FILTRU
+                    //5. STICLA FILTRU
+                    //6. ECRAN 
+                    //7. BUTON MARE
+                    //8. BUTONMIC1
+                    //9. BUTONMIC2
+                    //10.FILET MECANISM BATERIE
+                    //11.FILTE SIPCA
+                    //12.LOGO EXTERN
+                    colladaLoader.load('js/daes/MecanismTigara.dae', function colladaReady(collada) {
+                        disruptor = collada.scene;
+                        disruptorSkin = collada.skins[0];
+                        group.add(disruptor);
+                    });
+                    colladaLoader.load('js/daes/Baterie.dae', function colladaReady(collada) {
+                        battery = collada.scene;
+                        batterySkin = collada.skins[0];
+                        group.add(battery);
+
+                        battery.position.z = 4;
+                        battery.position.x = 3.5;
+
+                    });
+                    colladaLoader.load('js/daes/CapacBaterie.dae', function colladaReady(collada) {
+                        batterySupport = collada.scene;
+                        batterySupportSkin = collada.skins[0];
+                        group.add(batterySupport);
+                        batterySupport.position.x = 5;
+                        batterySupport.position.z = 0.3;
+//                    
+                    });
+                    colladaLoader.load('js/daes/Sipca.dae', function colladaReady(collada) {
+                        sipca = collada.scene;
+                        sipcaSkin = collada.skins[0];
+                        group.add(sipca);
+//                       
+                        sipca.position.x = 1.5;
+
+                    });
+                    colladaLoader.load('js/daes/Sticla.dae', function colladaReady(collada) {
+                        sticla = collada.scene;
+                        sticlaSkin = collada.skins[0];
+                        group.add(sticla);
+
+                        sticla.position.x = 1.5;
+//    
+
+
+                    });
+                    colladaLoader.load('js/daes/RamaEcran.dae', function colladaReady(collada) {
+                        ecran = collada.scene;
+                        ecranSkin = collada.skins[0];
+                        group.add(ecran);
+                        ecran.position.z = 4.5;
+                        ecran.position.y = -0.15;
+                        ecran.position.x = -5;
+//                    
+
+                    });
+                    colladaLoader.load('js/daes/ButonMare.dae', function colladaReady(collada) {
+                        bigButon = collada.scene;
+                        bigButonSkin = collada.skins[0];
+
+                        group.add(bigButon);
+                        bigButon.position.z = -4.05;
+                        bigButon.position.y = -0.05;
+                        bigButon.position.x = 1.5;
+                    });
+                    colladaLoader.load('js/daes/ButonMic1.dae', function colladaReady(collada) {
+                        buttonSmall1 = collada.scene;
+                        buttonSmall1Skin = collada.skins[0];
+                        group.add(buttonSmall1);
+                        buttonSmall1.position.z = -4.05;
+                        buttonSmall1.position.y = -0.05;
+                        buttonSmall1.position.x = 1.5;
+                    });
+                    colladaLoader.load('js/daes/ButonMic2.dae', function colladaReady(collada) {
+                        buttonSmall2 = collada.scene;
+                        buttonSmall2Skin = collada.skins[0];
+                        group.add(buttonSmall2);
+                        buttonSmall2.position.z = -4.05;
+                        buttonSmall2.position.y = -0.05;
+                        buttonSmall2.position.x = 1.5;
+                    });
+                    colladaLoader.load('js/daes/ButonInterior.dae', function colladaReady(collada) {
+                        interiorButton = collada.scene;
+                        interiorButtonSkin = collada.skins[0];
+                        group.add(interiorButton);
+                    });
+                    colladaLoader.load('js/daes/FiletMecanismBaterie.dae', function colladaReady(collada) {
+                        batteryThread = collada.scene;
+                        batteryThreadSkin = collada.skins[0];
+                        group.add(batteryThread);
+                        batteryThread.position.x = 1.5;
+                    });
+                    colladaLoader.load('js/daes/FiletSipca.dae', function colladaReady(collada) {
+                        sipcaThread = collada.scene;
+                        sipcaThreadSkin = collada.skins[0];
+                        group.add(sipcaThread);
+                        sipcaThread.position.x = 1.5;
+                    });
+                    colladaLoader.load('js/daes/Logo.dae', function colladaReady(collada) {
+                        logo = collada.scene;
+                        logoSkin = collada.skins[0];
+                        group.add(logo);
+                        logo.position.x = 3;
+                        logo.position.z = -4;
+                        logo.position.y = -0.2;
+                    });
+//                    group.position.x = 20;
+                    group.position.z = -20;
+                    group.scale.x = 2;
+                    group.scale.y = 2;
+                    group.scale.z = 2;
+                }
+
+
+
+
+                function basicColorize() {
+
+//                    alert("BASIC COLORIZING");
+//                    var i = 6;
+
+
+
+
+//                    console.log(scene.children[1]);
+//                    for (i = 7; i < 13; i++) {
+//                    var object = scene.children[1].children[i]; //.children[2];
+//                        console.log(object);
+
+
+
+//                    }
+
+
+///                    object.position.x = 0;
+
+                    //0 = STICLA
+                    //1 = rama_ecran
+                    //2 = buton_mare
+                    //3- buton_mic_1
+                    //4- buton_interior
+                    //5- buton_mic_2
+                    //7 -baterie
+                    //8 = Cylinder001
+                    //9 = LOGO
+                    //10 = Object004
+                    //11 = Object005 
+                    // 12 = mecanism_tigara
+
+
+                    var capac_baterie = scene.children[1].children[6];
+                    var capac_baterie_mesh = capac_baterie.children[0];
+
+//                    console.log(capac_baterie_mesh);
+//                    capac_baterie_mesh.position.x = 5;
+//                    capac_baterie_mesh.position.y= 40;
+                    var mecanism_tigara = scene.children[1].children[12];
+                    var mecanism_tigara_mesh = mecanism_tigara.children[2].children[0];
+//                    console.log(mecanism_tigara_mesh);
+                    var redcolor = new THREE.Color(255, 00, 00);
+
+                    var testMaterial = new THREE.MeshPhongMaterial({color: 0x999999, shininess: 8, specular: 0x999999, metal: true, transparent: true, opacity: 1});
+                    mecanism_tigara_mesh.material = testMaterial;
+
+
+
+
+                    var ecran = scene.children[1].children[1].children[2];
+                    var ecran_mesh = ecran.children;
+//                 
+
+
+                    var butonMare = scene.children[1].children[2].children[2];
+                    butonMare_mesh = butonMare.children;
+
+
+
+
+                    var butonMic1 = scene.children[1].children[3].children[2];
+                    butonMic1_mesh = butonMic1.children;
+//                    butonMic1.position.z = -4.05;
+//                    butonMic1.position.y = -0.05;
+//                    butonMic1.position.x = 1.5;
+
+                    var butonMic2 = scene.children[1].children[5].children[2];
+                    butonMic2_mesh = butonMic2.children;
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+
 
 
 
@@ -686,3 +928,27 @@
         </script>
     </body>
 </html>
+
+
+<!--6 is the glass--> 
+
+<!--7 is the filter without the bottle.-->
+
+<!--8 is something small... some thread , and so is 9 ! ?-->
+
+<!--10 is the battery cover/support-->
+
+<!--11 is the actual mechanism / vaporizer / disruptor-->
+
+
+<!--5 is bottom small button.-->
+
+<!--4 is  the actual battery-->
+
+<!--3 is the INNOKIN DISRUPTOR TEXT-->
+
+<!--2 is the middle small button-->
+
+<!--1 is the BIG BUTTON-->
+
+<!--0 is UNKNOWN (BACK OF BUTTON BIG-->
