@@ -46,7 +46,6 @@
         <div id="info">
             <a href="http://threejs.org" target="_blank">three.js</a> webgl - Innoking sketch  - by <a href="https://twitter.com/fernandojsg">ThePBC</a>
         </div>
-        <div id="mapCanvas" style="position: absolute; right:5px; top:5px; width:320px; height:240px;"></div>
         <div id ="leftcontrols">
 
             <button id="btn1" onclick="removeBattery();">Button1-RemoveBattery</button>
@@ -83,7 +82,7 @@
                 var disruptor;
                 var battery;
                 var container, stats, mapCanvas;
-                var leftControls, rightControls;
+                var controls, controls2;
                 var particlesData = [];
                 var camera, cameraHUD, mapCamera, scene, renderer, raycaster;
                 var positions, colors;
@@ -109,7 +108,8 @@
 //                var duration4 = 4000; //miliseconds
 //                var duration5 = 5000; //miliseconds
 //                var currentTime;
-//                var timeSpent = 0;
+//                var timeSpent = 0;        <div id="mapCanvas" style="position: absolute; right:5px; top:5px; width:320px; height:240px;"></div>
+
                 var tweenBatteryOut, tweenBatteryIn, tweenBatteryUp, tweenBatteryDown;
                 var startTime = Date.now();
 
@@ -359,7 +359,7 @@
                 function init() {
                     scene = new THREE.Scene();
                     container = document.getElementById('container');
-                    mapCanvas = document.getElementById('mapCanvas');
+//                    mapCanvas = document.getElementById('mapCanvas');
 
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
@@ -370,19 +370,7 @@
                     camera.position.y = 100;
                     scene.add(camera);
 
-                    // orthographic cameras
-//                    mapCamera = new THREE.OrthographicCamera(
-//                            window.innerWidth / -2, // Left
-//                            window.innerWidth / 2, // Right
-//                            window.innerHeight / 2, // Top
-//                            window.innerHeight / -2, // Bottom
-//                            1, // Near 
-//                            2000);           			// Far 
-                    //
-                    // orthographic cameras
                     mapCamera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 1, 1000);
-//                    mapCamera.up = new THREE.Vector3(0, 0, -1);
-//                    mapCamera.lookAt(new THREE.Vector3(0, -1, 0));
                     mapCamera.position.x = 100;
                     mapCamera.position.z = 0;
                     mapCamera.position.y = 100;
@@ -414,7 +402,11 @@
                     group = new THREE.Group();
                     scene.add(group);
 
-
+                    // SKYBOX/FOG
+                    var skyBoxGeometry = new THREE.BoxGeometry(10000, 10000, 10000);
+                    var skyBoxMaterial = new THREE.MeshBasicMaterial({color: 0x9999ff, side: THREE.BackSide});
+                    var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+                    scene.add(skyBox);
 
 
                     grupFiltru = new THREE.Group();
@@ -439,11 +431,12 @@
 
 
                     renderer = new THREE.WebGLRenderer({antialias: true});
-                    renderer.setClearColor(0xffffff, 0.4);
-                    renderer.setPixelRatio(window.devicePixelRatio);
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                    renderer.gammaInput = true;
-                    renderer.gammaOutput = true;
+                    renderer.setClearColor(0x444444, 1);
+//                    renderer.setPixelRatio(window.devicePixelRatio);
+//                    renderer.setSize(window.innerWidth, window.innerHeight);
+//                    renderer.gammaInput = true;
+//                    renderer.gammaOutput = true;
+                    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                     container.appendChild(renderer.domElement);
 //                    mapCanvas.appendChild(renderer.domElement);
 //                    stats = new Stats();
@@ -454,6 +447,7 @@
                     renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
+                    renderer.autoClear = false;
                 }
 
                 function onWindowResize() {
@@ -469,9 +463,9 @@
                 function animate() {
 
 
-                    render();
-                    requestAnimationFrame(animate);
 
+                    requestAnimationFrame(animate);
+                    render();
                     var redBox = scene.children[5];
 
                     if (redBox) {
@@ -656,7 +650,7 @@
                     renderer.render(scene, camera);
 
                     // right side
-                    renderer.setViewport(0.75 * SCREEN_WIDTH + 1, 1, 0.25 * SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
+                    renderer.setViewport(0.75 * SCREEN_WIDTH + 1, 1, 0.25 * SCREEN_WIDTH - 2, SCREEN_HEIGHT - SCREEN_HEIGHT / 4 - 2);
                     renderer.render(scene, mapCamera);
 
 
