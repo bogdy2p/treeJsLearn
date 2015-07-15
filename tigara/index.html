@@ -83,7 +83,7 @@
                 var battery;
                 var container, mapCanvas;
                 var controls, controls2;
-                var camera, mapCamera, scene, renderer, raycaster;
+                var camera, mapCamera, scene, renderer, raycaster, raycasterMap;
                 var positions, colors;
                 var linesMesh;
                 var mouseX = 0, mouseY = 0;
@@ -337,12 +337,11 @@
                 function init() {
                     scene = new THREE.Scene();
                     container = document.getElementById('container');
-//                    mapCanvas = document.getElementById('mapCanvas');
 
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
-                    camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 400);
+                    camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 600);
                     camera.position.x = 100;
                     camera.position.z = 100;
                     camera.position.y = 100;
@@ -352,13 +351,13 @@
 //                    mapCamera.position.x = 500;
 //                    mapCamera.position.z = 450;
 //                    mapCamera.position.y = 500;
-//                    scene.add(mapCamera);
-                    var customZoom = 0.1;
+//                  
+                    var customZoom = 1;
                     mapCamera = new THREE.OrthographicCamera(
-                            -640 * customZoom, // Left
-                            640 * customZoom, // Right
-                            360 * customZoom, // Top
-                            -360 * customZoom, // Bottom
+                            -64 * customZoom, // Left
+                            64 * customZoom, // Right
+                            36 * customZoom, // Top
+                            -36 * customZoom, // Bottom
                             -2000, // Near 
                             2000);           			// Far 
                     mapCamera.up = new THREE.Vector3(0, -1, 0);
@@ -366,11 +365,12 @@
 
                     mapCamera.position.x = 450;
                     mapCamera.position.z = 450;
-
+                    scene.add(mapCamera);
 
 
 
                     raycaster = new THREE.Raycaster();
+                    raycasterMap = new THREE.Raycaster();
 //                    raycaster.precision = 100;
                     // LIGHTS
 
@@ -424,7 +424,7 @@
 
 
                     renderer = new THREE.WebGLRenderer({antialias: true});
-                    renderer.setClearColor(0x555555, 1);
+                    renderer.setClearColor(0x559955, 1);
                     renderer.setPixelRatio(window.devicePixelRatio);
                     renderer.setSize(window.innerWidth, window.innerHeight);
                     renderer.gammaInput = true;
@@ -468,17 +468,21 @@
 //                    mouseVector.z = 40;
 
                     raycaster.setFromCamera(mouseVector, camera);
+                    raycasterMap.setFromCamera(mouseVector, mapCamera);
 //                    console.log(raycaster);
 //                    console.log(camera);
 //                    console.log(mouseVector);
                     var intersectedObjects = raycaster.intersectObjects(scene.children, true);
-//                    console.log(intersectedObjects);
+                    var intersectedMinimapObjects = raycasterMap.intersectObjects(scene.children, true);
+
+
+                    //                    console.log(intersectedObjects);
                     if (intersectedObjects.length > 0) {
 
                         var Object = intersectedObjects[0];
 
-                        console.log(Object.object.parent.name);
-                        console.log(Object.object.id);
+//                        console.log(Object.object.parent.name);
+//                        console.log(Object.object.id);
                         switch (Object.object.parent.name) {
 
                             case 3:
@@ -517,7 +521,9 @@
 
                     }
 
-
+                    if (intersectedMinimapObjects.length > 0) {
+                        console.log(intersectedMinimapObjects);
+                    }
                 }
 
 
@@ -603,8 +609,8 @@
                     var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
                     camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
                     mapCamera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-//                    camera.updateProjectionMatrix();
-//                    mapCamera.updateProjectionMatrix();
+                    camera.updateProjectionMatrix();
+                    mapCamera.updateProjectionMatrix();
 
                     // setViewport parameters:
                     //  lower_left_x, lower_left_y, viewport_width, viewport_height
@@ -754,6 +760,12 @@
                         batterySupport.name = "batterySupport";
                         batterySupportSkin = collada.skins[0];
                         grupBaterie.add(batterySupport);
+                        
+                        var defaultChargerMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x111199, metal: true, side: THREE.DoubleSide});
+//                        console.log(batterySupport);
+                        batterySupport.children[0].children[0].material = defaultChargerMaterial;
+                        
+                        
                         batterySupport.position.x = 5;
                         batterySupport.position.z = 0.3;
                     });
@@ -858,7 +870,7 @@
 
                     var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
                     var mecanism_tigara_mesh = mecanism_tigara.children[0];
-                    var testMaterial = new THREE.MeshPhongMaterial({color: 0xFF2222, shininess: 8, specular: 0x555555, metal: false, side: THREE.DoubleSide});
+                    var testMaterial = new THREE.MeshPhongMaterial({color: 0x222222, shininess: 8, specular: 0x443333, metal: true, side: THREE.DoubleSide});
                     mecanism_tigara_mesh.material = testMaterial;
 
 
