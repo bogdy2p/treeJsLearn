@@ -416,8 +416,7 @@
                     //Grosime,Lungime,Latime
                     setTimeout(function () {
                         basicColorize();
-                        console.log('basiccolorize');
-                        displayDisruptorOptions();
+//                        displayDisruptorOptions();
                     }, 2800);
 
 //                    var axisHelper = new THREE.AxisHelper(555);
@@ -430,7 +429,6 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                     renderer.gammaInput = true;
                     renderer.gammaOutput = true;
-                    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
                     container.appendChild(renderer.domElement);
                     renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
                     renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
@@ -454,19 +452,7 @@
 
                     requestAnimationFrame(animate);
                     render();
-                    var redBox = scene.children[5];
-
-                    if (redBox) {
-//                        redBox.position.set(camera.position.x , camera.position.y - 50, camera.position.z );
-//                        console.log(redBox.position);
-
-
-                    }
-
-
-//                    stats.update();
                     TWEEN.update();
-                    update();
 
                 }
 
@@ -476,7 +462,7 @@
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
 
-                    var mouseVector = new THREE.Vector2();
+                    var mouseVector = new THREE.Vector3();
                     mouseVector.x = 2 * (event.clientX / SCREEN_WIDTH) - 1;
                     mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
 //                    mouseVector.z = 40;
@@ -485,8 +471,10 @@
 //                    console.log(event);
 //                    console.log(raycaster.precision);
                     raycaster.setFromCamera(mouseVector, camera);
-//                    console.log(raycaster);
-                    var intersectedObjects = raycaster.intersectObjects(scene.children);
+                    console.log(raycaster);
+                    console.log(camera);
+                    console.log(mouseVector);
+                    var intersectedObjects = raycaster.intersectObjects(scene.children, true);
                     console.log(intersectedObjects);
                     if (intersectedObjects.length > 0) {
 
@@ -605,7 +593,7 @@
                         boxBlue.rotation.x += 0.001 * rotationSpeed;
                         boxBlue.rotation.y -= 0.001 * rotationSpeed;
                     }
-
+//
                     var newlightposition = camera.position;
                     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
 
@@ -641,7 +629,7 @@
                     setupTweenBatteryIn();
                     tweenBatteryUp.start();
                     setTimeout(function () {
-                        var newChargerMaterial = new THREE.MeshPhongMaterial({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true});
+                        var newChargerMaterial = new THREE.MeshPhongMaterial({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});
                         console.log(batterySupport);
                         batterySupport.children[0].children[0].material = newChargerMaterial;
                     }, 2400);
@@ -698,56 +686,6 @@
 
 
                 }
-
-                function update()
-                {
-//                    var delta = clock.getDelta(); // seconds.
-//                    var moveDistance = 200 * delta; // 200 pixels per second
-//                    var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
-
-                    // local transformations
-
-//                    // move forwards/backwards/left/right
-//                    if (keyboard.pressed("W"))
-//                        MovingCube.translateZ(-moveDistance);
-//                    if (keyboard.pressed("S"))
-//                        MovingCube.translateZ(moveDistance);
-//                    if (keyboard.pressed("Q"))
-//                        MovingCube.translateX(-moveDistance);
-//                    if (keyboard.pressed("E"))
-//                        MovingCube.translateX(moveDistance);
-//
-//                    // rotate left/right/up/down
-//                    var rotation_matrix = new THREE.Matrix4().identity();
-//                    if (keyboard.pressed("A"))
-//                        MovingCube.rotateOnAxis(new THREE.Vector3(0, 1, 0), rotateAngle);
-//                    if (keyboard.pressed("D"))
-//                        MovingCube.rotateOnAxis(new THREE.Vector3(0, 1, 0), -rotateAngle);
-//                    if (keyboard.pressed("R"))
-//                        MovingCube.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotateAngle);
-//                    if (keyboard.pressed("F"))
-//                        MovingCube.rotateOnAxis(new THREE.Vector3(1, 0, 0), -rotateAngle);
-//
-//                    if (keyboard.pressed("Z"))
-//                    {
-//                        MovingCube.position.set(0, 25.1, 0);
-//                        MovingCube.rotation.set(0, 0, 0);
-//                    }
-
-                    var relativeCameraOffset = new THREE.Vector3(0, 50, 200 + 100);
-
-//                    var cameraOffset = relativeCameraOffset.applyMatrix4(scene.matrixWorld);
-//
-//                    camera.position.x = cameraOffset.x;
-//                    camera.position.y = cameraOffset.y;
-//                    camera.position.z = cameraOffset.z;
-//                    camera.lookAt(scene.position);
-
-                    //stats.update();
-                }
-
-
-
 
                 function sticlaAction() {
                     var grupu = scene.children[1];
@@ -938,18 +876,18 @@
 
 
 
-                    var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true});
+                    var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
                     var filtru = scene.getObjectByName("filter");
                     var filter_mesh = scene.getObjectByName("Cylinder001").children[0];
                     filter_mesh.material = filter_material;
 
 
-                    var glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5});
+                    var glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
                     var filter_glass = scene.getObjectByName("filterGlass");
                     var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
                     filter_glass_mesh.material = glass_material;
 
-                    var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true});
+                    var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
                     var bigButton = scene.getObjectByName("startButton");
                     var bigButton_mesh = scene.getObjectByName("buton_mare").children[0];
                     bigButton_mesh.material = buttonsMaterial;
@@ -963,7 +901,7 @@
                     smallButton1_mesh.material = buttonsMaterial;
                     smallButton2_mesh.material = buttonsMaterial;
 
-                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0x9999AA, shininess: 10, specular: 0x7799AA, transparent: false, opacity: 0.5});
+                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0x9999AA, shininess: 10, specular: 0x7799AA, transparent: false, opacity: 0.5, side: THREE.DoubleSide});
                     var rama_ecran = scene.getObjectByName("screen");
                     var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
                     rama_ecran_mesh.material = rama_ecranMaterial;
