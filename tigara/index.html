@@ -364,21 +364,32 @@
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
-                    camera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 1, 1000);
+                    camera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 1, 400);
                     camera.position.x = 100;
                     camera.position.z = 100;
                     camera.position.y = 100;
                     scene.add(camera);
 
-                    mapCamera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 1, 1000);
-                    mapCamera.position.x = 100;
-                    mapCamera.position.z = 0;
-                    mapCamera.position.y = 100;
-                    scene.add(mapCamera);
+//                    mapCamera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 1, 1000);
+//                    mapCamera.position.x = 500;
+//                    mapCamera.position.z = 450;
+//                    mapCamera.position.y = 500;
+//                    scene.add(mapCamera);
+                    var customZoom = 0.1;
+                    mapCamera = new THREE.OrthographicCamera(
+                            -640 * customZoom, // Left
+                            640 * customZoom, // Right
+                            360 * customZoom, // Top
+                            -360 * customZoom, // Bottom
+                            -2000, // Near 
+                            2000);           			// Far 
+                    mapCamera.up = new THREE.Vector3(0, -1, 0);
+                    mapCamera.lookAt(new THREE.Vector3(0, 1, 0));
+
+                    mapCamera.position.x = 450;
+                    mapCamera.position.z = 450;
 
 
-
-//                    console.log(mapCamera);
 
 
                     raycaster = new THREE.Raycaster();
@@ -387,15 +398,18 @@
                     controls = new THREE.OrbitControls(camera, container);
                     controls.noZoom = false;
                     controls.minDistance = 15;
-                    controls.maxDistance = 200;
+                    controls.maxDistance = 180;
                     controls.noPan = true;
 
-                    controls2 = new THREE.OrbitControls(mapCamera, container);
-                    controls2.noPan = true;
-                    controls2.noZoom = true;
-//                    var dirLight = new THREE.DirectionalLight(0xffffff, 0.125);
-//                    dirLight.position.set(0, 0, 1).normalize();
-//                  scene.add(dirLight);
+//                    controls2 = new THREE.OrbitControls(mapCamera, container);
+//                    controls2.noPan = true;
+//                    controls2.noZoom = true;
+
+
+//                      new THREE.AmbientLight(0xffffff);
+                    var dirLight = new THREE.AmbientLight(0x999999, 0.125);
+                    dirLight.position.set(600, 600, 600).normalize();
+                    scene.add(dirLight);
 
                     pointLight = new THREE.PointLight(0xffffff, 0.5);
                     pointLight.position.set(20, 20, 20);
@@ -404,10 +418,10 @@
                     scene.add(group);
 
                     // SKYBOX/FOG
-                    var skyBoxGeometry = new THREE.BoxGeometry(10000, 10000, 10000);
-                    var skyBoxMaterial = new THREE.MeshBasicMaterial({color: 0x9999ff, side: THREE.BackSide});
-                    var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
-                    scene.add(skyBox);
+//                    var skyBoxGeometry = new THREE.BoxGeometry(10000, 10000, 10000);
+//                    var skyBoxMaterial = new THREE.MeshBasicMaterial({color: 0x9999ff, side: THREE.BackSide});
+//                    var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+//                    scene.add(skyBox);
 
 
                     grupFiltru = new THREE.Group();
@@ -427,12 +441,12 @@
                         displayDisruptorOptions();
                     }, 2800);
 
-                    var axisHelper = new THREE.AxisHelper(255);
+                    var axisHelper = new THREE.AxisHelper(555);
                     scene.add(axisHelper);
 
 
                     renderer = new THREE.WebGLRenderer({antialias: true});
-                    renderer.setClearColor(0x444444, 1);
+                    renderer.setClearColor(0x555555, 1);
 //                    renderer.setPixelRatio(window.devicePixelRatio);
 //                    renderer.setSize(window.innerWidth, window.innerHeight);
 //                    renderer.gammaInput = true;
@@ -597,41 +611,25 @@
 
                 function render() {
 
-////                    var time = Date.now() * 0.001;
-//////                    camera.up = new THREE.Vector3(0,0,0);
-////                    cameraGroup.lookAt(scene.position);
-//////                    group.rotation.y = time * 0.1;
-//////                    boxRed = scene.children[5];
-//////                    if (boxRed) {
-//////                        boxRed.position.x = camera.position.x;
-//////                    }
-////
-////                    renderer.render(scene, camera);
-////                    var newlightposition = camera.position;
-////                    pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
-////
-//////                    console.log(camera);
-//
-//                    var w = window.innerWidth, h = window.innerHeight;
-////
-////                    // setViewport parameters:
-////                    //  lower_left_x, lower_left_y, viewport_width, viewport_height
-//                    renderer.setViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//                    camera.lookAt(scene.position);
-//                    renderer.clear();
-//
-//
-//
-//                    // full display
-////                     renderer.setViewport( 0, 0, SCREEN_WIDTH - 2, 0.5 * SCREEN_HEIGHT - 2 );
-////                    camera.lookAt(scene.position);
-//                    renderer.render(scene, camera);
-//                    mapCamera.lookAt(scene.position);
-//                    // minimap (overhead orthogonal camera)
-//                    //  lower_left_x, lower_left_y, viewport_width, viewport_height
-//                    renderer.setViewport(900, 000, 600, 600);
-////                    renderer.render(scene, mapCamera);
-////                    renderer.clear();
+                    var rotationSpeed = 10;
+                    boxRed = scene.children[7];
+                    if (boxRed) {
+                        boxRed.rotation.x += 0.001 * rotationSpeed;
+                        boxRed.rotation.y += 0.001 * rotationSpeed;
+                    }
+                    boxGreen = scene.children[8];
+                    if (boxGreen) {
+                        boxGreen.rotation.x += 0.001 * rotationSpeed;
+                        boxGreen.rotation.z += 0.001 * rotationSpeed;
+                    }
+                     boxBlue = scene.children[9];
+                    if (boxBlue) {
+                        boxBlue.rotation.x += 0.001 * rotationSpeed;
+                        boxBlue.rotation.y -= 0.001 * rotationSpeed;
+                    }
+                    
+                    var newlightposition = camera.position;
+                    pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
 
 
                     var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
@@ -688,6 +686,8 @@
 
 
                 function test() {
+
+                    console.log(scene);
 
 //                    var linemat = new THREE.LineBasicMaterial({color: 0x0055FF});
 //
@@ -920,12 +920,15 @@
 //                    var object = scene.children[1].children[i]; //.children[2];
 //                        console.log(object);
 //                    }
-                    console.log(scene);
-                    var mecanism_tigara = scene.children[2].children[4].children[2];
+
+                    var theNumber = 3;
+
+//                    console.log(scene);
+                    var mecanism_tigara = scene.children[theNumber].children[4].children[2];
                     var mecanism_tigara_mesh = mecanism_tigara.children[0];
                     var testMaterial = new THREE.MeshPhongMaterial({color: 0xFF2222, shininess: 8, specular: 0x555555, metal: false});
                     mecanism_tigara_mesh.material = testMaterial;
-                    var grupu = scene.children[2];
+                    var grupu = scene.children[theNumber];
                     var grupuchildren = grupu.children;
 
                     for (i = 0; i < 5; i++) {
@@ -943,21 +946,21 @@
 
 
                     var filter_material = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 30, specular: 0xDDDDDD, metal: true});
-                    var filtru = scene.children[2].children[1].children[2].children[0];
+                    var filtru = scene.children[theNumber].children[1].children[2].children[0];
 //                    console.log(filtru);
                     filtru.material = filter_material;
 
 
                     var glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 2, specular: 0xDDDDDD, transparent: true, opacity: 0.2});
-                    var filter_glass = scene.children[2].children[0].children[2].children[0];
+                    var filter_glass = scene.children[theNumber].children[0].children[2].children[0];
                     filter_glass.material = glass_material;
 
                     var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true});
-                    var bigButton = scene.children[2].children[1].children[2].children[0];
+                    var bigButton = scene.children[theNumber].children[1].children[2].children[0];
                     bigButton.material = buttonsMaterial;
 
-                    var smallButton1 = scene.children[2].children[2].children[2].children[0];
-                    var smallButton2 = scene.children[2].children[3].children[2].children[0];
+                    var smallButton1 = scene.children[theNumber].children[2].children[2].children[0];
+                    var smallButton2 = scene.children[theNumber].children[3].children[2].children[0];
 //                    console.log(smallButton2);
                     smallButton1.material = buttonsMaterial;
                     smallButton2.material = buttonsMaterial;
@@ -978,17 +981,25 @@
                     var boxBlue = new THREE.Mesh(boxGeometry, blueMaterial);
 
                     scene.add(boxRed);
-//                    scene.add(boxGreen);
-//                    scene.add(boxBlue);
-                    boxRed.position.x = camera.position.x - 200;
-                    boxRed.position.y = camera.position.y - 100;
-                    boxRed.position.z = camera.position.z - 200;
-//                    boxGreen.position.x = camera.position.x - 200;
-//                    boxGreen.position.y = camera.position.y - 100;
-//                    boxGreen.position.z = camera.position.z - 250;
-//                    boxBlue.position.x = camera.position.x - 250;
-//                    boxBlue.position.y = camera.position.y - 100;
-//                    boxBlue.position.z = camera.position.z - 300;
+                    scene.add(boxGreen);
+                    scene.add(boxBlue);
+                    boxRed.position.x = 450;
+                    boxRed.position.z = 410;
+                    boxRed.rotation.x = 0.5;
+                    boxRed.rotation.y = 0.5;
+//                    boxRed.position.y = 450;
+
+                    boxGreen.position.x = 450;
+                    boxGreen.position.z = 450;
+                    boxGreen.rotation.x = 0.5;
+                    boxGreen.rotation.y = 0.5;
+
+                    boxBlue.position.x = 450;
+                    boxBlue.position.z = 490;
+
+                    boxBlue.rotation.x = 0.5;
+                    boxBlue.rotation.y = 0.5;
+
 //                    console.log(camera.position);
 //                    console.log(box1);
 //
