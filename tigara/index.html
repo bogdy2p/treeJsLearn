@@ -467,20 +467,23 @@
                     mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
 //                    mouseVector.z = 40;
 
-//                    console.log(mouseVector);
-//                    console.log(event);
-//                    console.log(raycaster.precision);
                     raycaster.setFromCamera(mouseVector, camera);
-                    console.log(raycaster);
-                    console.log(camera);
-                    console.log(mouseVector);
+//                    console.log(raycaster);
+//                    console.log(camera);
+//                    console.log(mouseVector);
                     var intersectedObjects = raycaster.intersectObjects(scene.children, true);
-                    console.log(intersectedObjects);
+//                    console.log(intersectedObjects);
                     if (intersectedObjects.length > 0) {
 
                         var Object = intersectedObjects[0];
+
+                        console.log(Object.object.parent.name);
                         console.log(Object.object.id);
-                        switch (Object.object.id) {
+                        switch (Object.object.parent.name) {
+
+                            case 3:
+                                console.log("You clicked butonmare");
+                                break;
 
                             case 8:
                                 console.log("That's the battery mate!");
@@ -488,17 +491,16 @@
                             case 9:
                                 console.log("You clicked the disruptor");
                                 break;
-                            case 10:
+                            case 'buton_mare':
                                 console.log("Lighter should START");
                                 startButtonClick();
 
                                 break;
-                            case 11:
+                            case 'buton_mic_1':
                                 console.log("You pressed the +");
                                 plusButtonClick();
-
                                 break;
-                            case 12:
+                            case 'buton_mic_2':
                                 console.log("You pressed the -");
                                 minusButtonClick();
                                 break;
@@ -509,7 +511,7 @@
                                 console.log("Why click the Filter ?");
                                 break;
                             default:
-                                console.log("nothing clicked");
+                                console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
                                 break;
                         }
 
@@ -551,24 +553,24 @@
                 function startButtonClick() {
 
                     console.log("ENTERED STARTBUTTON CLICKED");
-                    startButton.position.x += 1;
+                    startButton.position.x += 0.3;
                 }
 
                 function plusButtonClick() {
                     console.log("plusbuttonclick function");
-                    plusButtonCylinder.position.x += 1;
+                    buttonSmall1.position.x += 0.3;
                 }
 
                 function minusButtonClick() {
                     console.log("Minusbutton click function");
-                    minusButtonCylinder.position.x += 1;
+                    buttonSmall2.position.x += 0.3;
                 }
 
                 function resetButtonPositions() {
 
-//                    startButton.position.x = -7;
-//                    minusButtonCylinder.position.x = -7;
-//                    plusButtonCylinder.position.x = -7;
+                    startButton.position.x = 1.5;
+                    buttonSmall1.position.x = 1.5;
+                    buttonSmall2.position.x = 1.5;
 
                 }
 
