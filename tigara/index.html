@@ -126,8 +126,6 @@
 
                 function setupTweenBatteryOut()
                 {
-                    // 
-
                     batteryGroup = scene.getObjectByName("grupBaterie");
 
                     var update = function () {
@@ -142,44 +140,31 @@
                     // remove previous tweens if needed
                     TWEEN.removeAll();
 
-                    // convert the string from dat-gui into tween.js functions 
                     var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-//                    console.log(easing2);
-//                    console.log(easing);
-//                    
-//                    
-//                    
-                    // build the tween lift the battery from the support
 
+                    // build the tween lift the battery from the support
                     tweenBatteryUp = new TWEEN.Tween(current)
                             .to({z: +userOpts.liftoff}, userOpts.duration / 2)
                             .delay(userOpts.delay)
                             .easing(easing2)
                             .onUpdate(update);
-
-
-
                     tweenBatteryOut = new TWEEN.Tween(current)
                             .to({x: +userOpts.range}, userOpts.duration)
                             .delay(userOpts.delay)
                             .easing(easing2)
                             .onUpdate(update);
-
                     tweenBatteryUp.chain(tweenBatteryOut);
 
                     // start the first
-//                    tweenHead.start();
                 }
 
                 function setupTweenBatteryIn()
                 {
-                    // 
                     var complete = function () {
                         console.log("BATTERY ATTACHED. PLAYING A CLICK SOUND !");
                         setTimeout(function () {
 //                            alert("PLAYING CLICK SOUND NOW");
                         }, 300);
-
                     }
 
                     var update = function () {
@@ -196,10 +181,9 @@
                     var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
 
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
-//                    console.log(easing);
                     // build the tween to go ahead
                     tweenBatteryIn = new TWEEN.Tween(current)
-                            .to({x: 0, y:0 , z: 0}, userOpts.duration)
+                            .to({x: 0, y: 0, z: 0}, userOpts.duration)
                             .delay(userOpts.delay)
                             .easing(quintic)
                             .onUpdate(update);
@@ -210,24 +194,15 @@
                             .easing(easing)
                             .onUpdate(update)
                             .onComplete(complete);
-//                    var tweenBack = new TWEEN.Tween(current)
-//                            .to({x: -userOpts.range}, userOpts.duration)
-//                            .delay(userOpts.delay)
-//                            .easing(easing)
-//                            .onUpdate(update);
                     tweenBatteryIn.chain(tweenBatteryDown);
                     // after tweenHead do tweenBack
 //                    tweenHead.chain(tweenBack);
                     // after tweenBack do tweenHead, so it is cycling
 //                    tweenBack.chain(tweenHead);
-
-                    // start the first
-//                    tweenHead.start();
                 }
 
                 function setupTweenFilterRotate()
                 {
-                    // 
                     var update = function () {
                         filtruTigara.rotation.y = current.rotY;
                         filtruTigara.position.x = current.x;
@@ -410,11 +385,14 @@
 //                    controls2.noZoom = true;
 
 
-//                      new THREE.AmbientLight(0xffffff);
-                    var ambientLight = new THREE.AmbientLight(0x999999, 0.0525);
-                    ambientLight.position.set(600, 600, 600).normalize();
-                    ambientLight.name = "luminaAmbientala";
-                    scene.add(ambientLight);
+                    var luminaDirectionala1 = new THREE.DirectionalLight(0xffffff, 0.4);
+                    luminaDirectionala1.position.set(600, 600, 600);
+                    luminaDirectionala1.name = "luminaDirectionala1";
+                    scene.add(luminaDirectionala1);
+                    var luminaDirectionala2 = new THREE.DirectionalLight(0xffffff, 0.4);
+                    luminaDirectionala2.position.set(600, -600, 600);
+                    luminaDirectionala2.name = "luminaDirectionala2";
+                    scene.add(luminaDirectionala2);
 
                     pointLight = new THREE.PointLight(0xcccccc, 0.5);
                     pointLight.position.set(20, 20, 20);
@@ -565,8 +543,6 @@
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
-
-
                 }
 
                 function onDocumentMouseOut(event) {
@@ -803,7 +779,6 @@
 
                     var objectScale = 2;
 
-
                     var colladaLoader = new THREE.ColladaLoader();
                     //LOADING ORDER
                     //1. DISRUPTOR
@@ -844,6 +819,9 @@
                     });
                     colladaLoader.load('js/daes/Sipca.dae', function colladaReady(collada) {
                         sipca = collada.scene;
+//                        console.log(sipca);
+//                        sipca.children[0] = null;
+//                        console.log(sipca);
                         sipca.name = "filter";
                         sipcaSkin = collada.skins[0];
                         grupFiltru.add(sipca);
@@ -862,9 +840,12 @@
                         ecran.name = "screen";
                         ecranSkin = collada.skins[0];
                         group.add(ecran);
+                        ecran.scale.x = 1.05;
+                        ecran.scale.y = 1.05;
+                        ecran.scale.z = 1.05;
                         ecran.position.z = 4.5;
                         ecran.position.y = -0.15;
-                        ecran.position.x = -5;
+                        ecran.position.x = -4.75;
                     });
                     colladaLoader.load('js/daes/ButonMare.dae', function colladaReady(collada) {
                         startButton = collada.scene;
@@ -934,57 +915,59 @@
 
 
                 function basicColorize() {
-//                    for (i = 0; i < 9; i++) {
-//                    var object = scene.children[1].children[i]; //.children[2];
-//                        console.log(object);
-//                    }
 
-                    var theNumber = 3;
-
-//                    console.log(scene);
-                    var mecanism_tigara = scene.children[theNumber].children[4].children[2];
+                    var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
                     var mecanism_tigara_mesh = mecanism_tigara.children[0];
                     var testMaterial = new THREE.MeshPhongMaterial({color: 0xFF2222, shininess: 8, specular: 0x555555, metal: false, side: THREE.DoubleSide});
                     mecanism_tigara_mesh.material = testMaterial;
 
-                    var grupu = scene.children[theNumber];
+
+
+                    var grupu = scene.getObjectByName("grupPrincipal");
                     var grupuchildren = grupu.children;
 
                     for (i = 0; i < 5; i++) {
                         var lampa = grupuchildren[i].children[1];
-//                        console.log(lampa);
-                        lampa.visible = false;
+                        lampa.visible = true;
                         lampa.position.x -= 0.1;
                         var pointlight = lampa.children[0];
                         pointlight.intensity = 1;
-                        pointlight.visible = false;
+                        pointlight.visible = true;
                     }
-//                    console.log(mecanism_tigara);
 
 
 
 
-                    var filter_material = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 30, specular: 0xDDDDDD, metal: true, side: THREE.DoubleSide});
-                    var filtru = scene.children[theNumber + 1].children[1].children[2].children[0];
-//                    var filtru = scene.children[theNumber];
-//                    console.log(filtru);
-                    filtru.material = filter_material;
+                    var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true});
+                    var filtru = scene.getObjectByName("filter");
+                    var filter_mesh = scene.getObjectByName("Cylinder001").children[0];
+                    filter_mesh.material = filter_material;
 
 
-                    var glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 2, specular: 0xDDDDDD, transparent: true, opacity: 0.2, side: THREE.DoubleSide});
+                    var glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5});
+                    var filter_glass = scene.getObjectByName("filterGlass");
+                    var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
+                    filter_glass_mesh.material = glass_material;
 
-                    var filter_glass = scene.children[theNumber].children[0].children[2].children[0];
-                    filter_glass.material = glass_material;
+                    var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true});
+                    var bigButton = scene.getObjectByName("startButton");
+                    var bigButton_mesh = scene.getObjectByName("buton_mare").children[0];
+                    bigButton_mesh.material = buttonsMaterial;
 
-                    var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
-                    var bigButton = scene.children[theNumber].children[1].children[2].children[0];
-                    bigButton.material = buttonsMaterial;
+                    var smallButton1 = scene.getObjectByName("smallButton1");
+                    var smallButton1_mesh = scene.getObjectByName("buton_mic_1").children[0];
 
-                    var smallButton1 = scene.children[theNumber].children[2].children[2].children[0];
-                    var smallButton2 = scene.children[theNumber].children[3].children[2].children[0];
+                    var smallButton2 = scene.getObjectByName("smallButton2");
+                    var smallButton2_mesh = scene.getObjectByName("buton_mic_2").children[0];
 //                    console.log(smallButton2);
-                    smallButton1.material = buttonsMaterial;
-                    smallButton2.material = buttonsMaterial;
+                    smallButton1_mesh.material = buttonsMaterial;
+                    smallButton2_mesh.material = buttonsMaterial;
+
+                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0x9999AA, shininess: 10, specular: 0x7799AA, transparent: false, opacity: 0.5});
+                    var rama_ecran = scene.getObjectByName("screen");
+                    var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
+                    rama_ecran_mesh.material = rama_ecranMaterial;
+//                    console.log(ecran);
 
                 }
 
@@ -1010,17 +993,14 @@
                     boxRed.position.z = 410;
                     boxRed.rotation.x = 0.5;
                     boxRed.rotation.y = 0.5;
-
                     boxGreen.position.x = 450;
                     boxGreen.position.z = 450;
                     boxGreen.rotation.x = 0.5;
                     boxGreen.rotation.y = 0.5;
-
                     boxBlue.position.x = 450;
                     boxBlue.position.z = 490;
                     boxBlue.rotation.x = 0.5;
                     boxBlue.rotation.y = 0.5;
-
                 }
 
 
