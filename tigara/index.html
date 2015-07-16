@@ -48,6 +48,14 @@
         </div>
         <div id ="leftcontrols">
 
+
+            <button id="btn2" onclick="changeMecanismColor('black');">M.Black</button>
+            <button id="btn2" onclick="changeMecanismColor('gold');">M.Gold</button>
+            <button id="btn2" onclick="changeMecanismColor('silver');">M.Silver</button>
+            <button id="btn2" onclick="changeBatteryColor('black');">Bat.Black</button>
+            <button id="btn2" onclick="changeBatteryColor('blue');">Bat.Blue</button>
+            <button id="btn2" onclick="changeBatteryColor('pink');">Bat.Pink</button>
+
             <button id="btn1" onclick="removeBattery();">Button1-RemoveBattery</button>
 
             <button id="btn2" onclick="test();">TEST</button>
@@ -55,12 +63,7 @@
             <button id="btn4" onclick="displayDisruptorOptions();">DisplayDisruptorOptions</button>
             <button id="btn5" onclick="sticlaAction();">STICLA</button>
             <button id="btn6" onclick="disrupter();">DISRUPTOR</button>
-
-
-
-
-
-            aAAAAAAAAAAAAAAAAAAAAAA
+            aAAAAAA
         </div>
         <div id ="rightcontrols"></div>
 
@@ -342,9 +345,9 @@
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
                     camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 600);
-                    camera.position.x = 100;
+                    camera.position.x = -120;
                     camera.position.z = 100;
-                    camera.position.y = 100;
+                    camera.position.y = -80;
                     scene.add(camera);
 
 //                    mapCamera = new THREE.PerspectiveCamera(45, ASPECT_RATIO, 1, 1000);
@@ -376,7 +379,7 @@
 
                     controls = new THREE.OrbitControls(camera, container);
                     controls.noZoom = false;
-                    controls.minDistance = 15;
+                    controls.minDistance = 80;
                     controls.maxDistance = 180;
                     controls.noPan = true;
 
@@ -745,6 +748,10 @@
                         disruptor.name = "disruptor";
                         group.add(disruptor);
                         disruptor.position.x = 0.1;
+                        console.log(disruptor);
+                        var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                        disruptor.children[2].children[0].material = defaultBatterySupportMaterial;
+
 
                     });
                     colladaLoader.load('js/daes/Baterie.dae', function colladaReady(collada) {
@@ -760,12 +767,14 @@
                         batterySupport.name = "batterySupport";
                         batterySupportSkin = collada.skins[0];
                         grupBaterie.add(batterySupport);
-                        
-                        var defaultChargerMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x111199, metal: true, side: THREE.DoubleSide});
+
+                        var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x222299, metal: true, side: THREE.DoubleSide});
+                        var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
+                        var blueBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide});
 //                        console.log(batterySupport);
-                        batterySupport.children[0].children[0].material = defaultChargerMaterial;
-                        
-                        
+                        batterySupport.children[0].children[0].material = blueBatterySupportMaterial;
+
+
                         batterySupport.position.x = 5;
                         batterySupport.position.z = 0.3;
                     });
@@ -871,8 +880,16 @@
                     var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
                     var mecanism_tigara_mesh = mecanism_tigara.children[0];
                     var testMaterial = new THREE.MeshPhongMaterial({color: 0x222222, shininess: 8, specular: 0x443333, metal: true, side: THREE.DoubleSide});
-                    mecanism_tigara_mesh.material = testMaterial;
 
+
+                    var darkBlackUnpolished = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                    var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
+                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xE7DDD3, shininess: 50, specular: 0xE7DDD3, metal: true, side: THREE.DoubleSide});
+                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
+
+                    mecanism_tigara_mesh.material = darkBlackUnpolished;
+                    mecanism_tigara_mesh.material = goldPolished;
+                    mecanism_tigara_mesh.material = silverPolished;
 
 
                     var grupu = scene.getObjectByName("grupPrincipal");
@@ -956,7 +973,68 @@
                 }
 
 
+                function mecanismBlack() {
+                    var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
+                    var mecanism_tigara_mesh = mecanism_tigara.children[0];
+                    var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                    mecanism_tigara_mesh.material = blackBatteryMaterial;
+                }
 
+                function changeMecanismColor(color) {
+                    console.log("attempting to change mechanism color to " + color);
+                    var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
+                    switch (color) {
+                        case "black":
+                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                            mecanism_tigara_mesh.material = blackBatteryMaterial;
+                            break;
+                        case "gold":
+                            var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
+                            mecanism_tigara_mesh.material = goldPolished;
+                            break;
+                        case "silver":
+                            var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
+                            mecanism_tigara_mesh.material = silverPolished;
+                            break;
+                        default:
+                            console.log("The colors you must chose are : black, gold or silver");
+                            break;
+                    }
+                }
+
+
+                function changeBatteryColor(color) {
+                    console.log("attempting to change batery cover color to " + color);
+                    var batterySupport_mesh = batterySupport.children[0].children[0];
+                    switch (color) {
+                        case "black":
+                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                            batterySupport_mesh.material = blackBatteryMaterial;
+                            break;
+                        case "blue":
+                            var blueBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide});
+                            batterySupport_mesh.material = blueBatterySupportMaterial;
+                            break;
+                        case "pink":
+                            var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
+                            batterySupport_mesh.material = pinkBatterySupportMaterial;
+                            break;
+                        default:
+                            console.log("The colors you must chose are : black, blue or pink");
+                            break;
+                    }
+                }
+                function batteryBlack() {
+
+                    var darkBlackUnpolished = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                    var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
+                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xE7DDD3, shininess: 50, specular: 0xE7DDD3, metal: true, side: THREE.DoubleSide});
+                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
+
+
+                    var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                    batterySupport.children[0].children[0].material = blackBatteryMaterial;
+                }
 
 
 
