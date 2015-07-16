@@ -77,6 +77,10 @@
         <script src="js/Tween.js"></script>
         <script src="dat-gui/build/DAT.GUI.js"></script>
 
+
+        <script src="js/ParticleEngine.js"></script>
+        <script src="js/ParticleEngineExamples.js"></script>
+
         <script>
 
                 var group, grupFiltru, grupBaterie, group2, group3;
@@ -98,7 +102,7 @@
                 var windowHalfX = window.innerWidth / 2;
                 var windowHalfY = window.innerHeight / 2;
                 var pointLight;
-
+                var startButtonCounter = 0;
 
                 var chargerMaterial;
 
@@ -397,7 +401,7 @@
                     luminaDirectionala2.name = "luminaDirectionala2";
                     scene.add(luminaDirectionala2);
 
-                    pointLight = new THREE.PointLight(0xcccccc, 0.5);
+                    pointLight = new THREE.PointLight(0xcccccc, 0.3);
                     pointLight.position.set(20, 20, 20);
                     scene.add(pointLight);
                     group = new THREE.Group();
@@ -501,7 +505,8 @@
                             case 'buton_mare':
                                 console.log("Lighter should START");
                                 startButtonClick();
-
+                                startButtonCounter += 1;
+                                playButonMareAction();
                                 break;
                             case 'buton_mic_1':
                                 console.log("You pressed the +");
@@ -867,7 +872,17 @@
                     grupBaterie.scale.y = 2;
                     grupBaterie.scale.z = 2;
 
+                    //Actually create the screen
+                    //lcdScreen
+                    var lcdScreenGeometry = new THREE.PlaneGeometry(7.5, 2.5, 32, 32);
+                    var lcdScreenMaterial = new THREE.MeshPhongMaterial({color: 0x6B7285, side: THREE.DoubleSide});
+                    var lcdScreen = new THREE.Mesh(lcdScreenGeometry, lcdScreenMaterial);
 
+                    lcdScreen.rotation.y = Math.PI / 2;
+                    lcdScreen.position.x = -5.1; // adancime
+                    lcdScreen.position.z = 8.75;  //Stanga dreapta
+                    lcdScreen.position.y = -0.15; //inaltime
+                    group.add(lcdScreen);
 
 
                 }
@@ -894,15 +909,16 @@
 
                     var grupu = scene.getObjectByName("grupPrincipal");
                     var grupuchildren = grupu.children;
+                    console.log(grupuchildren);
 
-                    for (i = 0; i < 5; i++) {
-                        var lampa = grupuchildren[i].children[1];
-                        lampa.visible = true;
-                        lampa.position.x -= 0.1;
-                        var pointlight = lampa.children[0];
-                        pointlight.intensity = 1;
-                        pointlight.visible = true;
-                    }
+//                    for (i = 1; i <= 5; i++) {
+//                        var lampa = grupuchildren[i].children[1];
+//                        lampa.visible = false;
+//                        lampa.position.x -= 0.1;
+//                        var pointlight = lampa.children[0];
+//                        pointlight.intensity = 1;
+//                        pointlight.visible = false;
+//                    }
 
 
 
@@ -932,7 +948,7 @@
                     smallButton1_mesh.material = buttonsMaterial;
                     smallButton2_mesh.material = buttonsMaterial;
 
-                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0x9999AA, shininess: 10, specular: 0x7799AA, transparent: false, opacity: 0.5, side: THREE.DoubleSide});
+                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 10, specular: 0xFFFFCC, side: THREE.DoubleSide});
                     var rama_ecran = scene.getObjectByName("screen");
                     var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
                     rama_ecran_mesh.material = rama_ecranMaterial;
@@ -1031,6 +1047,18 @@
                             console.log("The colors you must chose are : black, blue or pink");
                             break;
                     }
+                }
+
+                function playButonMareAction() {
+                    console.log(startButtonCounter);
+
+                    if (startButtonCounter % 6 == 0) {
+                        alert("SIX Times Press");
+                    } else if (startButtonCounter % 3 == 0) {
+                        alert("Three Times Press");
+
+                    }
+
                 }
 
 
