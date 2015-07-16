@@ -78,14 +78,15 @@
         <script src="dat-gui/build/DAT.GUI.js"></script>
 
 
-        <script src="js/ParticleEngine.js"></script>
-        <script src="js/ParticleEngineExamples.js"></script>
+        <script src="js/ShaderParticles.min.js"></script>
+        <script src="js/ShaderParticleGroup.js"></script>
+        <script src="js/ShaderParticleEmitter.js"></script>
 
         <script>
 
                 var group, grupFiltru, grupBaterie, group2, group3;
 
-
+                var smoke;
                 var disruptor;
                 var battery;
                 var container, mapCanvas;
@@ -115,6 +116,27 @@
 
                 var tweenBatteryOut, tweenBatteryIn, tweenBatteryUp, tweenBatteryDown;
                 var startTime = Date.now();
+
+
+
+//                var particles = [];
+//                var particleCount = 30;
+//                var maxVelocity = 2;
+//                var targetFPS = 33;
+//                var imageObj = new Image();
+//                imageObj.onload = function () {
+//                    particles.forEach(function (particle) {
+//                        particle.setImage(imageObj);
+//                    });
+//                };
+//
+//                imageObj.src = "images/smokeparticle.png"
+
+
+                var emitter, particleGroup;
+
+
+
 
 
                 var userOpts = {
@@ -344,7 +366,7 @@
                 function init() {
                     scene = new THREE.Scene();
                     container = document.getElementById('container');
-
+                    clock = new THREE.Clock();
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
@@ -442,7 +464,40 @@
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
                     renderer.autoClear = false;
+
+
                 }
+
+                function initParticles() {
+                    particleGroup = new SPE.Group({
+                        texture: THREE.ImageUtils.loadTexture('images/smokeparticle.png'),
+                        maxAge: 5,
+                        hasPerspective: true,
+                        colorize: true
+                    });
+
+                    emitter = new SPE.Emitter({
+                        position: new THREE.Vector3(-4, 0, 75),
+                        positionSpread: new THREE.Vector3(0, 0, 0),
+                        acceleration: new THREE.Vector3(0, 0, 30),
+                        accelerationSpread: new THREE.Vector3(0, 0, 10),
+                        velocity: new THREE.Vector3(0, 0, 0),
+                        velocitySpread: new THREE.Vector3(20, 20, 20),
+                        colorStart: new THREE.Color(0x111111),
+                        colorEnd: new THREE.Color(0x000000),
+                        sizeStart: 25,
+                        sizeEnd: 500,
+                        particleCount: 100,
+                    });
+                    
+                    particleGroup.addEmitter(emitter);
+                    scene.add(particleGroup.mesh);
+
+//                    document.querySelector('.numParticles').textContent =
+//                            'Total particles: ' + emitter.particleCount;
+                }
+
+
 
                 function onWindowResize() {
 
@@ -458,9 +513,34 @@
 
 
                     requestAnimationFrame(animate);
-                    render();
+                    render(clock.getDelta());
                     TWEEN.update();
 
+                }
+
+                function restartEngine(parameters)
+                {
+//                    resetCamera();
+
+                    engine.destroy();
+                    engine = new ParticleEngine();
+                    engine.setValues(parameters);
+                    engine.initialize();
+                }
+
+                function resetCamera()
+                {
+                    // CAMERA
+                    var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+                    var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+                    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+                    //camera.up = new THREE.Vector3( 0, 0, 1 );
+                    camera.position.set(0, 200, 400);
+                    camera.lookAt(scene.position);
+                    scene.add(camera);
+
+                    controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    THREEx.WindowResize(renderer, camera);
                 }
 
                 function onDocumentMouseDown(event) {
@@ -511,6 +591,7 @@
                             case 'buton_mic_1':
                                 console.log("You pressed the +");
                                 plusButtonClick();
+                                restartEngine(Examples.smoke);
                                 break;
                             case 'buton_mic_2':
                                 console.log("You pressed the -");
@@ -588,8 +669,10 @@
 
                 }
 
-                function render() {
-
+                function render(dt) {
+                    if (particleGroup) {
+                        particleGroup.tick(dt);
+                    }
                     var rotationSpeed = 10;
                     boxRed = scene.getObjectByName("RedBox");
                     boxGreen = scene.getObjectByName("GreenBox");
@@ -721,7 +804,7 @@
                     console.log(scene);
                     var grupbaterie = scene.getObjectByName("grupBaterie");
                     grupbaterie.position.z += 5;
-
+                    initParticles();
 
                 }
 
@@ -753,7 +836,6 @@
                         disruptor.name = "disruptor";
                         group.add(disruptor);
                         disruptor.position.x = 0.1;
-                        console.log(disruptor);
                         var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
                         disruptor.children[2].children[0].material = defaultBatterySupportMaterial;
 
@@ -776,7 +858,6 @@
                         var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x222299, metal: true, side: THREE.DoubleSide});
                         var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
                         var blueBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide});
-//                        console.log(batterySupport);
                         batterySupport.children[0].children[0].material = blueBatterySupportMaterial;
 
 
@@ -785,9 +866,6 @@
                     });
                     colladaLoader.load('js/daes/Sipca.dae', function colladaReady(collada) {
                         sipca = collada.scene;
-//                        console.log(sipca);
-//                        sipca.children[0] = null;
-//                        console.log(sipca);
                         sipca.name = "filter";
                         sipcaSkin = collada.skins[0];
                         grupFiltru.add(sipca);
@@ -909,7 +987,7 @@
 
                     var grupu = scene.getObjectByName("grupPrincipal");
                     var grupuchildren = grupu.children;
-                    console.log(grupuchildren);
+//                    console.log(grupuchildren);
 
 //                    for (i = 1; i <= 5; i++) {
 //                        var lampa = grupuchildren[i].children[1];
@@ -1023,7 +1101,7 @@
                     console.log("attempting to change batery cover color to " + color);
                     var batterySupport_mesh = batterySupport.children[0].children[0];
                     var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
-                    console.log(filter_glass_mesh);
+//                    console.log(filter_glass_mesh);
                     switch (color) {
                         case "black":
                             var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
@@ -1050,12 +1128,23 @@
                 }
 
                 function playButonMareAction() {
-                    console.log(startButtonCounter);
+//                    console.log(startButtonCounter);
 
                     if (startButtonCounter % 6 == 0) {
-                        alert("SIX Times Press");
+//                        alert("SIX Times Press");
+                        console.log(scene);
+                        grupParticule = scene.getObjectByProperty('type','PointCloud');
+                        console.log(grupParticule);
+                        emitter = null;
+                        particleGroup = null;
+//                        scene.removeChild(grupParticule);
+                        scene.remove(grupParticule);
+//                        .getObjectByName("particleGroup");
+                        
+                        
                     } else if (startButtonCounter % 3 == 0) {
-                        alert("Three Times Press");
+//                        alert("Three Times Press");
+                        initParticles();
 
                     }
 
