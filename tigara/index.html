@@ -605,6 +605,7 @@
                                 break;
                             default:
                                 console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
+                                console.log(Object);
                                 break;
                         }
 
@@ -675,23 +676,31 @@
                     }
                     var rotationSpeed = 10;
                     boxRed = scene.getObjectByName("RedBox");
-                    boxGreen = scene.getObjectByName("GreenBox");
-                    boxBlue = scene.getObjectByName("BlueBox");
+//                    boxGreen = scene.getObjectByName("GreenBox");
+//                    boxBlue = scene.getObjectByName("BlueBox");
 //                    boxRed = scene.children[7];
                     if (boxRed) {
-                        boxRed.rotation.x += 0.001 * rotationSpeed;
-                        boxRed.rotation.y += 0.001 * rotationSpeed;
+                        
+                        boxRed.position.copy(camera.position);
+//                        boxRed.position.x += 40;
+                        boxRed.rotation.copy(camera.rotation);
+                        boxRed.updateMatrix();
+                        boxRed.translateZ( - 100 );
+                        boxRed.translateX( 40 );
+                        boxRed.translateY( 20 );
+//                        boxRed.rotation.x += 0.001 * rotationSpeed;
+//                        boxRed.rotation.y += 0.001 * rotationSpeed;
                     }
-
-                    if (boxGreen) {
-                        boxGreen.rotation.x += 0.001 * rotationSpeed;
-                        boxGreen.rotation.z += 0.001 * rotationSpeed;
-                    }
-
-                    if (boxBlue) {
-                        boxBlue.rotation.x += 0.001 * rotationSpeed;
-                        boxBlue.rotation.y -= 0.001 * rotationSpeed;
-                    }
+//
+//                    if (boxGreen) {
+//                        boxGreen.rotation.x += 0.001 * rotationSpeed;
+//                        boxGreen.rotation.z += 0.001 * rotationSpeed;
+//                    }
+//
+//                    if (boxBlue) {
+//                        boxBlue.rotation.x += 0.001 * rotationSpeed;
+//                        boxBlue.rotation.y -= 0.001 * rotationSpeed;
+//                    }
 //
                     var newlightposition = camera.position;
                     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
@@ -984,7 +993,9 @@
                     rama_ecran_mesh.material = rama_ecranMaterial;
 
                 }
-
+//                function test2() {
+//                    
+//                }
 
                 function displayDisruptorOptions() {
 
