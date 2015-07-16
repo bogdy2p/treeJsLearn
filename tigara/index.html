@@ -754,36 +754,7 @@
 
 
                 function test() {
-
                     console.log(scene);
-
-//                    var linemat = new THREE.LineBasicMaterial({color: 0x0055FF});
-//
-//                    var geometry = new THREE.Geometry();
-//                    geometry.vertices.push(camera.position);
-//                    geometry.vertices.push(new THREE.Vector3(25, 25, 25));
-////                    geometry.vertices.push(new THREE.Vector3(100, 0, 0));
-////                    geometry.vertices.push(new THREE.Vector3(100, 50, 0));
-////                    geometry.vertices.push(new THREE.Vector3(100, 0, 40));
-//
-//                    var line = new THREE.Line(geometry, linemat);
-//
-////                    cameraGroup.add(line);
-//                    console.log(cameraGroup);
-//                    console.log(line);
-//
-//
-//
-//                    var dx = camera.position.x - 25;
-//                    var dy = camera.position.y - 25;
-//                    var dz = camera.position.z - 25;
-//
-//                    var distanceToMiddle = Math.sqrt(dx * dx + dy * dy + dz * dz);
-//
-//                    console.log(distanceToMiddle);
-
-
-
                 }
 
                 function sticlaAction() {
@@ -799,13 +770,9 @@
 
 
                 function disrupter() {
-
-
                     console.log(scene);
                     var grupbaterie = scene.getObjectByName("grupBaterie");
                     grupbaterie.position.z += 5;
-                    initParticles();
-
                 }
 
 
@@ -815,21 +782,8 @@
 
 
                     var objectScale = 2;
-
                     var colladaLoader = new THREE.ColladaLoader();
-                    //LOADING ORDER
-                    //1. DISRUPTOR
-                    //2. BATTERY
-                    //3. BATTERYCASE
-                    //4. SIPCA FILTRU
-                    //5. STICLA FILTRU
-                    //6. ECRAN 
-                    //7. BUTON MARE
-                    //8. BUTONMIC1
-                    //9. BUTONMIC2
-                    //10.FILET MECANISM BATERIE
-                    //11.FILTE SIPCA
-                    //12.LOGO EXTERN
+                    
                     colladaLoader.load('js/daes/MecanismTigara.dae', function colladaReady(collada) {
                         disruptor = collada.scene;
                         disruptorSkin = collada.skins[0];
@@ -900,7 +854,6 @@
                         startButton.position.y = -0.05;
                         startButton.position.x = 1.5;
 
-//                        console.log(startButton);
                     });
                     colladaLoader.load('js/daes/ButonMic1.dae', function colladaReady(collada) {
                         buttonSmall1 = collada.scene;
@@ -1022,7 +975,6 @@
 
                     var smallButton2 = scene.getObjectByName("smallButton2");
                     var smallButton2_mesh = scene.getObjectByName("buton_mic_2").children[0];
-//                    console.log(smallButton2);
                     smallButton1_mesh.material = buttonsMaterial;
                     smallButton2_mesh.material = buttonsMaterial;
 
@@ -1030,7 +982,6 @@
                     var rama_ecran = scene.getObjectByName("screen");
                     var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
                     rama_ecran_mesh.material = rama_ecranMaterial;
-//                    console.log(ecran);
 
                 }
 
@@ -1101,7 +1052,6 @@
                     console.log("attempting to change batery cover color to " + color);
                     var batterySupport_mesh = batterySupport.children[0].children[0];
                     var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
-//                    console.log(filter_glass_mesh);
                     switch (color) {
                         case "black":
                             var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
@@ -1128,22 +1078,17 @@
                 }
 
                 function playButonMareAction() {
-//                    console.log(startButtonCounter);
 
                     if (startButtonCounter % 6 == 0) {
-//                        alert("SIX Times Press");
                         console.log(scene);
                         grupParticule = scene.getObjectByProperty('type','PointCloud');
                         console.log(grupParticule);
                         emitter = null;
                         particleGroup = null;
-//                        scene.removeChild(grupParticule);
                         scene.remove(grupParticule);
-//                        .getObjectByName("particleGroup");
                         
                         
                     } else if (startButtonCounter % 3 == 0) {
-//                        alert("Three Times Press");
                         initParticles();
 
                     }
