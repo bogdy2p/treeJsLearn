@@ -1006,40 +1006,32 @@
                 function changeBatteryColor(color) {
                     console.log("attempting to change batery cover color to " + color);
                     var batterySupport_mesh = batterySupport.children[0].children[0];
+                    var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
+                    console.log(filter_glass_mesh);
                     switch (color) {
                         case "black":
                             var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+                            var blackGlassMat = new THREE.MeshPhongMaterial({color: 0x010101, shininess: 10, specular: 0x030303, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
                             batterySupport_mesh.material = blackBatteryMaterial;
+                            filter_glass_mesh.material = blackGlassMat;
                             break;
                         case "blue":
                             var blueBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide});
+                            var blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
                             batterySupport_mesh.material = blueBatterySupportMaterial;
+                            filter_glass_mesh.material = blueGlassMat;
                             break;
                         case "pink":
                             var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
+                            var pinkGlassMat = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 10, specular: 0xFA55BB, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
                             batterySupport_mesh.material = pinkBatterySupportMaterial;
+                            filter_glass_mesh.material = pinkGlassMat;
                             break;
                         default:
                             console.log("The colors you must chose are : black, blue or pink");
                             break;
                     }
                 }
-                function batteryBlack() {
-
-                    var darkBlackUnpolished = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
-                    var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
-                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xE7DDD3, shininess: 50, specular: 0xE7DDD3, metal: true, side: THREE.DoubleSide});
-                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
-
-
-                    var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
-                    batterySupport.children[0].children[0].material = blackBatteryMaterial;
-                }
-
-
-
-
-
 
 
         </script>
