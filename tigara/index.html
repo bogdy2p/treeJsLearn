@@ -106,6 +106,43 @@
 
                 var emitter, particleGroup;
 
+
+//                var batteryColors = "0xEF2A5F"; //red
+//                var batteryColors = "0x00AE73"; //green
+//                var batteryColors = "0xB149BC"; // purple
+//                var batteryColors = "0x0280EE"; // blue
+//                var batteryColor5 = "0xDF037F"; // pink
+//                var batteryColor6 = "0x2F2D38"; // black
+//                var batteryColor7 = "0x8EDCE8"; // whiteblue
+
+
+                var disruptorColours = {
+                    black: 0xFFFFFF,
+                    black_specular: 0x040404,
+                    gold: 0xEAE0D7,
+                    gold_specular: 0xEAE0D7,
+                    silver: 0xE4E4EE,
+                    silver_specular: 0xE4E4EE,
+                };
+
+                var batteryColours = {
+                    red: 0xEF2A5F,
+                    red_specular: 0xEF2A5F,
+                    green: 0x00AE73,
+                    green_specular: 0x00AE73,
+                    purple: 0xB149BC,
+                    purple_specular: 0xB149BC,
+                    blue: 0x0280EE,
+                    blue_specular: 0x0280EE,
+                    pink: 0xDF037F,
+                    pink_specular: 0xDF037F,
+                    black: 0x2F2D38,
+                    black_specular: 0x2F2D38,
+                    whiteblue: 0x8EDCE8,
+                    whiteblue_specular: 0x8EDCE8,
+                };
+
+
                 var userOpts = {
                     liftoff: 20,
                     range: 2000,
@@ -127,7 +164,7 @@
                     container = document.getElementById('container');
                     scene = new THREE.Scene();
                     raycaster = new THREE.Raycaster();
-                    
+
                     clock = new THREE.Clock();
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
