@@ -59,8 +59,10 @@
 
             <button id="btn2" onclick="test();">TEST</button>
             <button id="btn3" onclick="butonmic1();">Button mic 1</button>
-            <button id="btn4" onclick="displayDisruptorOptions();">DisplayDisruptorOptions</button>
-            <button id="btn5" onclick="sticlaAction();">STICLA</button>
+            <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
+            <button id="btn7" onclick="removeDisruptorColourOptions();">Remove Disruptor Colors</button>
+            <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
+            <button id="btn5" onclick="removeBatteryColourOptions();">RemoveBatColors</button>
             <button id="btn6" onclick="disrupter();">DISRUPTOR</button>
 
         </div>
@@ -106,14 +108,8 @@
 
                 var emitter, particleGroup;
 
-
-//                var batteryColors = "0xEF2A5F"; //red
-//                var batteryColors = "0x00AE73"; //green
-//                var batteryColors = "0xB149BC"; // purple
-//                var batteryColors = "0x0280EE"; // blue
-//                var batteryColor5 = "0xDF037F"; // pink
-//                var batteryColor6 = "0x2F2D38"; // black
-//                var batteryColor7 = "0x8EDCE8"; // whiteblue
+                var disruptor_colours_shown = false;
+                var battery_colours_shown = false;
 
 
                 var disruptorColours = {
@@ -142,6 +138,11 @@
                     whiteblue_specular: 0x8EDCE8,
                 };
 
+                var disruptorMaterials = {
+                };
+
+                var batteryMaterials = {
+                };
 
                 var userOpts = {
                     liftoff: 20,
@@ -379,7 +380,7 @@
 
                 function onDocumentMouseUp(event) {
                     renderer.domElement.addEventListener(
-'mousemove', onDocumentMouseMove, false);
+                            'mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
@@ -429,33 +430,44 @@
                         particleGroup.tick(dt);
                     }
                     var rotationSpeed = 10;
-                    boxRed = scene.getObjectByName("RedBox");
-                    boxGreen = scene.getObjectByName("GreenBox");
-                    boxBlue = scene.getObjectByName("BlueBox");
-                    if (boxRed) {
 
-                        boxRed.position.copy(camera.position);
-                        boxRed.rotation.copy(camera.rotation);
-                        boxRed.updateMatrix();
-                        boxRed.translateZ(-300);
-                        boxRed.translateX(40);
-                        boxRed.translateY(100);
+
+                    threeBoxesGroup = scene.getObjectByName("threeColourBoxes");
+                    if (threeBoxesGroup) {
+                        goldenBox = threeBoxesGroup.children[0];
+                        silverBox = threeBoxesGroup.children[1];
+                        blackBox = threeBoxesGroup.children[2];
+
+                        goldenBox.position.copy(camera.position);
+                        goldenBox.rotation.copy(camera.rotation);
+                        goldenBox.updateMatrix();
+                        goldenBox.translateZ(-300);
+                        goldenBox.translateX(40);
+                        goldenBox.translateY(100);
+                        silverBox.position.copy(camera.position);
+                        silverBox.rotation.copy(camera.rotation);
+                        silverBox.updateMatrix();
+                        silverBox.translateZ(-300);
+                        silverBox.translateX(-40);
+                        silverBox.translateY(100);
+                        blackBox.position.copy(camera.position);
+                        blackBox.rotation.copy(camera.rotation);
+                        blackBox.updateMatrix();
+                        blackBox.translateZ(-300);
+                        blackBox.translateX(-00);
+                        blackBox.translateY(100);
                     }
-                    if (boxGreen) {
-                        boxGreen.position.copy(camera.position);
-                        boxGreen.rotation.copy(camera.rotation);
-                        boxGreen.updateMatrix();
-                        boxGreen.translateZ(-300);
-                        boxGreen.translateX(-40);
-                        boxGreen.translateY(100);
-                    }
-                    if (boxBlue) {
-                        boxBlue.position.copy(camera.position);
-                        boxBlue.rotation.copy(camera.rotation);
-                        boxBlue.updateMatrix();
-                        boxBlue.translateZ(-300);
-                        boxBlue.translateX(-00);
-                        boxBlue.translateY(100);
+                    sevenBoxesGroup = scene.getObjectByName("sevenColourBoxes");
+                    if (sevenBoxesGroup) {
+                        var boxes = [];
+                        for (i = 0; i < 7; i++) {
+                            boxes[i] = sevenBoxesGroup.children[i];
+                            boxes[i].position.copy(camera.position);
+                            boxes[i].rotation.copy(camera.rotation);
+                            boxes[i].translateZ(-300);
+                            boxes[i].translateY(100);
+                            boxes[i].translateX(-110 + 40 * i);
+                        }
                     }
 
                     var newlightposition = camera.position;
@@ -684,70 +696,132 @@
 
 
                     var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
-//                    var filtru = scene.getObjectByName("filter");
                     var filter_mesh = scene.getObjectByName("Cylinder001").children[0];
                     filter_mesh.material = filter_material;
 
 
                     var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
                     var default_blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
-//                    var filter_glass = scene.getObjectByName("filterGlass");
                     var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
                     filter_glass_mesh.material = default_blueGlassMat;
 
                     var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
-//                    var bigButton = scene.getObjectByName("startButton");
                     var bigButton_mesh = scene.getObjectByName("buton_mare").children[0];
                     bigButton_mesh.material = buttonsMaterial;
 
-//                    var smallButton1 = scene.getObjectByName("smallButton1");
                     var smallButton1_mesh = scene.getObjectByName("buton_mic_1").children[0];
 
-//                    var smallButton2 = scene.getObjectByName("smallButton2");
                     var smallButton2_mesh = scene.getObjectByName("buton_mic_2").children[0];
                     smallButton1_mesh.material = buttonsMaterial;
                     smallButton2_mesh.material = buttonsMaterial;
 
                     var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 10, specular: 0xFFFFCC, side: THREE.DoubleSide});
-//                    var rama_ecran = scene.getObjectByName("screen");
                     var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
                     rama_ecran_mesh.material = rama_ecranMaterial;
 
                 }
 
 
-                function displayDisruptorOptions() {
+                function displayDisruptorColourOptions() {
+
+                    if (disruptor_colours_shown === false) {
+                        console.log("SHOULD DISPLAY 3 COLOURS TO CHOOSE FROM FOR THE DISRUPTOR");
+                        var boxGeometry = new THREE.BoxGeometry(25, 25, 25, 25);
+                        var goldenMaterial = new THREE.MeshPhongMaterial({color: disruptorColours.gold, specular: disruptorColours.gold_specular});
+                        var silverMaterial = new THREE.MeshPhongMaterial({color: disruptorColours.silver, specular: disruptorColours.silver_specular});
+                        var blackMaterial = new THREE.MeshPhongMaterial({color: 0x222222, specular: disruptorColours.black_specular});
+                        var box1 = new THREE.Mesh(boxGeometry, goldenMaterial);
+                        box1.name = "GoldenBox";
+                        var box2 = new THREE.Mesh(boxGeometry, silverMaterial);
+                        box2.name = "SilverBox";
+                        var box3 = new THREE.Mesh(boxGeometry, blackMaterial);
+                        box3.name = "BlackBox";
+                        threeColourBoxes = new THREE.Group();
+                        threeColourBoxes.name = "threeColourBoxes";
+                        threeColourBoxes.add(box1);
+                        threeColourBoxes.add(box2);
+                        threeColourBoxes.add(box3);
+                        scene.add(threeColourBoxes);
+                        disruptor_colours_shown = true;
+                    } else {
+                        console.log("The 3 colour boxes already are on the screen.");
+                    }
+                }
+
+                function removeDisruptorColourOptions() {
+
+                    if (disruptor_colours_shown) {
+
+                        console.log(scene);
+                        threeColourBoxes = scene.getObjectByName("threeColourBoxes");
+
+                        scene.remove(threeColourBoxes);
+                        disruptor_colours_shown = false;
+                    } else {
+                        console.log("Cannot remove threeColourBoxes if they dont exist");
+                    }
 
 
-                    console.log("Disruptor Color Box Options");
-                    var boxGeometry = new THREE.BoxGeometry(30, 30, 30, 30);
-                    var redMaterial = new THREE.MeshPhongMaterial({color: 0xFF0000});
-                    var greenMaterial = new THREE.MeshPhongMaterial({color: 0x00FF00});
-                    var blueMaterial = new THREE.MeshPhongMaterial({color: 0x0000FF});
-                    var boxRed = new THREE.Mesh(boxGeometry, redMaterial);
-                    boxRed.name = "RedBox";
-                    var boxGreen = new THREE.Mesh(boxGeometry, greenMaterial);
-                    boxGreen.name = "GreenBox";
-                    var boxBlue = new THREE.Mesh(boxGeometry, blueMaterial);
-                    boxBlue.name = "BlueBox";
-                    scene.add(boxRed);
-                    scene.add(boxGreen);
-                    scene.add(boxBlue);
-                    boxRed.position.x = 450;
-                    boxRed.position.z = 410;
-                    boxRed.rotation.x = 0.5;
-                    boxRed.rotation.y = 0.5;
-                    boxGreen.position.x = 450;
-                    boxGreen.position.z = 450;
-                    boxGreen.rotation.x = 0.5;
-                    boxGreen.rotation.y = 0.5;
-                    boxBlue.position.x = 450;
-                    boxBlue.position.z = 490;
-                    boxBlue.rotation.x = 0.5;
-                    boxBlue.rotation.y = 0.5;
                 }
 
 
+                function displayBatteryColourOptions() {
+                    if (battery_colours_shown === false) {
+                        var boxGeometry = new THREE.BoxGeometry(16, 16, 16, 16);
+                        var mat1 = new THREE.MeshPhongMaterial({color: batteryColours.red});
+                        var mat2 = new THREE.MeshPhongMaterial({color: batteryColours.green});
+                        var mat3 = new THREE.MeshPhongMaterial({color: batteryColours.purple});
+                        var mat4 = new THREE.MeshPhongMaterial({color: batteryColours.blue});
+                        var mat5 = new THREE.MeshPhongMaterial({color: batteryColours.pink});
+                        var mat6 = new THREE.MeshPhongMaterial({color: batteryColours.black});
+                        var mat7 = new THREE.MeshPhongMaterial({color: batteryColours.whiteblue});
+                        var box1 = new THREE.Mesh(boxGeometry, mat1);
+                        box1.name = "batteryColour_box1";
+                        var box2 = new THREE.Mesh(boxGeometry, mat2);
+                        box2.name = "batteryColour_box2";
+                        var box3 = new THREE.Mesh(boxGeometry, mat3);
+                        box3.name = "batteryColour_box3";
+                        var box4 = new THREE.Mesh(boxGeometry, mat4);
+                        box4.name = "batteryColour_box4";
+                        var box5 = new THREE.Mesh(boxGeometry, mat5);
+                        box5.name = "batteryColour_box5";
+                        var box6 = new THREE.Mesh(boxGeometry, mat6);
+                        box6.name = "batteryColour_box6";
+                        var box7 = new THREE.Mesh(boxGeometry, mat7);
+                        box7.name = "batteryColour_box7";
+
+                        sevenColourBoxes = new THREE.Group();
+                        sevenColourBoxes.name = "sevenColourBoxes";
+                        sevenColourBoxes.add(box1);
+                        sevenColourBoxes.add(box2);
+                        sevenColourBoxes.add(box3);
+                        sevenColourBoxes.add(box4);
+                        sevenColourBoxes.add(box5);
+                        sevenColourBoxes.add(box6);
+                        sevenColourBoxes.add(box7);
+                        scene.add(sevenColourBoxes);
+                        battery_colours_shown = true;
+                    } else {
+                        console.log("The 7 colour boxes already are on the screen.");
+                    }
+                }
+
+
+                function removeBatteryColourOptions() {
+
+                    if (battery_colours_shown) {
+
+//                        console.log(scene);
+                        sevenColourBoxes = scene.getObjectByName("sevenColourBoxes");
+
+                        scene.remove(sevenColourBoxes);
+                        battery_colours_shown = false;
+                    } else {
+                        console.log("Cannot remove sevenColourBoxes if they dont exist");
+                    }
+
+
+                }
 
                 function changeMecanismColor(color) {
                     console.log("attempting to change mechanism color to " + color);
