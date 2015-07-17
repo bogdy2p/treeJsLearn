@@ -48,12 +48,12 @@
         <div id ="leftcontrols">
 
 
-<!--            <button id="btn21" onclick="changeMecanismColor('black');">M.Black</button>
-            <button id="btn22" onclick="changeMecanismColor('gold');">M.Gold</button>
-            <button id="btn23" onclick="changeMecanismColor('silver');">M.Silver</button>
-            <button id="btn24" onclick="changeBatteryColor('black');">Bat.Black</button>
-            <button id="btn25" onclick="changeBatteryColor('blue');">Bat.Blue</button>
-            <button id="btn26" onclick="changeBatteryColor('pink');">Bat.Pink</button>-->
+            <!--            <button id="btn21" onclick="changeMecanismColor('black');">M.Black</button>
+                        <button id="btn22" onclick="changeMecanismColor('gold');">M.Gold</button>
+                        <button id="btn23" onclick="changeMecanismColor('silver');">M.Silver</button>
+                        <button id="btn24" onclick="changeBatteryColor('black');">Bat.Black</button>
+                        <button id="btn25" onclick="changeBatteryColor('blue');">Bat.Blue</button>
+                        <button id="btn26" onclick="changeBatteryColor('pink');">Bat.Pink</button>-->
 
             <button id="btn1" onclick="switchBattery();">Button1-Switch Battery</button>
 
@@ -746,6 +746,11 @@
                         threeColourBoxes.add(box1);
                         threeColourBoxes.add(box2);
                         threeColourBoxes.add(box3);
+
+                        if (battery_colours_shown) {
+                            removeBatteryColourOptions();
+                        }
+
                         scene.add(threeColourBoxes);
                         disruptor_colours_shown = true;
                     } else {
@@ -805,6 +810,9 @@
                         sevenColourBoxes.add(box6);
                         sevenColourBoxes.add(box7);
                         scene.add(sevenColourBoxes);
+                        if (disruptor_colours_shown) {
+                            removeDisruptorColourOptions();
+                        }
                         battery_colours_shown = true;
                     } else {
                         console.log("The 7 colour boxes already are on the screen.");
