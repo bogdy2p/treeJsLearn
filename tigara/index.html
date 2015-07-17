@@ -319,10 +319,7 @@
                     mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
 
                     raycaster.setFromCamera(mouseVector, camera);
-//          
                     var intersectedObjects = raycaster.intersectObjects(scene.children, true);
-                    var intersectedMinimapObjects = raycasterMap.intersectObjects(scene.children, true);
-
 
                     if (intersectedObjects.length > 0) {
 
@@ -370,9 +367,6 @@
 
                     }
 
-                    if (intersectedMinimapObjects.length > 0) {
-                        console.log(intersectedMinimapObjects);
-                    }
                 }
 
 
@@ -384,7 +378,8 @@
                 }
 
                 function onDocumentMouseUp(event) {
-                    renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
+                    renderer.domElement.addEventListener(
+'mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
@@ -462,6 +457,7 @@
                         boxBlue.translateX(-00);
                         boxBlue.translateY(100);
                     }
+
                     var newlightposition = camera.position;
                     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
 
@@ -677,16 +673,9 @@
 
                     var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
                     var mecanism_tigara_mesh = mecanism_tigara.children[0];
-                    var testMaterial = new THREE.MeshPhongMaterial({color: 0x222222, shininess: 8, specular: 0x443333, metal: true, side: THREE.DoubleSide});
 
-
-                    var darkBlackUnpolished = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
                     var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
-                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xE7DDD3, shininess: 50, specular: 0xE7DDD3, metal: true, side: THREE.DoubleSide});
-                    var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
 
-                    mecanism_tigara_mesh.material = darkBlackUnpolished;
-                    mecanism_tigara_mesh.material = goldPolished;
                     mecanism_tigara_mesh.material = silverPolished;
 
 
@@ -695,32 +684,32 @@
 
 
                     var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
-                    var filtru = scene.getObjectByName("filter");
+//                    var filtru = scene.getObjectByName("filter");
                     var filter_mesh = scene.getObjectByName("Cylinder001").children[0];
                     filter_mesh.material = filter_material;
 
 
                     var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
                     var default_blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
-                    var filter_glass = scene.getObjectByName("filterGlass");
+//                    var filter_glass = scene.getObjectByName("filterGlass");
                     var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
                     filter_glass_mesh.material = default_blueGlassMat;
 
                     var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
-                    var bigButton = scene.getObjectByName("startButton");
+//                    var bigButton = scene.getObjectByName("startButton");
                     var bigButton_mesh = scene.getObjectByName("buton_mare").children[0];
                     bigButton_mesh.material = buttonsMaterial;
 
-                    var smallButton1 = scene.getObjectByName("smallButton1");
+//                    var smallButton1 = scene.getObjectByName("smallButton1");
                     var smallButton1_mesh = scene.getObjectByName("buton_mic_1").children[0];
 
-                    var smallButton2 = scene.getObjectByName("smallButton2");
+//                    var smallButton2 = scene.getObjectByName("smallButton2");
                     var smallButton2_mesh = scene.getObjectByName("buton_mic_2").children[0];
                     smallButton1_mesh.material = buttonsMaterial;
                     smallButton2_mesh.material = buttonsMaterial;
 
                     var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 10, specular: 0xFFFFCC, side: THREE.DoubleSide});
-                    var rama_ecran = scene.getObjectByName("screen");
+//                    var rama_ecran = scene.getObjectByName("screen");
                     var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
                     rama_ecran_mesh.material = rama_ecranMaterial;
 
