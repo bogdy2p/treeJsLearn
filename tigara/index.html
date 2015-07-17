@@ -48,22 +48,22 @@
         <div id ="leftcontrols">
 
 
-            <button id="btn21" onclick="changeMecanismColor('black');">M.Black</button>
+<!--            <button id="btn21" onclick="changeMecanismColor('black');">M.Black</button>
             <button id="btn22" onclick="changeMecanismColor('gold');">M.Gold</button>
             <button id="btn23" onclick="changeMecanismColor('silver');">M.Silver</button>
             <button id="btn24" onclick="changeBatteryColor('black');">Bat.Black</button>
             <button id="btn25" onclick="changeBatteryColor('blue');">Bat.Blue</button>
-            <button id="btn26" onclick="changeBatteryColor('pink');">Bat.Pink</button>
+            <button id="btn26" onclick="changeBatteryColor('pink');">Bat.Pink</button>-->
 
             <button id="btn1" onclick="switchBattery();">Button1-Switch Battery</button>
 
-            <button id="btn2" onclick="test();">TEST</button>
-            <button id="btn3" onclick="butonmic1();">Button mic 1</button>
+            <!--            <button id="btn2" onclick="test();">TEST</button>
+                        <button id="btn3" onclick="butonmic1();">Button mic 1</button>-->
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
-            <button id="btn7" onclick="removeDisruptorColourOptions();">Remove Disruptor Colors</button>
+            <!--<button id="btn7" onclick="removeDisruptorColourOptions();">Remove Disruptor Colors</button>-->
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
-            <button id="btn5" onclick="removeBatteryColourOptions();">RemoveBatColors</button>
-            <button id="btn6" onclick="disrupter();">DISRUPTOR</button>
+            <!--<button id="btn5" onclick="removeBatteryColourOptions();">RemoveBatColors</button>-->
+            <!--<button id="btn6" onclick="disrupter();">Disrupter</button>-->
 
         </div>
 
@@ -233,7 +233,7 @@
                     renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
-                    renderer.autoClear = false;
+//                    renderer.autoClear = false;
 
 
                 }
@@ -278,8 +278,6 @@
 
                 function animate() {
 
-
-
                     requestAnimationFrame(animate);
                     render(clock.getDelta());
                     TWEEN.update();
@@ -295,19 +293,6 @@
                     engine.initialize();
                 }
 
-                function resetCamera()
-                {
-                    // CAMERA
-                    var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-                    var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-                    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-                    camera.position.set(0, 200, 400);
-                    camera.lookAt(scene.position);
-                    scene.add(camera);
-
-                    controls = new THREE.OrbitControls(camera, renderer.domElement);
-                    THREEx.WindowResize(renderer, camera);
-                }
 
                 function onDocumentMouseDown(event) {
                     event.preventDefault();
@@ -325,15 +310,38 @@
                     if (intersectedObjects.length > 0) {
 
                         var Object = intersectedObjects[0];
+//                        console.log(Object);
+
+
+
+
+
+
+
+
+
 
                         switch (Object.object.parent.name) {
 
-                            case 3:
-                                console.log("You clicked butonmare");
+                            case 'sevenColourBoxes':
+
+
+//                                console.log(Object.object);
+                                temp_material = Object.object.material;
+//                                console.log(temp_material);
+                                var batterySupport_mesh = batterySupport.children[0].children[0];
+                                var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
+                                batterySupport_mesh.material = temp_material;
+                                removeBatteryColourOptions();
+//                                console.log("You ON ONE OF THE SEVEN COLORUS ! CONGRATZ");
                                 break;
 
-                            case 8:
-                                console.log("That's the battery mate!");
+                            case 'threeColourBoxes':
+                                mechanism_temp_material = Object.object.material;
+                                var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
+                                mecanism_tigara_mesh.material = mechanism_temp_material;
+                                removeDisruptorColourOptions();
+//                                console.log("You ON ONE OF THE TREEEEEEEEEEEE COLORUS ! CONGRATZ");
                                 break;
                             case 9:
                                 console.log("You clicked the disruptor");
@@ -360,17 +368,15 @@
                                 console.log("Why click the Filter ?");
                                 break;
                             default:
-                                console.log(Object.object.name);
-                                console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
-                                console.log(Object);
+//                                console.log(Object.object.name);
+//                                console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
+//                                console.log(Object);
                                 break;
                         }
 
                     }
 
                 }
-
-
 
                 function onDocumentMouseMove(event) {
 
@@ -413,7 +419,7 @@
                 }
 
                 function minusButtonClick() {
-                    console.log("Minusbutton click function");
+                    console.log("Minusbutton click fubatterySupport_meshnction");
                     buttonSmall2.position.x += 0.3;
                 }
 
@@ -430,7 +436,6 @@
                         particleGroup.tick(dt);
                     }
                     var rotationSpeed = 10;
-
 
                     threeBoxesGroup = scene.getObjectByName("threeColourBoxes");
                     if (threeBoxesGroup) {
