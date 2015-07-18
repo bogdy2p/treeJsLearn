@@ -318,37 +318,23 @@
                     if (intersectedObjects.length > 0) {
 
                         var Object = intersectedObjects[0];
-//                        console.log(Object);
-
-
-
-
-
-
-
-
-
 
                         switch (Object.object.parent.name) {
 
                             case 'sevenColourBoxes':
 
 
-//                                console.log(Object.object);
                                 temp_material = Object.object.material;
-//                                console.log(temp_material);
                                 var batterySupport_mesh = batterySupport.children[0].children[0];
                                 var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
                                 batterySupport_mesh.material = temp_material;
                                 removeBatteryColourOptions();
-//                                console.log("You ON ONE OF THE SEVEN COLORUS ! CONGRATZ");
                                 break;
                             case 'threeColourBoxes':
                                 mechanism_temp_material = Object.object.material;
                                 var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
                                 mecanism_tigara_mesh.material = mechanism_temp_material;
                                 removeDisruptorColourOptions();
-//                                console.log("You ON ONE OF THE TREEEEEEEEEEEE COLORUS ! CONGRATZ");
                                 break;
                             case 9:
                                 console.log("You clicked the disruptor");
@@ -600,18 +586,18 @@
 
                 }
 
-                function test() {
-                    console.log(scene);
-
-                    var bla = new THREE.MeshPhongMaterial(disruptorMaterials.silver_material);
-                    asd = scene.getObjectByName('shellMecanismTigara');
-                    asd2 = scene.getObjectByName('sipca1');
-                    asd3 = scene.getObjectByName('sipca3');
-                    asd.children[0].material = bla;
-                    asd2.children[0].material = bla;
-                    asd3.children[0].material = bla;
-
-                }
+//                function test() {
+//                    console.log(scene);
+//
+//                    var bla = new THREE.MeshPhongMaterial(disruptorMaterials.silver_material);
+//                    asd = scene.getObjectByName('shellMecanismTigara');
+//                    asd2 = scene.getObjectByName('sipca1');
+//                    asd3 = scene.getObjectByName('sipca3');
+//                    asd.children[0].material = bla;
+//                    asd2.children[0].material = bla;
+//                    asd3.children[0].material = bla;
+//
+//                }
 
                 ///////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
