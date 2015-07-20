@@ -518,6 +518,13 @@
                     grupbaterie.position.z += 5;
                 }
 
+                function test() {
+                    console.log(scene);
+                    asd = scene.getObjectByName('grupFiltru');
+                    asd.position.y += 2;
+
+
+                }
 
                 var manager = new THREE.LoadingManager();
                 manager.onProgress = function (item, loaded, total) {
@@ -539,28 +546,40 @@
                 var texture = new THREE.Texture();
                 function load3DOBJmodels() {
 
-                    var grup_mecanism_objects = [
-                        'buton_interior_mecanism', 'buton_mare', 'buton_mic1', 'buton_mic2',
-                        'ecran', 'filet_buton', 'fund_mecanism_tigara', 'mecanism_interior_tigara',
+                    var filtru_only = [
+                        'filet_mecanism_sipca_interior',
+                        'filet_mecanism_sipca_interior2',
+                        'filet_mecanism_sipca_interior3',
+                        'gauri_sipca4',
+                        'logo_sipca2',
+                        'sipca1',
+                        'sipca2',
+                        'sipca3',
+                        'sipca4',
+                        'sticla',
+                    ];
+
+                    var mecanism_only = [
+                        'buton_interior_mecanism', 'buton_mare',
+                        'buton_mic1', 'buton_mic2',
+                        'ecran',
+                        'filet_buton',
+                        'filet_mecanism_sipca_interior4',
+                        'fund_mecanism_tigara',
+                        'fund_sipca',
                         'shell_mecanism_tigara', 'shell_mecanism_tigara2',
-                        'shell_mecanism_tigara3', 'shell_mecanism_tigara4', 'suruburi_fund_mecanism_tigara', ];
+                        'shell_mecanism_tigara3', 'shell_mecanism_tigara4',
+                        'suruburi_fund_mecanism_tigara', 'suruburi_fund_sipca',
+                        'parte_inferioara_stecher',
+                        'parte_superioara_stecher', 'stecher', 'text_mecanism_interior'
+                    ];
 
-                    var grup_filtru_objects = [
-                        'filet_mecanism_sipca_interior', 'filet_mecanism_sipca_interior2',
-                        'filet_mecanism_sipca_interior3', 'filet_mecanism_sipca_interior4', 'filet_sipca_jos',
-                        'fund_sipca', 'gauri_sipca4', 'logo_sipca2', 'sipca1', 'sipca2',
-                        'sipca3', 'sipca4', 'sticla', 'suruburi_fund_sipca'];
-
-                    var grup_baterie_objects = [
+                    var baterie_only = [
                         'baterie', 'capac_baterie', 'fund_baterie', 'invelis_baterie',
                         'parte_inferioara_baterie', 'rama_gaura_spate_baterie', 'suruburi_baterie',
-                        'suruburi_capac_baterie', 'suruburi_fund_baterie', ];
+                        'suruburi_capac_baterie', 'suruburi_fund_baterie', 'logo_textura_baterie', 'text_baterie_bottom',
+                    ];
 
-//                        'logo_textura', = UNKNOWN
-//, 'parte_inferioara_stecher', 'parte_superioara_stecher',
-//'scris_fund_CE_si_sigla_trash_si_capacity',
-//                        'scris_interior_CE_si_sigla_trash',
-// 'stecher', 
                     var array_of_names = [
                         'baterie', 'buton_interior_mecanism', 'buton_mare', 'buton_mic1',
                         'buton_mic2', 'capac_baterie', 'ecran', 'filet_buton',
@@ -568,11 +587,11 @@
                         'filet_mecanism_sipca_interior3', 'filet_mecanism_sipca_interior4',
                         'filet_sipca_jos', 'fund_baterie',
                         'fund_mecanism_tigara', 'fund_sipca', 'gauri_sipca4', 'invelis_baterie', 'logo_sipca2',
-                        'logo_textura', 'mecanism_interior_tigara',
+                        'logo_textura_baterie', 'mecanism_interior_filtru_tigara',
                         'parte_inferioara_baterie', 'parte_inferioara_stecher',
                         'parte_superioara_stecher', 'rama_gaura_spate_baterie',
-                        'scris_fund_CE_si_sigla_trash_si_capacity',
-                        'scris_interior_CE_si_sigla_trash',
+                        'text_baterie_bottom',
+                        'text_mecanism_interior',
                         'shell_mecanism_tigara', 'shell_mecanism_tigara2',
                         'shell_mecanism_tigara3', 'shell_mecanism_tigara4',
                         'sipca1', 'sipca2', 'sipca3', 'sipca4', 'stecher', 'sticla',
@@ -580,108 +599,51 @@
                         'suruburi_fund_mecanism_tigara', 'suruburi_fund_sipca'
                     ];
                     var objLoader = new THREE.OBJLoader(manager);
-                    console.log(array_of_names.length);
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
                     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
-                    var contor = 0;
-                    var numar1 = 15;
-                    var numar2 = 30;
-                    array_of_names.forEach(function (name) {
-//                        console.log(name);
 
-                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
-                            object.traverse(function (child) {
-                                if (child instanceof THREE.Mesh) {
-                                    child.material.map = texture;
-                                }
-                            });
-                            object.name = name;
-                            object.scale.x = 0.5;
-                            object.scale.y = 0.5;
-                            object.scale.z = 0.5;
-                            scene.add(object);
-                            contor += 1;
-//                            console.log(object.children);
-                            console.log(contor);
-                            if (contor < numar1) {
-                                object.children[0].material = testMaterial;
-                            } else if (contor < numar2) {
-                                object.children[0].material = testMaterial2;
-                            } else {
-                                object.children[0].material = testMaterial3;
-                            }
+                    loadObjectsAndAssignMaterials(baterie_only, testMaterial, grupBaterie);
+                    loadObjectsAndAssignMaterials(filtru_only, testMaterial2, grupFiltru);
+                    loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, grupMecanism);
+                    console.log(scene);
+                    function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
 
-                        }, onProgress, onError);
-
-
-
-
-
-                    });
-//                    objLoader.load('js/daes/OBJ/baterie.obj', function (object) {
-//                        object.traverse(function (child) {
-//                            if (child instanceof THREE.Mesh) {
-//                                child.material.map = texture;
-//                            }
-//                        });
-//                        object.name = 'baterie';
-////                        scene.add(object);
-//                    }, onProgress, onError);
-//                    objLoader.load('js/daes/OBJ/shell mecanism tigara.obj', function (object) {
-//                        object.traverse(function (child) {
-//                            if (child instanceof THREE.Mesh) {
-//                                child.material.map = texture;
-//                            }
-//                        });
-////                        object.position.y = -30;
-//                        object.name = 'shellMecanismTigara';
-////                        scene.add(object);
-//                    }, onProgress, onError);
-//                    objLoader.load('js/daes/OBJ/capac baterie.obj', function (object) {
-//                        object.traverse(function (child) {
-//                            if (child instanceof THREE.Mesh) {
-//                                child.material.map = texture;
-//                            }
-//                        });
-////                        object.position.y = -30;
-//                        object.name = 'capac_baterie';
-////                        scene.add(object);
-//                    }, onProgress, onError);
-//                    objLoader.load('js/daes/OBJ/sipca 1.obj', function (object) {
-//                        object.traverse(function (child) {
-//                            if (child instanceof THREE.Mesh) {
-//                                child.material.map = texture;
-//                            }
-//                        });
-////                        object.position.y = -30;
-//                        object.name = 'sipca1';
-////                        scene.add(object);
-//                    }, onProgress, onError);
-//                    objLoader.load('js/daes/OBJ/sipca 3.obj', function (object) {
-//                        object.traverse(function (child) {
-//                            if (child instanceof THREE.Mesh) {
-//                                child.material.map = texture;
-//                            }
-//                        });
-////                        object.position.x = -20;
-//                        object.name = 'sipca3';
-////                        scene.add(object);
-//                    }, onProgress, onError);
+                        array.forEach(function (name) {
+                            objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
+                                object.traverse(function (child) {
+                                    if (child instanceof THREE.Mesh) {
+                                        child.material.map = texture;
+                                    }
+                                });
+                                object.name = name;
+                                object.scale.x = 0.5;
+                                object.scale.y = 0.5;
+                                object.scale.z = 0.5;
+                                groupName.add(object);
+                                object.children[0].material = defaultMaterial;
+                            }, onProgress, onError);
+                        });
+                    }
+//                  
+//                    array_of_names.forEach(function (name) {
+//                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
+//                            object.traverse(function (child) {
+//                                if (child instanceof THREE.Mesh) {
+//                                    child.material.map = texture;
+//                                }
+//                            });
+//                            object.name = name;
+//                            object.scale.x = 0.5;
+//                            object.scale.y = 0.5;
+//                            object.scale.z = 0.5;
+//                            scene.add(object);
+//                            object.children[0].material = testMaterial;
+//                        }, onProgress, onError);
+//                    });
                 }
 
-//                function test() {
-//                    console.log(scene);
-//
-//                    var bla = new THREE.MeshPhongMaterial(disruptorMaterials.silver_material);
-//                    asd = scene.getObjectByName('shellMecanismTigara');
-//                    asd2 = scene.getObjectByName('sipca1');
-//                    asd3 = scene.getObjectByName('sipca3');
-//                    asd.children[0].material = bla;
-//                    asd2.children[0].material = bla;
-//                    asd3.children[0].material = bla;
-//
-//                }
+
 
                 ///////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
