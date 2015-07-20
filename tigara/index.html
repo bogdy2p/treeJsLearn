@@ -83,6 +83,12 @@
 
         <script>
 
+
+                var objects_finished_loading = false;
+                var innokin_centered_to_screen = false;
+                var OBJ_count = 0;
+                var OBJ_number = 36;
+
                 var group, grupMecanism, grupFiltru, grupBaterie, group2, group3;
                 var disruptor;
                 var battery;
@@ -234,11 +240,11 @@
                     //////////////////////////////////////////////
                     // Add Charger 
                     //Grosime,Lungime,Latime
-                    setTimeout(function () {
-//                        basicColorize();
-                        basicColorizeOBJ();
-//                        displayDisruptorOptions();
-                    }, 2800);
+//                    setTimeout(function () {
+////                        basicColorize();
+//                        basicColorizeOBJ();
+////                        displayDisruptorOptions();
+//                    }, 1000);
                     renderer = new THREE.WebGLRenderer({antialias: true});
                     renderer.setClearColor(0x559955, 1);
                     renderer.setPixelRatio(window.devicePixelRatio);
@@ -373,6 +379,16 @@
                 }
 
                 function onDocumentMouseMove(event) {
+
+                    if (OBJ_count === OBJ_number) {
+//                        console.log("OBJECT COUNT IS NUMBER");
+                        if (!innokin_centered_to_screen) {
+                            objects_finished_loading = true;
+                            basicColorizeOBJ();
+                            innokin_centered_to_screen = true;
+                            OBJ_count += 1;
+                        }
+                    }
 
                     mouseX = event.clientX - windowHalfX;
                     targetRotationX = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.002;
@@ -522,7 +538,7 @@
                     console.log(scene);
                     asd = scene.getObjectByName('grupFiltru');
                     asd.position.y += 2;
-
+                    console.log(OBJ_count);
 
                 }
 
@@ -539,6 +555,11 @@
                         console.log(Math.round(percentComplete, 2) + '% downloaded');
                     }
                 }
+
+
+                var onLoad = function (xhr) {
+                    console.log("OnLOAD CALLED !");
+                };
 
                 var onError = function (xhr) {
 
@@ -565,7 +586,6 @@
                         'buton_mic1', 'buton_mic2',
                         'ecran',
                         'filet_buton',
-                        'filet_mecanism_sipca_interior4',
                         'fund_mecanism_tigara',
                         'fund_sipca',
                         'shell_mecanism_tigara',
@@ -612,7 +632,7 @@
                     loadObjectsAndAssignMaterials(baterie_only, testMaterial, grupBaterie);
                     loadObjectsAndAssignMaterials(filtru_only, testMaterial2, grupFiltru);
                     loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, grupMecanism);
-                    console.log(scene);
+
                     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
 
                         array.forEach(function (name) {
@@ -626,9 +646,10 @@
                                 object.scale.x = 0.5;
                                 object.scale.y = 0.5;
                                 object.scale.z = 0.5;
-                                object.position.y = -30;
+                                groupName.position.y = -600;
                                 groupName.add(object);
                                 object.children[0].material = defaultMaterial;
+                                OBJ_count += 1;
                             }, onProgress, onError);
                         });
                     }
@@ -797,7 +818,11 @@
                 }
 
                 function basicColorizeOBJ() {
-
+                    console.log("basicColorizeOBJ entered");
+                    grupBaterie.position.y = -30;
+                    grupFiltru.position.y = -30;
+                    grupMecanism.position.y = -30;
+                    grupBaterie.position.x -= 15;
                 }
 
 
