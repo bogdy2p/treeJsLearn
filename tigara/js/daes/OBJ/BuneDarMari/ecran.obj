@@ -1,5 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 20.07.2015 12:01:25
+# File Created: 17.07.2015 11:39:02
+
+mtllib ecran.mtl
 
 #
 # object __59959__PRT0053_DC_Shell
@@ -234,6 +236,7 @@ vt 1.1818 3.0570 0.0000
 # 112 texture coords
 
 g __59959__PRT0053_DC_Shell
+usemtl wire_138008110
 s 1
 f 1/1/1 2/2/1 3/3/2 
 f 4/4/1 5/5/2 6/6/1 
