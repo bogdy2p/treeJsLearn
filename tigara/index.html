@@ -57,13 +57,11 @@
 
             <button id="btn1" onclick="switchBattery({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});">Button1-Switch Battery</button>
 
-            <!--            <button id="btn2" onclick="test();">TEST</button>
-                        <button id="btn3" onclick="butonmic1();">Button mic 1</button>-->
+      
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
-            <!--<button id="btn7" onclick="removeDisruptorColourOptions();">Remove Disruptor Colors</button>-->
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
-            <!--<button id="btn5" onclick="removeBatteryColourOptions();">RemoveBatColors</button>-->
             <button id="btn6" onclick="test();">test</button>
+            <button id="btn6" onclick="innokinSplitInThree();">SPLIT / UNSPLIT</button>
 
         </div>
 
@@ -85,7 +83,7 @@
 
                 var pbc_debug = false;
 
-
+                var object_is_not_split = true;
                 var objects_finished_loading = false;
                 var innokin_centered_to_screen = false;
                 var OBJ_count = 0;
@@ -145,19 +143,20 @@
                 };
                 var defaultMaterials = {
                     defaultBatterySupport: {color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide},
+                    defaultBatteryInside: {color: 0x2F2D38, shininess: 50, specular: 0x2F2D38, metal: true, side: THREE.DoubleSide},
                     defaultMechanism: {color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide},
                     defaultFilter: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
-                    defaultFilterGlass: {color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide},
-                    topAndBottom: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
+                    defaultFilterGlass: {color: 0xFFFFFF, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
+                    topAndBottom: {color: 0xCCCCCC, shininess: 50, specular: 0xBBBBBB, metal: true, side: THREE.DoubleSide},
                     defaultScrews: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
+                    defaultLogos: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
+                    defaultConnectorMaterial: {color: 0x9F8F53, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
                 }
 //                  var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
 //                  var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
 //                  var default_blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
 //                  var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
 //                  var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 10, specular: 0xFFFFCC, side: THREE.DoubleSide});
-
-
 
 
 
@@ -199,9 +198,15 @@
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
                     camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 6000);
+                    //Normal (below)
                     camera.position.x = -120;
                     camera.position.z = 100;
                     camera.position.y = -80;
+                    //Over-item
+                    camera.position.x = -140;
+                    camera.position.y = 70;
+                    camera.position.z = 85;
+
 //                    camera.position.x = 0;
 //                    camera.position.z = 500;
 //                    camera.position.y = 0;
@@ -209,7 +214,7 @@
                     controls = new THREE.OrbitControls(camera, container);
                     controls.noZoom = false;
                     controls.minDistance = 80;
-                    controls.maxDistance = 1800;
+                    controls.maxDistance = 180;
                     controls.noPan = true;
 
                     var directionalLightStrength = 0.15;
@@ -400,7 +405,7 @@
                                 removeBatteryColourOptions();
                                 break;
                             case 'threeColourBoxes':
-                                
+
                                 mechanism_temp_material = Object.object.material;
 //                                console.log(mechanism_temp_material);
 //                                
@@ -408,7 +413,7 @@
 //                                colorizeMechanism(Object.object.material.color.getHex());
                                 var mechanism = scene.getObjectByName('shell_mecanism_tigara');
                                 mechanism.children[0].material = mechanism_temp_material;
-                                
+
 
 
 
@@ -451,13 +456,12 @@
                 }
 
                 function onDocumentMouseMove(event) {
-
                     if (OBJ_count === OBJ_number) {
 //                        console.log("OBJECT COUNT IS NUMBER");
                         if (!innokin_centered_to_screen) {
                             objects_finished_loading = true;
                             basicColorizeOBJ();
-                            console.clear();
+//                            console.clear();
                             console.log("Cleared OnDocumentMouseMove");
 //                            assignVariablesToObjects();
                             innokin_centered_to_screen = true;
@@ -653,7 +657,7 @@
 
 
                 var onLoad = function (xhr) {
-                    console.log("OnLOAD CALLED !");
+//                    console.log("OnLOAD CALLED !");
                 };
                 var onError = function (xhr) {
 
@@ -737,7 +741,7 @@
                     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
 
                         array.forEach(function (name) {
-                            console.log(name);
+//                            console.log(name);
                             objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
                                 object.traverse(function (child) {
                                     if (child instanceof THREE.Mesh) {
@@ -752,7 +756,7 @@
                                 groupName.add(object);
                                 object.children[0].material = defaultMaterial;
                                 OBJ_count += 1;
-                                console.log(OBJ_count);
+//                                console.log(OBJ_count);
                             }, onProgress, onError);
 //                            
                         });
@@ -973,12 +977,48 @@
                     grupFiltru.position.y = -30;
                     grupMecanism.position.y = -30;
                     grupBaterie.position.x = -14.95;
+                    
+                    colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
+                    colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
                     colorizeGlass(defaultMaterials.defaultFilterGlass);
                     colorizeButtons(defaultMaterials.defaultFilter);
                     colorizeBattery(defaultMaterials.defaultBatterySupport);
                     colorizeFilter(defaultMaterials.defaultFilter);
                     colorizeTopAndBottom(defaultMaterials.topAndBottom);
                     colorizeScrews(defaultMaterials.defaultScrews);
+                    colorizeMechanism(defaultMaterials.defaultMechanism);
+                    colorizeLogos(defaultMaterials.defaultLogos);
+                }
+
+
+
+                function colorizeConnectors(materialColor){
+                    
+                    var powerConnectors = scene.getObjectByName('partea_superioara_stecher');
+                    var sipcaConnector = scene.getObjectByName('filet_capac_mecanism_tigara');
+                    powerConnectors.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    sipcaConnector.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    
+                    
+                }
+
+                function colorizeBatteryInside(materialColor) {
+                    var insideBattery = scene.getObjectByName('baterie');
+                    var insideBatteryBottom = scene.getObjectByName('baterie_2');
+                    insideBattery.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    insideBatteryBottom.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
+
+                function colorizeLogos(materialColor) {
+                    var filterLogo = scene.getObjectByName('logo_sipca');
+                    var batteryLogo = scene.getObjectByName('logo_textura_baterie');
+                    var bottomLogo = scene.getObjectByName('text_baterie_bottom');
+                    var insideLogo = scene.getObjectByName('text_mecanism_interior');
+
+                    filterLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    batteryLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    bottomLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    insideLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                 }
 
                 function colorizeMechanism(materialColor) {
@@ -1210,7 +1250,27 @@
                     }
                 }
 
-
+                function innokinSplitInThree() {
+                    var mechanism = scene.getObjectByName('grupPrincipal');
+                    var filter = scene.getObjectByName('grupFiltru');
+                    var battery = scene.getObjectByName('grupBaterie');
+                    if (object_is_not_split) {
+                        mechanism.position.x -= 20;
+                        filter.position.x = 0;
+                        filter.position.y += 0;
+                        battery.position.x += 20;
+                        object_is_not_split = false;
+                    } else {
+                        mechanism.position.x = 0;
+                        mechanism.position.y = -30;
+                        mechanism.position.z = 0;
+                        filter.position.x = 0;
+                        filter.position.y = -30;
+                        battery.position.x = -14.95;
+                        battery.position.y = -30;
+                        object_is_not_split = true;
+                    }
+                }
 //                function changeBatteryColor(color) {
 //                    console.log("attempting to change batery cover color to " + color);
 //                    var batterySupport_mesh = batterySupport.children[0].children[0];
