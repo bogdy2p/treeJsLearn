@@ -560,31 +560,36 @@
                     ];
 
                     var mecanism_only = [
-                        'buton_interior_mecanism', 'buton_mare',
+                        'buton_interior_mecanism',
+                        'buton_mare',
                         'buton_mic1', 'buton_mic2',
                         'ecran',
                         'filet_buton',
                         'filet_mecanism_sipca_interior4',
                         'fund_mecanism_tigara',
                         'fund_sipca',
-                        'shell_mecanism_tigara', 'shell_mecanism_tigara2',
-                        'shell_mecanism_tigara3', 'shell_mecanism_tigara4',
-                        'suruburi_fund_mecanism_tigara', 'suruburi_fund_sipca',
+                        'shell_mecanism_tigara',
+                        'suruburi_fund_mecanism_tigara',
+                        'suruburi_fund_sipca',
                         'parte_inferioara_stecher',
                         'parte_superioara_stecher', 'stecher', 'text_mecanism_interior'
                     ];
 
                     var baterie_only = [
-                        'baterie', 'capac_baterie', 'fund_baterie', 'invelis_baterie',
-                        'parte_inferioara_baterie', 'rama_gaura_spate_baterie', 'suruburi_baterie',
-                        'suruburi_capac_baterie', 'suruburi_fund_baterie', 'logo_textura_baterie', 'text_baterie_bottom',
+                        'baterie', 'capac_baterie',
+                        'fund_baterie', 'invelis_baterie',
+                        'parte_inferioara_baterie',
+                        'rama_gaura_spate_baterie',
+                        'suruburi_baterie',
+                        'suruburi_capac_baterie', 'suruburi_fund_baterie',
+                        'logo_textura_baterie', 'text_baterie_bottom',
                     ];
 
                     var array_of_names = [
                         'baterie', 'buton_interior_mecanism', 'buton_mare', 'buton_mic1',
                         'buton_mic2', 'capac_baterie', 'ecran', 'filet_buton',
                         'filet_mecanism_sipca_interior', 'filet_mecanism_sipca_interior2',
-                        'filet_mecanism_sipca_interior3', 'filet_mecanism_sipca_interior4',
+                        'filet_mecanism_sipca_interior3',
                         'filet_sipca_jos', 'fund_baterie',
                         'fund_mecanism_tigara', 'fund_sipca', 'gauri_sipca4', 'invelis_baterie', 'logo_sipca2',
                         'logo_textura_baterie', 'mecanism_interior_filtru_tigara',
@@ -598,6 +603,7 @@
                         'suruburi_baterie', 'suruburi_capac_baterie', 'suruburi_fund_baterie',
                         'suruburi_fund_mecanism_tigara', 'suruburi_fund_sipca'
                     ];
+
                     var objLoader = new THREE.OBJLoader(manager);
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
@@ -620,12 +626,14 @@
                                 object.scale.x = 0.5;
                                 object.scale.y = 0.5;
                                 object.scale.z = 0.5;
+                                object.position.y = -30;
                                 groupName.add(object);
                                 object.children[0].material = defaultMaterial;
                             }, onProgress, onError);
                         });
                     }
-//                  
+
+
 //                    array_of_names.forEach(function (name) {
 //                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
 //                            object.traverse(function (child) {
@@ -637,11 +645,15 @@
 //                            object.scale.x = 0.5;
 //                            object.scale.y = 0.5;
 //                            object.scale.z = 0.5;
+//                            object.position.y = -30;
 //                            scene.add(object);
 //                            object.children[0].material = testMaterial;
 //                        }, onProgress, onError);
 //                    });
+
+
                 }
+
 
 
 
