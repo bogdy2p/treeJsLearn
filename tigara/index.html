@@ -55,7 +55,7 @@
                         <button id="btn25" onclick="changeBatteryColor('blue');">Bat.Blue</button>
                         <button id="btn26" onclick="changeBatteryColor('pink');">Bat.Pink</button>-->
 
-            <button id="btn1" onclick="switchBattery();">Button1-Switch Battery</button>
+            <button id="btn1" onclick="switchBattery({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});">Button1-Switch Battery</button>
 
             <!--            <button id="btn2" onclick="test();">TEST</button>
                         <button id="btn3" onclick="butonmic1();">Button mic 1</button>-->
@@ -82,10 +82,14 @@
         <script src="js/ShaderParticleEmitter.js"></script>
 
         <script>
+
+                var pbc_debug = false;
+
+
                 var objects_finished_loading = false;
                 var innokin_centered_to_screen = false;
                 var OBJ_count = 0;
-                var OBJ_number = 28;
+                var OBJ_number = 29;
                 var group, grupMecanism, grupFiltru, grupBaterie, group2, group3;
                 var disruptor;
                 var battery;
@@ -174,7 +178,7 @@
                     whiteblue_glass: {color: 0x000000, shininess: 10, specular: 0x000000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
                 };
                 var userOpts = {
-                    liftoff: 20,
+                    liftoff: 16,
                     range: 2000,
                     duration: 1500,
                     delay: 0,
@@ -194,26 +198,92 @@
                     SCREEN_WIDTH = window.innerWidth;
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
-                    camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 600);
+                    camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 6000);
                     camera.position.x = -120;
                     camera.position.z = 100;
                     camera.position.y = -80;
+//                    camera.position.x = 0;
+//                    camera.position.z = 500;
+//                    camera.position.y = 0;
                     scene.add(camera);
                     controls = new THREE.OrbitControls(camera, container);
                     controls.noZoom = false;
                     controls.minDistance = 80;
-                    controls.maxDistance = 180;
+                    controls.maxDistance = 1800;
                     controls.noPan = true;
-                    var luminaDirectionala1 = new THREE.DirectionalLight(0xffffff, 0.4);
-                    luminaDirectionala1.position.set(600, 600, 600);
+
+                    var directionalLightStrength = 0.15;
+                    var increase = 1;
+
+                    var luminaDirectionala1 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
+                    luminaDirectionala1.position.set(300 * increase, 300 * increase, 0 * increase);
                     luminaDirectionala1.name = "luminaDirectionala1";
                     scene.add(luminaDirectionala1);
-                    var luminaDirectionala2 = new THREE.DirectionalLight(0xffffff, 0.4);
-                    luminaDirectionala2.position.set(600, -600, 600);
+                    var luminaDirectionala2 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
+                    luminaDirectionala2.position.set(0 * increase, 300 * increase, 300 * increase);
                     luminaDirectionala2.name = "luminaDirectionala2";
                     scene.add(luminaDirectionala2);
+                    var luminaDirectionala3 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
+                    luminaDirectionala3.position.set(0 * increase, -300 * increase, 300 * increase);
+                    luminaDirectionala3.name = "luminaDirectionala3";
+                    scene.add(luminaDirectionala3);
+                    var luminaDirectionala4 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
+                    luminaDirectionala4.position.set(-300 * increase, 300 * increase, 0 * increase);
+                    luminaDirectionala4.name = "luminaDirectionala4";
+                    scene.add(luminaDirectionala4);
+                    var luminaDirectionala5 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
+                    luminaDirectionala5.position.set(0 * increase, -300 * increase, 300 * increase);
+                    luminaDirectionala5.name = "luminaDirectionala5";
+                    scene.add(luminaDirectionala5);
+                    var luminaDirectionala6 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
+                    luminaDirectionala6.position.set(0 * increase, -300 * increase, -300 * increase);
+                    luminaDirectionala6.name = "luminaDirectionala6";
+                    scene.add(luminaDirectionala6);
+
+                    if (pbc_debug) {
+                        var testHelper = new THREE.AxisHelper(50);
+                        scene.add(testHelper);
+                        var testBoxGeom = new THREE.BoxGeometry(30, 30, 30, 30);
+                        var testBoxMat = new THREE.MeshBasicMaterial();
+                        var testBox = new THREE.Mesh(testBoxGeom, testBoxMat);
+                        var testBox2 = new THREE.Mesh(testBoxGeom, testBoxMat);
+                        var testBox3 = new THREE.Mesh(testBoxGeom, testBoxMat);
+                        var testBox4 = new THREE.Mesh(testBoxGeom, testBoxMat);
+                        var testBox5 = new THREE.Mesh(testBoxGeom, testBoxMat);
+                        var testBox6 = new THREE.Mesh(testBoxGeom, testBoxMat);
+                        scene.add(testBox);
+                        scene.add(testBox2);
+                        scene.add(testBox3);
+                        scene.add(testBox4);
+                        scene.add(testBox5);
+                        scene.add(testBox6);
+
+                        testBox.position.copy(luminaDirectionala1.position);
+                        testBox2.position.copy(luminaDirectionala2.position);
+                        testBox3.position.copy(luminaDirectionala3.position);
+                        testBox4.position.copy(luminaDirectionala4.position);
+                        testBox5.position.copy(luminaDirectionala5.position);
+                        testBox6.position.copy(luminaDirectionala6.position);
+//                    testBox.position.y = 600;
+//                    testBox.position.z = 600;
+                        var SphereSize = 100;
+                        var LightHelper1 = new THREE.DirectionalLightHelper(luminaDirectionala1, SphereSize);
+                        scene.add(LightHelper1);
+                        var LightHelper2 = new THREE.DirectionalLightHelper(luminaDirectionala2, SphereSize);
+                        scene.add(LightHelper2);
+                        var LightHelper3 = new THREE.DirectionalLightHelper(luminaDirectionala3, SphereSize);
+                        scene.add(LightHelper3);
+                        var LightHelper4 = new THREE.DirectionalLightHelper(luminaDirectionala4, SphereSize);
+                        scene.add(LightHelper4);
+                        var LightHelper5 = new THREE.DirectionalLightHelper(luminaDirectionala5, SphereSize);
+                        scene.add(LightHelper5);
+                        var LightHelper6 = new THREE.DirectionalLightHelper(luminaDirectionala6, SphereSize);
+                        scene.add(LightHelper6);
+                    }
+
                     pointLight = new THREE.PointLight(0xcccccc, 0.3);
                     pointLight.position.set(20, 20, 20);
+
                     scene.add(pointLight);
                     group = new THREE.Group();
                     scene.add(group);
@@ -320,16 +390,29 @@
                             case 'sevenColourBoxes':
 
 
-                                temp_material = Object.object.material;
-                                var batterySupport_mesh = batterySupport.children[0].children[0];
-                                var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
-                                batterySupport_mesh.material = temp_material;
+                                temp_material = Object.object.material.color;
+                                temp_color = Object.object.material.color.getHex();
+                                temp_specular = Object.object.material.specular.getHex();
+
+                                console.log(temp_material);
+
+                                switchBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
                                 removeBatteryColourOptions();
                                 break;
                             case 'threeColourBoxes':
+                                
                                 mechanism_temp_material = Object.object.material;
-                                var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
-                                mecanism_tigara_mesh.material = mechanism_temp_material;
+//                                console.log(mechanism_temp_material);
+//                                
+//                                
+//                                colorizeMechanism(Object.object.material.color.getHex());
+                                var mechanism = scene.getObjectByName('shell_mecanism_tigara');
+                                mechanism.children[0].material = mechanism_temp_material;
+                                
+
+
+
+
                                 removeDisruptorColourOptions();
                                 break;
                             case 9:
@@ -392,6 +475,7 @@
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
+
                 }
 
                 function onDocumentMouseOut(event) {
@@ -481,6 +565,8 @@
 
                     var newlightposition = camera.position;
                     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
+
+
                     var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
                     camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
                     camera.updateProjectionMatrix();
@@ -495,15 +581,13 @@
                 }
 
 
-                function switchBattery() {
-                    console.log(batterySupport.position);
+                function switchBattery(materialColor) {
+//                    console.log(batterySupport.position);
                     setupTweenBatteryOut();
                     setupTweenBatteryIn();
                     tweenBatteryUp.start();
                     setTimeout(function () {
-                        var newChargerMaterial = new THREE.MeshPhongMaterial({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});
-                        console.log(batterySupport);
-                        batterySupport.children[0].children[0].material = newChargerMaterial;
+                        colorizeBattery(materialColor);
                     }, 2400);
                     setTimeout(function () {
                         tweenBatteryOut.stop();
@@ -581,17 +665,6 @@
                         'sipca',
                         'sticla',
                         'logo_sipca',
-//                        'filet_mecanism_sipca_interior',
-//                        'filet_mecanism_sipca_interior2',
-//                        'filet_mecanism_sipca_interior3',
-//                        'mecanism_interior_filtru_tigara',
-//                        'gauri_sipca4',
-//                        'logo_sipca2',
-//                        'sipca1',
-//                        'sipca2',
-//                        'sipca3',
-//                        'sipca4',
-//                        'sticla',
                     ];
                     var mecanism_only = [
                         'buton_interior_mecanism_tigara',
@@ -609,18 +682,6 @@
                         'suruburi_capac_mecanism_tigara',
                         'suruburi_fund_mecanism_tigara',
                         'text_mecanism_interior',
-//                        'buton_interior_mecanism',
-//                        'buton_mare',
-//                        'buton_mic1', 'buton_mic2',
-//                        'ecran',
-//                        'filet_buton',
-//                        'fund_mecanism_tigara',
-//                        'fund_sipca',
-//                        'shell_mecanism_tigara',
-//                        'suruburi_fund_mecanism_tigara',
-//                        'suruburi_fund_sipca',
-//                        'parte_inferioara_stecher',
-//                        'parte_superioara_stecher', 'stecher', 'text_mecanism_interior'
                     ];
                     var baterie_only = [
                         'baterie',
@@ -633,49 +694,14 @@
                         'suruburi_capac_baterie',
                         'suruburi_fund_baterie',
                         'text_baterie_bottom',
-//                        'baterie', 'capac_baterie',
-//                        'fund_baterie', 'invelis_baterie',
-//                        'parte_inferioara_baterie',
-//                        'rama_gaura_spate_baterie',
-//                        'suruburi_baterie',
-//                        'suruburi_capac_baterie', 'suruburi_fund_baterie',
-//                        'logo_textura_baterie', 'text_baterie_bottom',
+                        'battery_usb',
                     ];
                     var array_of_names = [
-//                        'baterie',
-//                        'buton_interior_mecanism',
-                        'buton_mare',
-//                        'buton_mic1',
-//                        'buton_mic2', 
-//                        'capac_baterie',
-//                        'ecran', 
-                        'filet_buton',
-//                        'filet_mecanism_sipca_interior', 'filet_mecanism_sipca_interior2',
-//                        'filet_mecanism_sipca_interior3',
-//                        'filet_sipca_jos', 'fund_baterie',
-//                        'fund_mecanism_tigara',
-//                        'fund_sipca', 'gauri_sipca4',
-//                        'invelis_baterie', 'logo_sipca2',
-//                        'logo_textura_baterie',
-//                        'mecanism_interior_filtru_tigara',
-//                        'parte_inferioara_baterie',
-//                        'parte_inferioara_stecher',
-//                        'parte_superioara_stecher',
-//                        'rama_gaura_spate_baterie',
-//                        'text_baterie_bottom',
-//                        'text_mecanism_interior',
-//                        'shell_mecanism_tigara', 
-//                        'sipca1', 'sipca2', 'sipca3',
-//                        'sipca4', 'stecher', 'sticla',
-//                        'suruburi_baterie', 'suruburi_capac_baterie', 'suruburi_fund_baterie',
-//                        'suruburi_fund_mecanism_tigara', 'suruburi_fund_sipca'
-                    ];
-
-                    var array_of_names_noi = [
                         'sipca',
                         'sticla',
                         'baterie',
                         'baterie_2',
+                        'battery_usb',
                         'buton_interior_mecanism_tigara',
                         'buton_mare',
                         'buton_mic_1',
@@ -738,7 +764,7 @@
 
 
 
-//                    array_of_names_noi.forEach(function (name) {
+//                    array_of_names.forEach(function (name) {
 //                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
 //                            object.traverse(function (child) {
 //                                if (child instanceof THREE.Mesh) {
@@ -809,137 +835,137 @@
                 ///////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
 
-                function load3Dmodels() {
-
-
-                    var objectScale = 2;
-                    var colladaLoader = new THREE.ColladaLoader();
-                    colladaLoader.load('js/daes/MecanismTigara.dae', function colladaReady(collada) {
-                        disruptor = collada.scene;
-                        disruptorSkin = collada.skins[0];
-                        disruptor.name = "disruptor";
-                        group.add(disruptor);
-                        disruptor.position.x = 0.1;
-//                        disruptor.scale.x = 0.2;
-//                        disruptor.scale.y = 0.2;
-//                        disruptor.scale.z = 0.2;
-//                        sipca.scale.y = 0.1;
-//                        sipca.scale.z = 0.1;
-                        var defaultMechanismMaterial = new THREE.MeshPhongMaterial(defaultMaterials.defaultMechanism);
-                        disruptor.children[2].children[0].material = defaultMechanismMaterial;
-                    });
-                    colladaLoader.load('js/daes/Baterie.dae', function colladaReady(collada) {
-                        battery = collada.scene;
-                        battery.name = "battery";
-                        batterySkin = collada.skins[0];
-                        grupBaterie.add(battery);
-                        battery.position.z = 4;
-                        battery.position.x = 3.5;
-                    });
-                    colladaLoader.load('js/daes/CapacBaterie.dae', function colladaReady(collada) {
-                        batterySupport = collada.scene;
-                        batterySupport.name = "batterySupport";
-                        batterySupportSkin = collada.skins[0];
-                        grupBaterie.add(batterySupport);
-//                        var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x222299, metal: true, side: THREE.DoubleSide});
-//                        var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
-                        var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial(defaultMaterials.defaultBatterySupport);
-                        batterySupport.children[0].children[0].material = defaultBatterySupportMaterial;
-                        batterySupport.position.x = 5;
-                        batterySupport.position.z = 0.3;
-                    });
-                    colladaLoader.load('js/daes/Sipca.dae', function colladaReady(collada) {
-                        sipca = collada.scene;
-                        sipca.name = "filter";
-                        sipcaSkin = collada.skins[0];
-                        grupFiltru.add(sipca);
-                        sipca.position.x = 1.5;
-                    });
-                    colladaLoader.load('js/daes/Sticla.dae', function colladaReady(collada) {
-                        sticla = collada.scene;
-                        sticla.name = "filterGlass";
-                        sticlaSkin = collada.skins[0];
-                        grupFiltru.add(sticla);
-                        sticla.position.x = 1.5;
-                    });
-                    colladaLoader.load('js/daes/RamaEcran.dae', function colladaReady(collada) {
-                        ecran = collada.scene;
-                        ecran.name = "screen";
-                        ecranSkin = collada.skins[0];
-                        group.add(ecran);
-                        ecran.scale.x = 1.05;
-                        ecran.scale.y = 1.05;
-                        ecran.scale.z = 1.05;
-                        ecran.position.z = 4.5;
-                        ecran.position.y = -0.15;
-                        ecran.position.x = -4.75;
-                    });
-                    colladaLoader.load('js/daes/ButonMare.dae', function colladaReady(collada) {
-                        startButton = collada.scene;
-                        startButtonSkin = collada.skins[0];
-                        startButton.name = "startButton";
-                        group.add(startButton);
-                        startButton.position.z = -4.05;
-                        startButton.position.y = -0.05;
-                        startButton.position.x = 1.5;
-                    });
-                    colladaLoader.load('js/daes/ButonMic1.dae', function colladaReady(collada) {
-                        buttonSmall1 = collada.scene;
-                        buttonSmall1.name = "smallButton1";
-                        buttonSmall1Skin = collada.skins[0];
-                        group.add(buttonSmall1);
-                        buttonSmall1.position.z = -4.05;
-                        buttonSmall1.position.y = -0.05;
-                        buttonSmall1.position.x = 1.5;
-                    });
-                    colladaLoader.load('js/daes/ButonMic2.dae', function colladaReady(collada) {
-                        buttonSmall2 = collada.scene;
-                        buttonSmall2.name = "smallButton2";
-                        buttonSmall2Skin = collada.skins[0];
-                        group.add(buttonSmall2);
-                        buttonSmall2.position.z = -4.05;
-                        buttonSmall2.position.y = -0.05;
-                        buttonSmall2.position.x = 1.5;
-                    });
-                    colladaLoader.load('js/daes/FiletMecanismBaterie.dae', function colladaReady(collada) {
-                        batteryThread = collada.scene;
-                        batteryThread.name = "batteryThread";
-                        batteryThreadSkin = collada.skins[0];
-                        grupFiltru.add(batteryThread);
-                        batteryThread.position.x = 1.5;
-                    });
-                    colladaLoader.load('js/daes/Logo.dae', function colladaReady(collada) {
-                        logo = collada.scene;
-                        logo.name = "logo";
-                        logoSkin = collada.skins[0];
-                        grupBaterie.add(logo);
-                        logo.position.x = 3;
-                        logo.position.z = -4;
-                        logo.position.y = -0.2;
-                    });
-                    grupFiltru.position.z = -28;
-                    group.position.z = -20;
-                    grupBaterie.position.z = -20;
-                    grupFiltru.scale.x = 2;
-                    grupFiltru.scale.y = 2;
-                    grupFiltru.scale.z = 2;
-                    group.scale.x = 2;
-                    group.scale.y = 2;
-                    group.scale.z = 2;
-                    grupBaterie.scale.x = 2;
-                    grupBaterie.scale.y = 2;
-                    grupBaterie.scale.z = 2;
-                    //Actually create the screen
-                    //lcdScreen
-                    var lcdScreenGeometry = new THREE.PlaneGeometry(7.5, 2.5, 32, 32);
-                    var lcdScreenMaterial = new THREE.MeshPhongMaterial({color: 0x6B7285, side: THREE.DoubleSide});
-                    var lcdScreen = new THREE.Mesh(lcdScreenGeometry, lcdScreenMaterial);
-                    lcdScreen.rotation.y = Math.PI / 2;
-                    lcdScreen.position.x = -5.1; // adancime
-                    lcdScreen.position.z = 8.75; //Stanga dreapta
-                    lcdScreen.position.y = -0.15; //inaltime
-                    group.add(lcdScreen);
-                }
+//                function load3Dmodels() {
+//
+//
+//                    var objectScale = 2;
+//                    var colladaLoader = new THREE.ColladaLoader();
+//                    colladaLoader.load('js/daes/MecanismTigara.dae', function colladaReady(collada) {
+//                        disruptor = collada.scene;
+//                        disruptorSkin = collada.skins[0];
+//                        disruptor.name = "disruptor";
+//                        group.add(disruptor);
+//                        disruptor.position.x = 0.1;
+////                        disruptor.scale.x = 0.2;
+////                        disruptor.scale.y = 0.2;
+////                        disruptor.scale.z = 0.2;
+////                        sipca.scale.y = 0.1;
+////                        sipca.scale.z = 0.1;
+//                        var defaultMechanismMaterial = new THREE.MeshPhongMaterial(defaultMaterials.defaultMechanism);
+//                        disruptor.children[2].children[0].material = defaultMechanismMaterial;
+//                    });
+//                    colladaLoader.load('js/daes/Baterie.dae', function colladaReady(collada) {
+//                        battery = collada.scene;
+//                        battery.name = "battery";
+//                        batterySkin = collada.skins[0];
+//                        grupBaterie.add(battery);
+//                        battery.position.z = 4;
+//                        battery.position.x = 3.5;
+//                    });
+//                    colladaLoader.load('js/daes/CapacBaterie.dae', function colladaReady(collada) {
+//                        batterySupport = collada.scene;
+//                        batterySupport.name = "batterySupport";
+//                        batterySupportSkin = collada.skins[0];
+//                        grupBaterie.add(batterySupport);
+////                        var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x222299, metal: true, side: THREE.DoubleSide});
+////                        var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
+//                        var defaultBatterySupportMaterial = new THREE.MeshPhongMaterial(defaultMaterials.defaultBatterySupport);
+//                        batterySupport.children[0].children[0].material = defaultBatterySupportMaterial;
+//                        batterySupport.position.x = 5;
+//                        batterySupport.position.z = 0.3;
+//                    });
+//                    colladaLoader.load('js/daes/Sipca.dae', function colladaReady(collada) {
+//                        sipca = collada.scene;
+//                        sipca.name = "filter";
+//                        sipcaSkin = collada.skins[0];
+//                        grupFiltru.add(sipca);
+//                        sipca.position.x = 1.5;
+//                    });
+//                    colladaLoader.load('js/daes/Sticla.dae', function colladaReady(collada) {
+//                        sticla = collada.scene;
+//                        sticla.name = "filterGlass";
+//                        sticlaSkin = collada.skins[0];
+//                        grupFiltru.add(sticla);
+//                        sticla.position.x = 1.5;
+//                    });
+//                    colladaLoader.load('js/daes/RamaEcran.dae', function colladaReady(collada) {
+//                        ecran = collada.scene;
+//                        ecran.name = "screen";
+//                        ecranSkin = collada.skins[0];
+//                        group.add(ecran);
+//                        ecran.scale.x = 1.05;
+//                        ecran.scale.y = 1.05;
+//                        ecran.scale.z = 1.05;
+//                        ecran.position.z = 4.5;
+//                        ecran.position.y = -0.15;
+//                        ecran.position.x = -4.75;
+//                    });
+//                    colladaLoader.load('js/daes/ButonMare.dae', function colladaReady(collada) {
+//                        startButton = collada.scene;
+//                        startButtonSkin = collada.skins[0];
+//                        startButton.name = "startButton";
+//                        group.add(startButton);
+//                        startButton.position.z = -4.05;
+//                        startButton.position.y = -0.05;
+//                        startButton.position.x = 1.5;
+//                    });
+//                    colladaLoader.load('js/daes/ButonMic1.dae', function colladaReady(collada) {
+//                        buttonSmall1 = collada.scene;
+//                        buttonSmall1.name = "smallButton1";
+//                        buttonSmall1Skin = collada.skins[0];
+//                        group.add(buttonSmall1);
+//                        buttonSmall1.position.z = -4.05;
+//                        buttonSmall1.position.y = -0.05;
+//                        buttonSmall1.position.x = 1.5;
+//                    });
+//                    colladaLoader.load('js/daes/ButonMic2.dae', function colladaReady(collada) {
+//                        buttonSmall2 = collada.scene;
+//                        buttonSmall2.name = "smallButton2";
+//                        buttonSmall2Skin = collada.skins[0];
+//                        group.add(buttonSmall2);
+//                        buttonSmall2.position.z = -4.05;
+//                        buttonSmall2.position.y = -0.05;
+//                        buttonSmall2.position.x = 1.5;
+//                    });
+//                    colladaLoader.load('js/daes/FiletMecanismBaterie.dae', function colladaReady(collada) {
+//                        batteryThread = collada.scene;
+//                        batteryThread.name = "batteryThread";
+//                        batteryThreadSkin = collada.skins[0];
+//                        grupFiltru.add(batteryThread);
+//                        batteryThread.position.x = 1.5;
+//                    });
+//                    colladaLoader.load('js/daes/Logo.dae', function colladaReady(collada) {
+//                        logo = collada.scene;
+//                        logo.name = "logo";
+//                        logoSkin = collada.skins[0];
+//                        grupBaterie.add(logo);
+//                        logo.position.x = 3;
+//                        logo.position.z = -4;
+//                        logo.position.y = -0.2;
+//                    });
+//                    grupFiltru.position.z = -28;
+//                    group.position.z = -20;
+//                    grupBaterie.position.z = -20;
+//                    grupFiltru.scale.x = 2;
+//                    grupFiltru.scale.y = 2;
+//                    grupFiltru.scale.z = 2;
+//                    group.scale.x = 2;
+//                    group.scale.y = 2;
+//                    group.scale.z = 2;
+//                    grupBaterie.scale.x = 2;
+//                    grupBaterie.scale.y = 2;
+//                    grupBaterie.scale.z = 2;
+//                    //Actually create the screen
+//                    //lcdScreen
+//                    var lcdScreenGeometry = new THREE.PlaneGeometry(7.5, 2.5, 32, 32);
+//                    var lcdScreenMaterial = new THREE.MeshPhongMaterial({color: 0x6B7285, side: THREE.DoubleSide});
+//                    var lcdScreen = new THREE.Mesh(lcdScreenGeometry, lcdScreenMaterial);
+//                    lcdScreen.rotation.y = Math.PI / 2;
+//                    lcdScreen.position.x = -5.1; // adancime
+//                    lcdScreen.position.z = 8.75; //Stanga dreapta
+//                    lcdScreen.position.y = -0.15; //inaltime
+//                    group.add(lcdScreen);
+//                }
 
                 function basicColorizeOBJ() {
                     console.log("basicColorizeOBJ entered");
@@ -955,6 +981,10 @@
                     colorizeScrews(defaultMaterials.defaultScrews);
                 }
 
+                function colorizeMechanism(materialColor) {
+                    var mechanism = scene.getObjectByName('shell_mecanism_tigara');
+                    mechanism.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
 
                 function colorizeGlass(materialColor) {
                     var sticla = scene.getObjectByName('sticla');
@@ -1181,34 +1211,34 @@
                 }
 
 
-                function changeBatteryColor(color) {
-                    console.log("attempting to change batery cover color to " + color);
-                    var batterySupport_mesh = batterySupport.children[0].children[0];
-                    var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
-                    switch (color) {
-                        case "black":
-                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
-                            var blackGlassMat = new THREE.MeshPhongMaterial({color: 0x010101, shininess: 10, specular: 0x030303, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
-                            batterySupport_mesh.material = blackBatteryMaterial;
-                            filter_glass_mesh.material = blackGlassMat;
-                            break;
-                        case "blue":
-                            var blueBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide});
-                            var blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
-                            batterySupport_mesh.material = blueBatterySupportMaterial;
-                            filter_glass_mesh.material = blueGlassMat;
-                            break;
-                        case "pink":
-                            var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
-                            var pinkGlassMat = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 10, specular: 0xFA55BB, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
-                            batterySupport_mesh.material = pinkBatterySupportMaterial;
-                            filter_glass_mesh.material = pinkGlassMat;
-                            break;
-                        default:
-                            console.log("The colors you must chose are : black, blue or pink");
-                            break;
-                    }
-                }
+//                function changeBatteryColor(color) {
+//                    console.log("attempting to change batery cover color to " + color);
+//                    var batterySupport_mesh = batterySupport.children[0].children[0];
+//                    var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
+//                    switch (color) {
+//                        case "black":
+//                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+//                            var blackGlassMat = new THREE.MeshPhongMaterial({color: 0x010101, shininess: 10, specular: 0x030303, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
+//                            batterySupport_mesh.material = blackBatteryMaterial;
+//                            filter_glass_mesh.material = blackGlassMat;
+//                            break;
+//                        case "blue":
+//                            var blueBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide});
+//                            var blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
+//                            batterySupport_mesh.material = blueBatterySupportMaterial;
+//                            filter_glass_mesh.material = blueGlassMat;
+//                            break;
+//                        case "pink":
+//                            var pinkBatterySupportMaterial = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide});
+//                            var pinkGlassMat = new THREE.MeshPhongMaterial({color: 0xFA55BB, shininess: 10, specular: 0xFA55BB, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
+//                            batterySupport_mesh.material = pinkBatterySupportMaterial;
+//                            filter_glass_mesh.material = pinkGlassMat;
+//                            break;
+//                        default:
+//                            console.log("The colors you must chose are : black, blue or pink");
+//                            break;
+//                    }
+//                }
 
                 function playButonMareAction() {
 
@@ -1243,13 +1273,13 @@
                     }
                     console.log("Battery Current Position");
                     console.log(batteryGroup.position);
-                    var current = {x: 0, y: 0, z: -20};
+                    var current = {x: -14.95, y: -30, z: 0};
                     // remove previous tweens if needed
                     TWEEN.removeAll();
                     var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
                     // build the tween lift the battery from the support
                     tweenBatteryUp = new TWEEN.Tween(current)
-                            .to({z: +userOpts.liftoff}, userOpts.duration / 2)
+                            .to({y: +userOpts.liftoff}, userOpts.duration / 2)
                             .delay(userOpts.delay)
                             .easing(easing2)
                             .onUpdate(update);
@@ -1276,7 +1306,7 @@
                         batteryGroup.position.y = current.y;
                         batteryGroup.position.z = current.z;
                     }
-                    var current = {x: 2000, y: userOpts.liftoff, z: -20};
+                    var current = {x: 2000, y: userOpts.liftoff, z: -30};
                     // remove previous tweens if needed
                     TWEEN.removeAll();
                     // convert the string from dat-gui into tween.js functions 
@@ -1284,13 +1314,13 @@
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
                     // build the tween to go ahead
                     tweenBatteryIn = new TWEEN.Tween(current)
-                            .to({x: 0, y: 0, z: 0}, userOpts.duration)
+                            .to({x: -14.95, y: 10, z: 0}, userOpts.duration)
                             .delay(userOpts.delay)
                             .easing(quintic)
                             .onUpdate(update);
                     // build the tween to go backward
                     tweenBatteryDown = new TWEEN.Tween(current)
-                            .to({x: 0, y: 0, z: -20}, userOpts.duration / 2)
+                            .to({x: -14.95, y: -30, z: 0}, userOpts.duration / 2)
                             .delay(userOpts.delay)
                             .easing(easing)
                             .onUpdate(update)
