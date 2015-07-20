@@ -112,46 +112,36 @@
                 var emitter, particleGroup;
                 var disruptor_colours_shown = false;
                 var battery_colours_shown = false;
-                var disruptorColours = {
-                    black: 0xFFFFFF,
-                    black_specular: 0x040404,
-                    gold: 0xEAE0D7,
-                    gold_specular: 0xEAE0D7,
-                    silver: 0xE4E4EE,
-                    silver_specular: 0xE4E4EE,
-                };
-                var batteryColours = {
-                    red: 0xEF2A5F,
-                    red_specular: 0xEF2A5F,
-                    green: 0x00AE73,
-                    green_specular: 0x00AE73,
-                    purple: 0xB149BC,
-                    purple_specular: 0xB149BC,
-                    blue: 0x0280EE,
-                    blue_specular: 0x0280EE,
-                    pink: 0xDF037F,
-                    pink_specular: 0xDF037F,
-                    black: 0x2F2D38,
-                    black_specular: 0x2F2D38,
-                    whiteblue: 0x8EDCE8,
-                    whiteblue_specular: 0x8EDCE8,
-                };
+//                var disruptorColours = {
+//                    black: 0xFFFFFF,
+//                    black_specular: 0x040404,
+//                    gold: 0xEAE0D7,
+//                    gold_specular: 0xEAE0D7,
+//                    silver: 0xE4E4EE,
+//                    silver_specular: 0xE4E4EE,
+//                };
+//                var batteryColours = {
+//                    red: 0xEF2A5F,
+//                    red_specular: 0xEF2A5F,
+//                    green: 0x00AE73,
+//                    green_specular: 0x00AE73,
+//                    purple: 0xB149BC,
+//                    purple_specular: 0xB149BC,
+//                    blue: 0x0280EE,
+//                    blue_specular: 0x0280EE,
+//                    pink: 0xDF037F,
+//                    pink_specular: 0xDF037F,
+//                    black: 0x2F2D38,
+//                    black_specular: 0x2F2D38,
+//                    whiteblue: 0x8EDCE8,
+//                    whiteblue_specular: 0x8EDCE8,
+//                };
                 var disruptorMaterials = {
                     silver_material: {color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide},
                     black_material: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
                     golden_material: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
                 };
-                var defaultMaterials = {
-                    defaultBatterySupport: {color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide},
-                    defaultBatteryInside: {color: 0x2F2D38, shininess: 50, specular: 0x2F2D38, metal: true, side: THREE.DoubleSide},
-                    defaultMechanism: {color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide},
-                    defaultFilter: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
-                    defaultFilterGlass: {color: 0xFFFFFF, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
-                    topAndBottom: {color: 0xCCCCCC, shininess: 50, specular: 0xBBBBBB, metal: true, side: THREE.DoubleSide},
-                    defaultScrews: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
-                    defaultLogos: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
-                    defaultConnectorMaterial: {color: 0x9F8F53, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
-                }
+                
 //                  var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
 //                  var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
 //                  var default_blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
@@ -162,20 +152,41 @@
 
                 var batteryMaterials = {
                     black_battery: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
-                    black_glass: {color: 0x010101, shininess: 10, specular: 0x030303, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
-                    blue_battery: {color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide},
-                    blue_glass: {color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+//                    black_glass: {color: 0x010101, shininess: 10, specular: 0x030303, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+                    
+                    blue_battery: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
+//                    blue_glass: {color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+                    
                     pink_battery: {color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide},
-                    pink_glass: {color: 0xFA55BB, shininess: 10, specular: 0xFA55BB, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+//                    pink_glass: {color: 0xFA55BB, shininess: 10, specular: 0xFA55BB, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+                    
                     red_battery: {color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide},
-                    red_glass: {color: 0xFF6677, shininess: 10, specular: 0x990000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+//                    red_glass: {color: 0xFF6677, shininess: 10, specular: 0x990000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+                    
                     green_battery: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
-                    green_glass: {color: 0x000000, shininess: 10, specular: 0x000000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+//                    green_glass: {color: 0x000000, shininess: 10, specular: 0x000000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+                    
                     purple_battery: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
-                    purple_glass: {color: 0x000000, shininess: 10, specular: 0x000000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
-                    whiteblue_battery: {color: 0x000000, shininess: 50, specular: 0x000000, metal: true, side: THREE.DoubleSide},
-                    whiteblue_glass: {color: 0x000000, shininess: 10, specular: 0x000000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+//                    purple_glass: {color: 0x000000, shininess: 10, specular: 0x000000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
+                    
+                    whiteblue_battery: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
+//                    whiteblue_glass: {color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
                 };
+                
+                var defaultMaterials = {
+//                    defaultBatterySupport: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
+                    defaultBatterySupport: batteryMaterials.blue_battery,
+//                    defaultBatteryInside: {color: 0x2F2D38, shininess: 50, specular: 0x2F2D38, metal: true, side: THREE.DoubleSide},
+                    defaultBatteryInside: batteryMaterials.black_battery,
+//                    defaultMechanism: {color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide},
+                    defaultMechanism: disruptorMaterials.silver_material,
+                    defaultFilter: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
+                    defaultFilterGlass: {color: 0xFFFFFF, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
+                    topAndBottom: {color: 0xCCCCCC, shininess: 50, specular: 0xBBBBBB, metal: true, side: THREE.DoubleSide},
+                    defaultScrews: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
+                    defaultLogos: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
+                    defaultConnectorMaterial: {color: 0x9F8F53, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
+                }
                 var userOpts = {
                     liftoff: 16,
                     range: 2000,
@@ -1023,7 +1034,10 @@
 
                 function colorizeMechanism(materialColor) {
                     var mechanism = scene.getObjectByName('shell_mecanism_tigara');
+                    var mechanismBottom = scene.getObjectByName('partea_inferioara_stecher');
+                    
                     mechanism.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    mechanismBottom.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                 }
 
                 function colorizeGlass(materialColor) {
@@ -1040,31 +1054,21 @@
                 }
                 function colorizeBattery(materialColor) {
                     var batteryCover = scene.getObjectByName('invelis_baterie');
+                    var sticla = scene.getObjectByName('sticla');
+                    var usb = scene.getObjectByName('battery_usb');
+                    usb.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                     batteryCover.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    var sticlaColor = materialColor;
+                    sticlaColor.transparent = true;
+                    sticlaColor.opacity = 0.2;
+                    
+                    sticla.children[0].material = new THREE.MeshPhongMaterial(sticlaColor);
                 }
                 function colorizeFilter(materialColor) {
                     var sipca = scene.getObjectByName('sipca');
+                    var mechanismMagnet = scene.getObjectByName('buton_interior_mecanism_tigara');
                     sipca.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    var filet_mecanism_sipca_interior = scene.getObjectByName('filet_mecanism_sipca_interior');
-//                    var filet_mecanism_sipca_interior2 = scene.getObjectByName('filet_mecanism_sipca_interior2');
-//                    var filet_mecanism_sipca_interior3 = scene.getObjectByName('filet_mecanism_sipca_interior3');
-//                    var mecanism_interior_filtru_tigara = scene.getObjectByName('mecanism_interior_filtru_tigara');
-//                    var gauri_sipca4 = scene.getObjectByName('gauri_sipca4');
-////                    var logo_sipca2 = scene.getObjectByName('logo_sipca2');
-//                    var sipca1 = scene.getObjectByName('sipca1');
-//                    var sipca2 = scene.getObjectByName('sipca2');
-//                    var sipca3 = scene.getObjectByName('sipca3');
-//                    var sipca4 = scene.getObjectByName('sipca4');
-//                    filet_mecanism_sipca_interior.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    filet_mecanism_sipca_interior2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    filet_mecanism_sipca_interior3.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    mecanism_interior_filtru_tigara.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    gauri_sipca4.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-////                    logo_sipca2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    sipca1.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    sipca2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    sipca3.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-//                    sipca4.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    mechanismMagnet.children[0].material = new THREE.MeshPhongMaterial(materialColor);                    
                 }
 
                 function colorizeTopAndBottom(materialColor) {
@@ -1123,9 +1127,6 @@
                     if (disruptor_colours_shown === false) {
                         console.log("SHOULD DISPLAY 3 COLOURS TO CHOOSE FROM FOR THE DISRUPTOR");
                         var boxGeometry = new THREE.BoxGeometry(25, 25, 25, 25);
-//                        var goldenMaterial = new THREE.MeshPhongMaterial({color: disruptorColours.gold, specular: disruptorColours.gold_specular});
-//                        var silverMaterial = new THREE.MeshPhongMaterial({color: disruptorColours.silver, specular: disruptorColours.silver_specular});
-//                        var blackMaterial = new THREE.MeshPhongMaterial({color: 0x222222, specular: disruptorColours.black_specular});
                         var goldenMaterial = new THREE.MeshPhongMaterial(disruptorMaterials.golden_material);
                         var silverMaterial = new THREE.MeshPhongMaterial(disruptorMaterials.silver_material);
                         var blackMaterial = new THREE.MeshPhongMaterial(disruptorMaterials.black_material);
