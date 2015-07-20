@@ -82,16 +82,14 @@
         <script src="js/ShaderParticleEmitter.js"></script>
 
         <script>
-
-
                 var objects_finished_loading = false;
                 var innokin_centered_to_screen = false;
                 var OBJ_count = 0;
-                var OBJ_number = 36;
-
+                var OBJ_number = 37;
                 var group, grupMecanism, grupFiltru, grupBaterie, group2, group3;
                 var disruptor;
                 var battery;
+                var tigara;
                 var container, mapCanvas;
                 var controls, controls2;
                 var camera, mapCamera, scene, renderer, raycaster, raycasterMap;
@@ -145,7 +143,9 @@
                     defaultBatterySupport: {color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide},
                     defaultMechanism: {color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide},
                     defaultFilter: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
-//                    defaultFilterG;aa
+                    defaultFilterGlass: {color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide},
+                    topAndBottom: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
+                    defaultScrews: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
                 }
 //                  var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
 //                  var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
@@ -160,16 +160,10 @@
                 var batteryMaterials = {
                     black_battery: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
                     black_glass: {color: 0x010101, shininess: 10, specular: 0x030303, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
-//                                batterySupport_mesh.material = blackBatteryMaterial;
-//                                filter_glass_mesh.material = blackGlassMat;
                     blue_battery: {color: 0x009EFA, shininess: 50, specular: 0x009EFA, metal: true, side: THREE.DoubleSide},
                     blue_glass: {color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
-//                                batterySupport_mesh.material = blueBatterySupportMaterial;
-//                                filter_glass_mesh.material = blueGlassMat;
                     pink_battery: {color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide},
                     pink_glass: {color: 0xFA55BB, shininess: 10, specular: 0xFA55BB, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
-//                                batterySupport_mesh.material = pinkBatterySupportMaterial;
-//                                filter_glass_mesh.material = pinkGlassMat;
                     red_battery: {color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide},
                     red_glass: {color: 0xFF6677, shininess: 10, specular: 0x990000, transparent: true, opacity: 0.6, side: THREE.DoubleSide},
                     green_battery: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
@@ -236,15 +230,9 @@
                     //////////////////////////////////////////////
 
                     load3DOBJmodels();
-//                    load3Dmodels();
                     //////////////////////////////////////////////
                     // Add Charger 
-                    //Grosime,Lungime,Latime
-//                    setTimeout(function () {
-////                        basicColorize();
-//                        basicColorizeOBJ();
-////                        displayDisruptorOptions();
-//                    }, 1000);
+
                     renderer = new THREE.WebGLRenderer({antialias: true});
                     renderer.setClearColor(0x559955, 1);
                     renderer.setPixelRatio(window.devicePixelRatio);
@@ -385,6 +373,7 @@
                         if (!innokin_centered_to_screen) {
                             objects_finished_loading = true;
                             basicColorizeOBJ();
+//                            assignVariablesToObjects();
                             innokin_centered_to_screen = true;
                             OBJ_count += 1;
                         }
@@ -435,9 +424,9 @@
 
                 function resetButtonPositions() {
 
-                    startButton.position.x = 1.5;
-                    buttonSmall1.position.x = 1.5;
-                    buttonSmall2.position.x = 1.5;
+//                    startButton.position.x = 1.5;
+//                    buttonSmall1.position.x = 1.5;
+//                    buttonSmall2.position.x = 1.5;
                 }
 
                 function render(dt) {
@@ -535,10 +524,10 @@
                 }
 
                 function test() {
-                    console.log(scene);
+//                    console.log(scene);
                     asd = scene.getObjectByName('grupFiltru');
                     asd.position.y += 2;
-                    console.log(OBJ_count);
+//                    console.log(OBJ_count);
 
                 }
 
@@ -560,7 +549,6 @@
                 var onLoad = function (xhr) {
                     console.log("OnLOAD CALLED !");
                 };
-
                 var onError = function (xhr) {
 
                 };
@@ -571,6 +559,7 @@
                         'filet_mecanism_sipca_interior',
                         'filet_mecanism_sipca_interior2',
                         'filet_mecanism_sipca_interior3',
+                        'mecanism_interior_filtru_tigara',
                         'gauri_sipca4',
                         'logo_sipca2',
                         'sipca1',
@@ -579,7 +568,6 @@
                         'sipca4',
                         'sticla',
                     ];
-
                     var mecanism_only = [
                         'buton_interior_mecanism',
                         'buton_mare',
@@ -594,7 +582,6 @@
                         'parte_inferioara_stecher',
                         'parte_superioara_stecher', 'stecher', 'text_mecanism_interior'
                     ];
-
                     var baterie_only = [
                         'baterie', 'capac_baterie',
                         'fund_baterie', 'invelis_baterie',
@@ -604,7 +591,6 @@
                         'suruburi_capac_baterie', 'suruburi_fund_baterie',
                         'logo_textura_baterie', 'text_baterie_bottom',
                     ];
-
                     var array_of_names = [
                         'baterie', 'buton_interior_mecanism', 'buton_mare', 'buton_mic1',
                         'buton_mic2', 'capac_baterie', 'ecran', 'filet_buton',
@@ -623,19 +609,17 @@
                         'suruburi_baterie', 'suruburi_capac_baterie', 'suruburi_fund_baterie',
                         'suruburi_fund_mecanism_tigara', 'suruburi_fund_sipca'
                     ];
-
                     var objLoader = new THREE.OBJLoader(manager);
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
                     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
-
                     loadObjectsAndAssignMaterials(baterie_only, testMaterial, grupBaterie);
                     loadObjectsAndAssignMaterials(filtru_only, testMaterial2, grupFiltru);
                     loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, grupMecanism);
-
                     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
 
                         array.forEach(function (name) {
+                            console.log(name);
                             objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
                                 object.traverse(function (child) {
                                     if (child instanceof THREE.Mesh) {
@@ -651,8 +635,14 @@
                                 object.children[0].material = defaultMaterial;
                                 OBJ_count += 1;
                             }, onProgress, onError);
+//                            
                         });
                     }
+
+
+
+
+
 
 
 //                    array_of_names.forEach(function (name) {
@@ -675,7 +665,48 @@
 
                 }
 
-
+//                function assignVariablesToObjects() {
+//                    var tigara = {
+//                        filet_mecanism_sipca_interior: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        filet_mecanism_sipca_interior2: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        filet_mecanism_sipca_interior3: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        gauri_sipca4: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        logo_sipca2: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        sipca1: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        sipca2: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        sipca3: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        sipca4: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        sticla: scene.getObjectByName('filet_mecanism_sipca_interior'),
+////                //Mechanism Variables
+//                        buton_interior_mecanism: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        buton_mare: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        buton_mic1: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        buton_mic2: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        ecran: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        filet_buton: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        fund_mecanism_tigara: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        fund_sipca: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        shell_mecanism_tigara: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        suruburi_fund_mecanism_tigara: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        suruburi_fund_sipca: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        parte_inferioara_stecher: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        parte_superioara_stecher: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        stecher: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        text_mecanism_interior: scene.getObjectByName('filet_mecanism_sipca_interior'),
+////                //Battery Variables
+//                        baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        capac_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        fund_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        invelis_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        parte_inferioara_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        rama_gaura_spate_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        suruburi_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        suruburi_capac_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        suruburi_fund_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        logo_textura_baterie: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                        text_baterie_bottom: scene.getObjectByName('filet_mecanism_sipca_interior'),
+//                    };
+//                }
 
 
                 ///////////////////////////////////////////////////////////////
@@ -822,9 +853,77 @@
                     grupBaterie.position.y = -30;
                     grupFiltru.position.y = -30;
                     grupMecanism.position.y = -30;
-                    grupBaterie.position.x -= 15;
+                    grupBaterie.position.x -= 14.9;
+                    colorizeGlass(defaultMaterials.defaultFilterGlass);
+                    colorizeButtons(defaultMaterials.defaultFilter);
+                    colorizeBattery(defaultMaterials.defaultBatterySupport);
+                    colorizeFilter(defaultMaterials.defaultFilter);
+                    colorizeTopAndBottom(defaultMaterials.topAndBottom);
+                    colorizeScrews(defaultMaterials.defaultScrews);
                 }
 
+
+                function colorizeGlass(materialColor) {
+                    var sticla = scene.getObjectByName('sticla');
+                    sticla.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
+                function colorizeButtons(materialColor) {
+                    var bigButton = scene.getObjectByName('buton_mare');
+                    var smallButton1 = scene.getObjectByName('buton_mic1');
+                    var smallButton2 = scene.getObjectByName('buton_mic2');
+                    bigButton.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    smallButton1.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    smallButton2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
+                function colorizeBattery(materialColor) {
+                    var batteryCover = scene.getObjectByName('invelis_baterie');
+                    batteryCover.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
+                function colorizeFilter(materialColor) {
+                    var filet_mecanism_sipca_interior = scene.getObjectByName('filet_mecanism_sipca_interior');
+                    var filet_mecanism_sipca_interior2 = scene.getObjectByName('filet_mecanism_sipca_interior2');
+                    var filet_mecanism_sipca_interior3 = scene.getObjectByName('filet_mecanism_sipca_interior3');
+                    var mecanism_interior_filtru_tigara = scene.getObjectByName('mecanism_interior_filtru_tigara');
+                    var gauri_sipca4 = scene.getObjectByName('gauri_sipca4');
+//                    var logo_sipca2 = scene.getObjectByName('logo_sipca2');
+                    var sipca1 = scene.getObjectByName('sipca1');
+                    var sipca2 = scene.getObjectByName('sipca2');
+                    var sipca3 = scene.getObjectByName('sipca3');
+                    var sipca4 = scene.getObjectByName('sipca4');
+                    filet_mecanism_sipca_interior.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    filet_mecanism_sipca_interior2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    filet_mecanism_sipca_interior3.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    mecanism_interior_filtru_tigara.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    gauri_sipca4.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+//                    logo_sipca2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    sipca1.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    sipca2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    sipca3.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    sipca4.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
+
+                function colorizeTopAndBottom(materialColor) {
+                    var fund_mecanism_tigara = scene.getObjectByName('fund_mecanism_tigara');
+                    var fund_sipca = scene.getObjectByName('fund_sipca');
+                    var capac_baterie = scene.getObjectByName('capac_baterie');
+                    var fund_baterie = scene.getObjectByName('fund_baterie');
+                    fund_mecanism_tigara.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    fund_sipca.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    capac_baterie.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    fund_baterie.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
+                function colorizeScrews(materialColor) {
+                    var screwset1 = scene.getObjectByName('suruburi_fund_mecanism_tigara');
+                    var screwset2 = scene.getObjectByName('suruburi_fund_sipca');
+                    var screwset3 = scene.getObjectByName('suruburi_baterie');
+                    var screwset4 = scene.getObjectByName('suruburi_capac_baterie');
+                    var screwset5 = scene.getObjectByName('suruburi_fund_baterie');
+                    screwset1.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    screwset2.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    screwset3.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    screwset4.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                    screwset5.children[0].material = new THREE.MeshPhongMaterial(materialColor);
+                }
 
                 function basicColorize() {
 
