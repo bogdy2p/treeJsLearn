@@ -257,15 +257,16 @@
                         colorize: true
                     });
                     emitter = new SPE.Emitter({
-                        position: new THREE.Vector3(-4, 0, 75),
+                        position: new THREE.Vector3(-11.5, 45, -2),
                         positionSpread: new THREE.Vector3(0, 0, 0),
-                        acceleration: new THREE.Vector3(0, 0, 30),
-                        accelerationSpread: new THREE.Vector3(0, 0, 10),
+                        acceleration: new THREE.Vector3(0, 30, 00),
+                        accelerationSpread: new THREE.Vector3(0, 5, 0),
                         velocity: new THREE.Vector3(0, 0, 0),
-                        velocitySpread: new THREE.Vector3(20, 20, 20),
+                        velocitySpread: new THREE.Vector3(10, 10, 10),
+//                        velocitySpread: new THREE.Vector3(0, 0, 0),
                         colorStart: new THREE.Color(0x111111),
                         colorEnd: new THREE.Color(0x000000),
-                        sizeStart: 25,
+                        sizeStart: 15,
                         sizeEnd: 500,
                         particleCount: 100,
                     });
@@ -945,7 +946,7 @@
                     grupBaterie.position.y = -30;
                     grupFiltru.position.y = -30;
                     grupMecanism.position.y = -30;
-                    grupBaterie.position.x = -14.9;
+                    grupBaterie.position.x = -14.95;
                     colorizeGlass(defaultMaterials.defaultFilterGlass);
                     colorizeButtons(defaultMaterials.defaultFilter);
                     colorizeBattery(defaultMaterials.defaultBatterySupport);
