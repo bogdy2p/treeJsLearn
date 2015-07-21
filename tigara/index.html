@@ -656,7 +656,6 @@
 
                     var planeDynamicTexture = new THREEx.DynamicTexture(400, 200);
 
-//                    planeDynamicTexture.context.font = "" + (0.2 * 64) + "px Arial";
                     planeDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
 
                     var planeGeometry1 = new THREE.PlaneGeometry(45, 20, 30, 30);
@@ -668,10 +667,10 @@
                     var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
                     var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
                     LargeScreen.name = "largeScreen";
-                    scene.add(ScreenPlane);
+                    grupMecanism.add(ScreenPlane);
                     ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
                     ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
-                    ScreenPlane.position.y = -16.5; // TOP BOTTOM
+                    ScreenPlane.position.y = 13; // TOP BOTTOM
                     ScreenPlane.rotation.z = Math.PI / 2;
                     ScreenPlane.rotation.y = -Math.PI / 2;
                     planeDynamicTexture.texture.needsUpdate = true;
