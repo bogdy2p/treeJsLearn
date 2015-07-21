@@ -42,6 +42,14 @@
                 visibility: hidden;
                 display:none;
             }
+
+
+            @font-face {
+                font-family: "DisrupterLCDFont";
+                src: url("fonts/chesstype.ttf") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
         </style>
     </head>
     <body>
@@ -687,9 +695,9 @@
                     console.log("Minusbutton click LOGGED");
                     var buttonSmall2 = scene.getObjectByName('buton_mic_2');
                     buttonSmall2.position.x += 0.3;
-                    
-                    
-                     console.log(device_status);
+
+
+                    console.log(device_status);
                     if (device_status === "ON") {
                         console.log(device_state);
                         console.log(device_variables);
@@ -717,9 +725,9 @@
                                 break;
                         }
                     }
-                    
-                    
-                    
+
+
+
                 }
 
                 function resetButtonPositions() {
@@ -886,7 +894,7 @@
                                     align: 'center',
                                     lineHeight: 0.3,
                                     fillStyle: '#FDFDFD',
-                                    font: "bold " + (0.2 * 190) + "px Arial"
+                                    font: "" + (0.2 * 190) + "px DisrupterLCDFont"
                                 }
                         );
                         ScreenPlane.scale.x = 0.25;
