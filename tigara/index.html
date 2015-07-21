@@ -153,6 +153,7 @@
                     defaultConnectorMaterial: {color: 0x9F8F53, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
                     defaultScreenTransparent: {color: 0x009900, shininess: 10, specular: 0xFF00FF, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
 //                    defaultScreenFrame: {color: 0x55500F, shininess: 50, specular: 0x33B0F0, metal: true, side: THREE.DoubleSide},
+                    defaultScreenBackground: {color: 0x33300F, shininess: 50, specular: 0x22A0C0, metal: true, side: THREE.DoubleSide},
                 }
                 var userOpts = {
                     liftoff: 16,
@@ -654,16 +655,13 @@
 
                 function test() {
 
-                    var planeDynamicTexture = new THREEx.DynamicTexture(400, 200);
-
-                    planeDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
-
-                    var planeGeometry1 = new THREE.PlaneGeometry(45, 20, 30, 30);
-                    var planeGeometry2 = new THREE.PlaneGeometry(112, 50, 30, 30);
+                    var screenDynamicTexture = new THREEx.DynamicTexture(400, 200);
+                    screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+                    var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
+                    var planeGeometry2 = new THREE.PlaneBufferGeometry(112, 50, 30, 30);
                     var planeMaterial = new THREE.MeshBasicMaterial({
-                        map: planeDynamicTexture.texture
+                        map: screenDynamicTexture.texture
                     });
-
                     var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
                     var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
                     LargeScreen.name = "largeScreen";
@@ -673,23 +671,19 @@
                     ScreenPlane.position.y = 13; // TOP BOTTOM
                     ScreenPlane.rotation.z = Math.PI / 2;
                     ScreenPlane.rotation.y = -Math.PI / 2;
-                    planeDynamicTexture.texture.needsUpdate = true;
-
-                    planeDynamicTexture.clear('#667788');
-
-                    planeDynamicTexture.drawTextCooked(
+                    screenDynamicTexture.texture.needsUpdate = true;
+                    screenDynamicTexture.clear('#667788');
+                    screenDynamicTexture.drawTextCooked(
                             {
                                 text: 'This is the screen text',
                                 lineHeight: 0.3,
                                 fillStyle: '#FDFDFD',
                                 font: "bold " + (0.2 * 256) + "px Arial"
                             }
-
                     );
                     ScreenPlane.scale.x = 0.25;
                     ScreenPlane.scale.y = 0.25;
                     ScreenPlane.scale.z = 0.25;
-
                     LargeScreen.scale.x = 0.5;
                     LargeScreen.scale.y = 0.5;
                     LargeScreen.scale.z = 0.5;
@@ -903,10 +897,11 @@
                 function colorizeScreenBackground(materialColor) {
                     var screenBackground = scene.getObjectByName('ecran_behind');
                     screenBackground.position.x = 4.5;
-                    screenBackground.position.y = 0.6;
+//                    screenBackground.position.z = 10;
+                    screenBackground.position.y = -6;
                     screenBackground.scale.x = 0.6;
                     screenBackground.scale.z = 0.6;
-                    screenBackground.scale.y = 0.55;
+                    screenBackground.scale.y = 0.8;
                     screenBackground.children[0].material = new THREE.MeshPhongMaterial(materialColor);
 
                 }
