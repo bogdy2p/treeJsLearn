@@ -60,7 +60,7 @@
 
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
-            <button id="btn6" onclick="test();">test</button>
+            <button id="btn6" onclick="addScreens('Ana Are Mere');">test</button>
             <button id="btn6" onclick="innokinSplitInThree();">SPLIT / UNSPLIT</button>
 
         </div>
@@ -90,11 +90,26 @@
                 var OBJ_count = 0;
                 var OBJ_number = 31;
 
-
+                var device_status = "OFF";
                 var startButtonTime = null;
                 var startClick1 = null;
                 var startClick2 = null;
                 var startClick3 = null;
+                var timer_running = false;
+
+                var disruptor_started = false;
+                var startButtonPushStart = null;
+                var startButtonPushed = false;
+
+
+                var device_variables = {
+                    ohmz: 0.48,
+                    volt: 7.5,
+                    watt: 30.0,
+                    battery: 100,
+                }
+
+
 
 
 
@@ -116,6 +131,7 @@
                 var windowHalfY = window.innerHeight / 2;
                 var pointLight;
                 var startButtonCounter = 0;
+                var startButtonCounter2 = 0;
                 var chargerMaterial;
                 var tweenBatteryOut, tweenBatteryIn, tweenBatteryUp, tweenBatteryDown;
                 var startTime = Date.now();
@@ -298,7 +314,7 @@
                     window.addEventListener('resize', onWindowResize, false);
 //                    renderer.autoClear = false;
 
-//                    test();
+//                    addScreens('ana are mere');
                 }
 
                 function initParticles() {
@@ -435,7 +451,7 @@
                         if (!innokin_centered_to_screen) {
                             objects_finished_loading = true;
                             basicColorizeOBJ();
-//                            console.clear();
+                            console.clear();
                             console.log("Cleared OnDocumentMouseMove");
                             innokin_centered_to_screen = true;
                             OBJ_count += 1;
@@ -447,12 +463,26 @@
                 }
 
                 function onDocumentMouseUp(event) {
+//                    console.log(event);
                     renderer.domElement.addEventListener(
                             'mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
 
+//                    if (!disruptor_started) {
+//                        if (startButtonPushed) {
+//                            var newTime = clock.elapsedTime;
+//                            var timeDifference = newTime - startButtonPushStart;
+//                            startButtonPushed = false;
+////                            alert(timeDifference);
+//                            if (timeDifference > 1) {
+//                                startDisruptorWithLogo('ASD');
+//                            }
+//                        }
+//                    } else {
+//                        console.log("disruptor already  ON");
+//                    }
                 }
 
                 function onDocumentMouseOut(event) {
@@ -471,32 +501,113 @@
                 }
 
                 function startButtonClick() {
-                    startButtonCounter += 1;
                     var startButton = scene.getObjectByName('buton_mare');
-//                    console.log("STARTBUTTON CLICKED");
+                    var twoClicksDifference = 0;
+                    var threeClicksDifference = 0;
                     startButton.position.x += 0.3;
-                    console.log(clock);
-//                    console.log(clock);
-                    if (startButtonCounter % 3 == 1) {
-                        startClick1 = clock.elapsedTime;
-                    } else if (startButtonCounter % 3 == 2) {
-                        startClick2 = clock.elapsedTime;
-                    } else {
-                        startClick3 = clock.elapsedTime;
+                    startButtonCounter += 1;
+                    startButtonCounter2 += 1;
+
+                    if (device_status === "OFF") {
+
+                        startButtonPushStart = clock.elapsedTime;
+                        startButtonPushed = true;
+                        if (startButtonCounter % 3 == 1) {
+                            clearTimeout();
+                            startClick1 = clock.elapsedTime;
+                            timer_running = true;
+                            setTimeout(function () {
+                                if (timer_running) {
 
 
-                        var difference = startClick3 - startClick1;
+                                    displayStartInformation();
+                                    console.log('SOMETHING WENT WRONG');
+                                    console.log("the 400 ms timeout has been exceeded or too many clicks");
+                                } else {
+                                    if (startButtonCounter2 > 0)
+                                        if ((startButtonCounter2 % 3) == 0)
+                                        {
+                                            console.log("I THINK WE SHOULD START THE LIGHTER (LOGO)");
+                                            console.log(startButtonCounter2);
+                                        }
 
-                        console.log('Click1');
-                        console.log(startClick1);
-                        console.log('Click2');
-                        console.log(startClick2);
-                        console.log('Click3');
-                        console.log(startClick3);
-                        console.log("Difference:");
-                        console.log(difference);
+                                }
+                            }, 400);
+                        }
+                        if (startButtonCounter % 3 == 2) {
+                            clearTimeout();
+                            startClick2 = clock.elapsedTime;
+                            twoClicksDifference = startClick2 - startClick1;
+                            timer_running = false;
+                            console.log("2Clizks");
+                            console.log(twoClicksDifference);
+
+                        }
+                        if (startButtonCounter % 3 == 0) {
+                            clearTimeout();
+                            startClick3 = clock.elapsedTime;
+                            threeClicksDifference = startClick3 - startClick1;
+                            timer_running = false;
+//                            startButtonCounter = 0;
+                            console.log("3Clizks");
+                            console.log(threeClicksDifference);
+                            
+                            startDisruptorWithLogo('ASD LOGO TEXT');
+                            device_status = "ON";
+                        }
+
+
+                        console.log("ClickNUMBER");
+                        console.log(startButtonCounter);
+
+
+//                        
+
+                    }
+                    setTimeout(function () {
+                        timer_running = true;
+                        startButtonCounter = 0;
+                    }, 600);
+
+
+                    if (device_status === "ON") {
+
+//                        alert('THE DEVICE IS ONLINE');
+
                     }
 
+
+
+
+
+
+
+
+
+//                    console.log("STARTBUTTON CLICKED");
+
+//                    console.log(clock);
+//                    console.log(clock);
+//                    if (startButtonCounter % 3 == 1) {
+//                        startClick1 = clock.elapsedTime;
+//                    } else if (startButtonCounter % 3 == 2) {
+//                        startClick2 = clock.elapsedTime;
+//                    } else {
+//                        startClick3 = clock.elapsedTime;
+//
+//
+//                        var difference = startClick3 - startClick1;
+//
+//                        console.log('Click1');
+//                        console.log(startClick1);
+//                        console.log('Click2');
+//                        console.log(startClick2);
+//                        console.log('Click3');
+//                        console.log(startClick3);
+//                        console.log("Difference:");
+//                        console.log(difference);
+//                    }
+//
 
 
 
@@ -653,58 +764,225 @@
                     grupbaterie.position.z += 5;
                 }
 
-                function test() {
 
-                    var screenDynamicTexture = new THREEx.DynamicTexture(400, 200);
-                    screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
-                    var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
-                    var planeGeometry2 = new THREE.PlaneBufferGeometry(112, 50, 30, 30);
-                    var planeMaterial = new THREE.MeshBasicMaterial({
-                        map: screenDynamicTexture.texture
-                    });
-                    var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
-                    var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
-                    LargeScreen.name = "largeScreen";
-                    grupMecanism.add(ScreenPlane);
-                    ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
-                    ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
-                    ScreenPlane.position.y = 13; // TOP BOTTOM
-                    ScreenPlane.rotation.z = Math.PI / 2;
-                    ScreenPlane.rotation.y = -Math.PI / 2;
-                    screenDynamicTexture.texture.needsUpdate = true;
-                    screenDynamicTexture.clear('#667788');
-                    screenDynamicTexture.drawTextCooked(
-                            {
-                                text: 'This is the screen text',
-                                lineHeight: 0.3,
-                                fillStyle: '#FDFDFD',
-                                font: "bold " + (0.2 * 256) + "px Arial"
-                            }
-                    );
-                    ScreenPlane.scale.x = 0.25;
-                    ScreenPlane.scale.y = 0.25;
-                    ScreenPlane.scale.z = 0.25;
-                    LargeScreen.scale.x = 0.5;
-                    LargeScreen.scale.y = 0.5;
-                    LargeScreen.scale.z = 0.5;
-                    scene.add(LargeScreen);
+                function startDisruptorWithLogo(logoText) {
+                    var small_screen_already_exists = scene.getObjectByName('smallScreen');
 
-//                    LargeScreen.position.x = 50;
-//                    LargeScreen.position.y = 50;
-//                    LargeScreen.position.z = 50;
-//                    
+                    if (!small_screen_already_exists) {
+                        //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
 
 
 
+                        var screenDynamicTexture = new THREEx.DynamicTexture(400, 200);
+                        screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+                        var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
+                        var planeGeometry2 = new THREE.PlaneBufferGeometry(112, 50, 30, 30);
+                        var planeMaterial = new THREE.MeshBasicMaterial({
+                            map: screenDynamicTexture.texture
+                        });
+                        var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
+                        ScreenPlane.name = 'smallScreen';
+                        var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
+                        LargeScreen.name = 'largeScreen';
+                        grupMecanism.add(ScreenPlane);
+                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
+                        ScreenPlane.position.y = 13; // TOP BOTTOM
+                        ScreenPlane.rotation.z = Math.PI / 2;
+                        ScreenPlane.rotation.y = -Math.PI / 2;
+                        screenDynamicTexture.texture.needsUpdate = true;
+                        screenDynamicTexture.clear('#667788');
+                        screenDynamicTexture.drawTextCooked(
+                                {
+                                    text: logoText,
+                                    lineHeight: 0.3,
+                                    fillStyle: '#FDFDFD',
+                                    font: "bold " + (0.2 * 256) + "px Arial"
+                                }
+                        );
+                        ScreenPlane.scale.x = 0.25;
+                        ScreenPlane.scale.y = 0.25;
+                        ScreenPlane.scale.z = 0.25;
+                        LargeScreen.scale.x = 0.5;
+                        LargeScreen.scale.y = 0.5;
+                        LargeScreen.scale.z = 0.5;
+                        scene.add(LargeScreen);
+                        
+                        setTimeout(function () {
+                            grupMecanism.remove(ScreenPlane);
+                            scene.remove(LargeScreen);
+                        }, 2000);
+                        setTimeout(function() {
+                            displayDisruptor();
+                        },2100);
+                        
+                        
+                    } else {
+                        alert('Cannot add doubles @ this');
+                    }
+                }
 
-//                    var ramaEcran = scene.getObjectByName('ecran_rama');
-//                    if (ramaEcran) {
-//                        ramaEcran.scale.x = 3;
-//                        ramaEcran.scale.y = 3;
-//                        ramaEcran.scale.z = 3;
-//
-//
-//                    }
+
+                function displayStartInformation() {
+
+
+                    var small_screen_already_exists = scene.getObjectByName('smallScreen');
+
+                    if (!small_screen_already_exists) {
+                        //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
+
+
+
+                        var screenDynamicTexture = new THREEx.DynamicTexture(400, 150);
+                        screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+                        var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
+                        var planeGeometry2 = new THREE.PlaneBufferGeometry(112, 50, 30, 30);
+                        var planeMaterial = new THREE.MeshBasicMaterial({
+                            map: screenDynamicTexture.texture
+                        });
+                        var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
+                        ScreenPlane.name = 'smallScreen';
+                        var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
+                        LargeScreen.name = 'largeScreen';
+                        grupMecanism.add(ScreenPlane);
+                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
+                        ScreenPlane.position.y = 13; // TOP BOTTOM
+                        ScreenPlane.rotation.z = Math.PI / 2;
+                        ScreenPlane.rotation.y = -Math.PI / 2;
+                        screenDynamicTexture.texture.needsUpdate = true;
+                        screenDynamicTexture.clear('#667788');
+                        screenDynamicTexture.drawTextCooked(
+                                {
+                                    text: "        OFF",
+                                    lineHeight: 0.3,
+                                    fillStyle: '#FDFDFD',
+                                    font: "bold " + (0.2 * 256) + "px Arial"
+                                }
+                        );
+                        screenDynamicTexture.drawTextCooked(
+                                {
+                                    text: "                         Click 3x ON",
+                                    lineHeight: 0.3,
+                                    fillStyle: '#FDFDFD',
+                                    font: "bold " + (0.2 * 256) + "px Arial"
+                                });
+                        ScreenPlane.scale.x = 0.25;
+                        ScreenPlane.scale.y = 0.25;
+                        ScreenPlane.scale.z = 0.25;
+                        LargeScreen.scale.x = 0.5;
+                        LargeScreen.scale.y = 0.5;
+                        LargeScreen.scale.z = 0.5;
+                        scene.add(LargeScreen);
+
+                        setTimeout(function () {
+                            grupMecanism.remove(ScreenPlane);
+                            scene.remove(LargeScreen);
+                        }, 1500);
+
+                    } else {
+                        alert('Cannot add doubles @ this');
+                    }
+                }
+
+
+                function displayDisruptor() {
+
+
+                    var small_screen_already_exists = scene.getObjectByName('smallScreen');
+
+                    if (!small_screen_already_exists) {
+                        //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
+
+
+
+                        var screenDynamicTexture = new THREEx.DynamicTexture(400, 200);
+                        screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+                        var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
+                        var planeGeometry2 = new THREE.PlaneBufferGeometry(112, 50, 30, 30);
+                        var planeMaterial = new THREE.MeshBasicMaterial({
+                            map: screenDynamicTexture.texture
+                        });
+                        var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
+                        ScreenPlane.name = 'smallScreen';
+                        var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
+                        LargeScreen.name = 'largeScreen';
+                        grupMecanism.add(ScreenPlane);
+                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
+                        ScreenPlane.position.y = 13; // TOP BOTTOM
+                        ScreenPlane.rotation.z = Math.PI / 2;
+                        ScreenPlane.rotation.y = -Math.PI / 2;
+                        screenDynamicTexture.texture.needsUpdate = true;
+                        screenDynamicTexture.clear('#667788');
+                        screenDynamicTexture.drawTextCooked(
+                                {
+                                    text: 'text_to_display',
+                                    lineHeight: 0.3,
+                                    fillStyle: '#FDFDFD',
+                                    font: "bold " + (0.2 * 256) + "px Arial"
+                                }
+                        );
+                        ScreenPlane.scale.x = 0.25;
+                        ScreenPlane.scale.y = 0.25;
+                        ScreenPlane.scale.z = 0.25;
+                        LargeScreen.scale.x = 0.5;
+                        LargeScreen.scale.y = 0.5;
+                        LargeScreen.scale.z = 0.5;
+                        scene.add(LargeScreen);
+                    } else {
+                        alert('Cannot add doubles @ this');
+                    }
+                }
+
+
+                function startTheDisruptor(text_to_display) {
+
+
+                    var small_screen_already_exists = scene.getObjectByName('smallScreen');
+
+                    if (!small_screen_already_exists) {
+                        //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
+
+
+
+                        var screenDynamicTexture = new THREEx.DynamicTexture(400, 200);
+                        screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+                        var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
+                        var planeGeometry2 = new THREE.PlaneBufferGeometry(112, 50, 30, 30);
+                        var planeMaterial = new THREE.MeshBasicMaterial({
+                            map: screenDynamicTexture.texture
+                        });
+                        var ScreenPlane = new THREE.Mesh(planeGeometry1, planeMaterial);
+                        ScreenPlane.name = 'smallScreen';
+                        var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
+                        LargeScreen.name = 'largeScreen';
+                        grupMecanism.add(ScreenPlane);
+                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
+                        ScreenPlane.position.y = 13; // TOP BOTTOM
+                        ScreenPlane.rotation.z = Math.PI / 2;
+                        ScreenPlane.rotation.y = -Math.PI / 2;
+                        screenDynamicTexture.texture.needsUpdate = true;
+                        screenDynamicTexture.clear('#667788');
+                        screenDynamicTexture.drawTextCooked(
+                                {
+                                    text: text_to_display,
+                                    lineHeight: 0.3,
+                                    fillStyle: '#FDFDFD',
+                                    font: "bold " + (0.2 * 256) + "px Arial"
+                                }
+                        );
+                        ScreenPlane.scale.x = 0.25;
+                        ScreenPlane.scale.y = 0.25;
+                        ScreenPlane.scale.z = 0.25;
+                        LargeScreen.scale.x = 0.5;
+                        LargeScreen.scale.y = 0.5;
+                        LargeScreen.scale.z = 0.5;
+                        scene.add(LargeScreen);
+                    } else {
+                        alert('Cannot add doubles @ this');
+                    }
                 }
 
                 var manager = new THREE.LoadingManager();
