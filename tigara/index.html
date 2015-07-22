@@ -106,7 +106,7 @@
 
             <script>
 
-                var pbc_debug = false;
+                var pbc_debug = true;
                 var toMoveObject = 'roata';
                 var scale_to_move = 0.5;</script>
 
@@ -2330,7 +2330,7 @@
                             switch (i) {
                                 case 0:
                                     object.position.x = 16;
-                                    object.position.y = general_height + 5 * i;
+                                    object.position.y = general_height;
                                     object.position.z = 2;
 
                                     //NO ROTATION NEEDED @ THIS
@@ -2343,7 +2343,7 @@
 //                                    object.position.z = 33;
                                     //IF ROTATED
                                     object.position.x = -2;
-                                    object.position.y = general_height + 5 * i;
+                                    object.position.y = general_height;
                                     object.position.z = 16;
 
 
@@ -2351,20 +2351,24 @@
                                     break;
                                 case 1:
                                     //IF NOT ROTATED
-                                    object.position.x = 7;
-                                    object.position.y = general_height + 5 * i;
-                                    object.position.z = 24;
+//                                    object.position.x = 7;
+//                                    object.position.y = general_height;
+//                                    object.position.z = 24;
                                     //IF ROTATED
                                     object.position.x = 10;
-                                    object.position.y = general_height + 5 * i;
+                                    object.position.y = general_height;
                                     object.position.z = 12.5;
                                     object.rotation.y = -Math.PI / 4;
                                     break;
                                 case 3:
-                                    object.position.x = -37;
-                                    object.position.y = general_height + 5 * i;
-                                    object.position.z = 24;
-
+                                    //IF NOT ROTATED
+//                                    object.position.x = -37;
+//                                    object.position.y = general_height;
+//                                    object.position.z = 24;
+                                    //IF ROTATED
+                                    object.position.x = -13;
+                                    object.position.y = general_height;
+                                    object.position.z = 10;
 
                                     object.rotation.y = -3 * Math.PI / 4;
 //                                    object.rotation.y += 0.5;
@@ -2372,28 +2376,48 @@
                                     break;
                                     ///x=-37y=-32z=24
                                 case 4:
-                                    object.position.x = -46;
-                                    object.position.y = general_height + 5 * i;
-                                    object.position.z = 1.5;
+                                    //IF NOT ROTATED
+//                                    object.position.x = -46;
+//                                    object.position.y = general_height + 5 * i;
+//                                    object.position.z = 1.5;
+                                    //IF ROTATED
+                                    object.position.x = -16.2;
+                                    object.position.y = general_height;
+                                    object.position.z = -1.8;
                                     object.rotation.y = Math.PI;
                                     break;
                                 case 5:
-                                    object.position.x = -37;
-                                    object.position.y = general_height + 5 * i;
-                                    object.position.z = -20;
-                                    object.rotation.y = 3* Math.PI/4;
+                                    //IF NOT ROTATED
+//                                    object.position.x = -37;
+//                                    object.position.y = general_height + 5 * i;
+//                                    object.position.z = -20;
+                                    //IF ROTATED
+                                    object.position.x = -10.2;
+                                    object.position.y = general_height;
+                                    object.position.z = -12.7;
+                                    object.rotation.y = 3 * Math.PI / 4;
                                     break;
                                 case 6:
-                                    object.position.x = -14.7;
-                                    object.position.y = general_height + 5 * i;
-                                    object.position.z = -29;
-                                    object.rotation.y = 2* Math.PI/4;
+                                    //IF NOT ROTATED
+//                                    object.position.x = -14.7;
+//                                    object.position.y = general_height + 5 * i;
+//                                    object.position.z = -29;
+                                    //IF ROTATED
+                                    object.position.x = 1.8;
+                                    object.position.y = general_height;
+                                    object.position.z = -16.2;
+                                    object.rotation.y = 2 * Math.PI / 4;
                                     break;
                                 case 7:
-                                    object.position.x = 7;
-                                    object.position.y = general_height + 5 * i;
-                                    object.position.z = -20.5;
-                                    object.rotation.y = Math.PI/4;
+                                    //IF NOT ROTATED
+//                                    object.position.x = 7;
+//                                    object.position.y = general_height + 5 * i;
+//                                    object.position.z = -20.5;
+                                    //IF ROTATED
+                                    object.position.x = 13;
+                                    object.position.y = general_height;
+                                    object.position.z = -10;
+                                    object.rotation.y = Math.PI / 4;
                                     break;
                             }
 
