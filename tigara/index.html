@@ -97,7 +97,7 @@
 
             <!--            <button id="btn1" onclick="switchBattery({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});">Switch Battery</button>-->
 
-            <button id="firstBtn" onclick="addControls();">AAAA</button>
+            <button id="firstBtn" onclick="load8times();">load8times</button>
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
             <button id="btn6" onclick="test();">test</button>
@@ -105,61 +105,103 @@
 
 
             <script>
+
+                var pbc_debug = true;
                 var toMoveObject = 'roata';
-                var scale_to_move = 0.5;
-            </script>
+                var scale_to_move = 0.5;</script>
 
 
             <script>
-                function updateToMoveObject() {
-                    toMoveObject = selectList.value;
-                }
-                var myDiv = document.getElementById("selectDiv");
-                var all_objects = [
-                    'buton_interior_mecanism_tigara',
-                    'buton_mare',
-                    'buton_mic_1',
-                    'buton_mic_2',
-                    'capac_mecanism_tigara',
-                    'ecran',
-                    'ecran_behind',
-                    'ecran_rama',
-                    'filet_buton',
-                    'filet_capac_mecanism_tigara',
-                    'fund_mecanism_tigara',
-                    'partea_inferioara_stecher',
-                    'partea_superioara_stecher',
-                    'shell_mecanism_tigara',
-                    'suruburi_capac_mecanism_tigara',
-                    'suruburi_fund_mecanism_tigara',
-                    'text_mecanism_interior',
-                    'sipca',
-                    'sticla',
-                    'logo_sipca',
-                    'baterie',
-                    'baterie_2',
-                    'capac_baterie',
-                    'fund_baterie',
-                    'invelis_baterie',
-                    'logo_textura_baterie',
-                    'suruburi_baterie',
-                    'suruburi_capac_baterie',
-                    'suruburi_fund_baterie',
-                    'text_baterie_bottom',
-                    'battery_usb'];
+                if (pbc_debug) {
+                    function updateToMoveObject() {
+                        toMoveObject = selectList.value;
+                    }
+                    function updateScaleToMoveObject() {
+                        scale_to_move = scalesList.value;
+                    }
+                    var myDiv = document.getElementById("selectDiv");
+                    var all_objects = [
+                        'buton_interior_mecanism_tigara',
+                        'buton_mare',
+                        'buton_mic_1',
+                        'buton_mic_2',
+                        'capac_mecanism_tigara',
+                        'ecran',
+                        'ecran_behind',
+                        'ecran_rama',
+                        'filet_buton',
+                        'filet_capac_mecanism_tigara',
+                        'fund_mecanism_tigara',
+                        'partea_inferioara_stecher',
+                        'partea_superioara_stecher',
+                        'shell_mecanism_tigara',
+                        'suruburi_capac_mecanism_tigara',
+                        'suruburi_fund_mecanism_tigara',
+                        'text_mecanism_interior',
+                        'sipca',
+                        'sticla',
+                        'logo_sipca',
+                        'baterie',
+                        'baterie_2',
+                        'capac_baterie',
+                        'fund_baterie',
+                        'invelis_baterie',
+                        'logo_textura_baterie',
+                        'suruburi_baterie',
+                        'suruburi_capac_baterie',
+                        'suruburi_fund_baterie',
+                        'text_baterie_bottom',
+                        'battery_usb'];
+                    var test_objects = [
+                        'testCylinder1',
+                        'testCylinder2',
+                        'testCylinder3',
+                        'testCylinder4',
+                        'testCylinder5',
+                        'testCylinder6',
+                        'testbaterie0',
+                        'testbaterie1',
+                        'testbaterie2',
+                        'testbaterie3',
+                        'testbaterie4',
+                        'testbaterie5',
+                        'testbaterie6',
+                        'testbaterie7',
+                    ];
+                    for (i = 0; i < test_objects.length; i++) {
+                        all_objects.push(test_objects[i]);
+                    }
 
-                var selectList = document.createElement("select");
-                selectList.id = "mySelect";
-                selectList.setAttribute("onchange","updateToMoveObject()");
-                
-                console.log(selectList);
-                myDiv.appendChild(selectList);
 
-                for (var i = 0; i < all_objects.length; i++) {
-                    var option = document.createElement("option");
-                    option.value = all_objects[i];
-                    option.text = all_objects [i];
-                    selectList.appendChild(option);
+
+
+
+
+                    var scales = [
+                        0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 30, 50
+                    ];
+                    var selectList = document.createElement("select");
+                    selectList.id = "mySelect";
+                    selectList.setAttribute("onchange", "updateToMoveObject()");
+                    var scalesList = document.createElement("select");
+                    scalesList.id = "scaleSelect";
+                    scalesList.setAttribute("onchange", "updateScaleToMoveObject()");
+                    console.log(selectList);
+                    myDiv.appendChild(selectList);
+                    myDiv.appendChild(scalesList);
+                    for (var i = 0; i < all_objects.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = all_objects[i];
+                        option.text = all_objects [i];
+                        selectList.appendChild(option);
+                    }
+
+                    for (var i = 0; i < scales.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = scales[i];
+                        option.text = scales[i];
+                        scalesList.appendChild(option);
+                    }
                 }
             </script>
 
@@ -191,14 +233,13 @@
 
         <script>
 
-                var pbc_debug = false;
+
 
                 var object_is_not_split = true;
                 var objects_finished_loading = false;
                 var innokin_centered_to_screen = false;
                 var OBJ_count = 0;
                 var OBJ_number = 32;
-
                 var device_status = "OFF";
                 var device_state = 'watt';
                 var startButtonTime = null;
@@ -206,12 +247,9 @@
                 var startClick2 = null;
                 var startClick3 = null;
                 var timer_running = false;
-
                 var disruptor_started = false;
                 var startButtonPushStart = null;
                 var startButtonPushed = false;
-
-
                 var device_variables = {
                     ohmz: 0.48,
                     volt: 7.5,
@@ -220,9 +258,7 @@
                 }
 
                 var ohmLetter = String.fromCharCode(0x2126);
-
-
-                var group, grupMecanism, grupFiltru, grupBaterie, grupRoata, group2, group3;
+                var group, grupMecanism, grupFiltru, grupBaterie, grupRoata, group2, group3, batteryChoicesGroup;
                 var disruptor;
                 var battery;
                 var tigara;
@@ -253,9 +289,6 @@
                     black_material: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
                     golden_material: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
                 };
-
-
-
                 var batteryMaterials = {
                     black_battery: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
                     blue_battery: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
@@ -265,7 +298,6 @@
                     purple_battery: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
                     whiteblue_battery: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
                 };
-
                 var optionsMaterials = {
                     //SPECULAR
                     black: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
@@ -275,16 +307,7 @@
                     green: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
                     purple: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
                     whiteblue: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
-                    //NONSPECULAR
-//                    black: {color: 0xFFFFFF, shininess: 0, metal: false, side: THREE.DoubleSide},
-//                    blue: {color: 0x009EFA, shininess: 0, metal: false, side: THREE.DoubleSide},
-//                    pink: {color: 0xFA55BB, shininess: 0, metal: false, side: THREE.DoubleSide},
-//                    red: {color: 0xFF6677, shininess: 0, metal: false, side: THREE.DoubleSide},
-//                    green: {color: 0x00FF00, shininess: 0, metal: true, side: THREE.DoubleSide},
-//                    purple: {color: 0xFF00FF, shininess: 0, metal: true, side: THREE.DoubleSide},
-//                    whiteblue: {color: 0x009EFA, shininess: 0, metal: true, side: THREE.DoubleSide},
                 };
-
                 var defaultMaterials = {
                     defaultBatterySupport: batteryMaterials.blue_battery,
                     defaultBatteryInside: batteryMaterials.black_battery,
@@ -310,6 +333,8 @@
 
 
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
+                var manager = new THREE.LoadingManager();
+                var objLoader = new THREE.OBJLoader(manager);
                 init();
                 animate();
                 function init() {
@@ -333,6 +358,14 @@
                     camera.position.y = 70;
                     camera.position.z = 85;
 
+                    if (pbc_debug) {
+                        camera.position.x = 0;
+                        camera.position.y = 80;
+                        camera.position.z = 155;
+//                        camera.translateY(350);
+                        
+                    }
+                    camera.rotateOnAxis(300);
 //                    camera.position.x = 0;
 //                    camera.position.z = 500;
 //                    camera.position.y = 0;
@@ -341,7 +374,6 @@
                     controls.noZoom = false;
                     controls.minDistance = 80;
                     controls.maxDistance = 180;
-
                     controls.noPan = true;
                     if (pbc_debug) {
                         controls.minDistance = 2;
@@ -359,7 +391,6 @@
 
                     var directionalLightStrength = 0.15;
                     var increase = 1;
-
                     var luminaDirectionala1 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
                     luminaDirectionala1.position.set(300 * increase, 300 * increase, 0 * increase);
                     luminaDirectionala1.name = "luminaDirectionala1";
@@ -384,7 +415,6 @@
                     luminaDirectionala6.position.set(0 * increase, -300 * increase, -300 * increase);
                     luminaDirectionala6.name = "luminaDirectionala6";
                     scene.add(luminaDirectionala6);
-
                     if (pbc_debug) {
                         var testHelper = new THREE.AxisHelper(50);
                         scene.add(testHelper);
@@ -402,7 +432,6 @@
                         scene.add(testBox4);
                         scene.add(testBox5);
                         scene.add(testBox6);
-
                         testBox.position.copy(luminaDirectionala1.position);
                         testBox2.position.copy(luminaDirectionala2.position);
                         testBox3.position.copy(luminaDirectionala3.position);
@@ -426,7 +455,6 @@
 
                     pointLight = new THREE.PointLight(0xcccccc, 0.3);
                     pointLight.position.set(20, 20, 20);
-
                     scene.add(pointLight);
                     group = new THREE.Group();
                     scene.add(group);
@@ -463,6 +491,7 @@
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
 //                    renderer.autoClear = false;
+                    test();
 
 //                    addScreens('ana are mere');
                 }
@@ -543,9 +572,7 @@
                                 temp_material = Object.object.material.color;
                                 temp_color = Object.object.material.color.getHex();
                                 temp_specular = Object.object.material.specular.getHex();
-
                                 console.log(temp_material);
-
                                 switchBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
                                 removeBatteryColourOptions();
                                 break;
@@ -561,9 +588,7 @@
                                 break;
                             case 'buton_mare':
                                 console.log("You clicked START");
-
                                 startButtonClick();
-
                                 break;
                             case 'optionsGroup':
 
@@ -608,6 +633,7 @@
                             objects_finished_loading = true;
                             basicColorizeOBJ();
                             console.clear();
+                            load8times();
                             console.log("Cleared OnDocumentMouseMove");
                             innokin_centered_to_screen = true;
                             OBJ_count += 1;
@@ -625,7 +651,6 @@
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
-
 //                    if (!disruptor_started) {
 //                        if (startButtonPushed) {
 //                            var newTime = clock.elapsedTime;
@@ -663,7 +688,6 @@
                     startButton.position.x += 0.3;
                     startButtonCounter += 1;
                     startButtonCounter2 += 1;
-
                     if (device_status === "OFF") {
 
                         startButtonPushStart = clock.elapsedTime;
@@ -715,8 +739,6 @@
 
                         console.log("ClickNUMBER");
                         console.log(startButtonCounter);
-
-
 //                        
 
                     }
@@ -724,8 +746,6 @@
                         timer_running = true;
                         startButtonCounter = 0;
                     }, 600);
-
-
                     if (device_status === "ON") {
 
 //                        alert('THE DEVICE IS ONLINE');
@@ -812,7 +832,6 @@
                                 device_variables.volt += 0.1;
                                 refreshDisruptorInformations();
                                 break;
-
                             case 'watt':
                                 console.log('watt');
                                 if (device_variables.watt < 49.6) {
@@ -835,8 +854,6 @@
                     console.log("Minusbutton click LOGGED");
                     var buttonSmall2 = scene.getObjectByName('buton_mic_2');
                     buttonSmall2.position.x += 0.3;
-
-
                     console.log(device_status);
                     if (device_status === "ON") {
                         console.log(device_state);
@@ -853,7 +870,6 @@
                                 device_variables.volt -= 0.1;
                                 refreshDisruptorInformations();
                                 break;
-
                             case 'watt':
                                 console.log('watt');
                                 if (device_variables.watt > 6.4) {
@@ -882,6 +898,17 @@
                 function render(dt) {
                     if (particleGroup) {
                         particleGroup.tick(dt);
+                    }
+                    batteryChoicesGroup = scene.getObjectByName("batteryChoicesGroup");
+                    if (batteryChoicesGroup) {
+//                        console.log(batteryChoicesGroup.children.length);
+
+//                         batteryChoicesGroup.children[0].position.x += 0.01;
+
+//                          batteryChoicesGroup.children[0].position.copy(camera.position);
+//                          batteryChoicesGroup.children[0].rotation.copy(camera.rotation);
+
+
                     }
                     var rotationSpeed = 10;
                     threeBoxesGroup = scene.getObjectByName("threeColourBoxes");
@@ -928,9 +955,6 @@
 
 
                         optionBox1 = optionsGroup.children[0];
-
-
-
 //                        optionBox2 = optionsGroup.children[1];
 //                        optionBox3 = optionsGroup.children[2];
                         optionBox1.position.copy(camera.position);
@@ -964,7 +988,6 @@
                         largeScreenShown.updateMatrix();
                         largeScreenShown.translateY(-40);
                         largeScreenShown.translateX(80);
-
                     }
 
 
@@ -972,8 +995,6 @@
 
                     var newlightposition = camera.position;
                     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
-
-
                     var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
                     camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
                     camera.updateProjectionMatrix();
@@ -1025,7 +1046,6 @@
 
                 function startDisruptorWithLogo() {
                     var small_screen_already_exists = scene.getObjectByName('smallScreen');
-
                     if (!small_screen_already_exists) {
                         //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
 
@@ -1043,7 +1063,7 @@
                         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
                         LargeScreen.name = 'largeScreen';
                         grupMecanism.add(ScreenPlane);
-                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
                         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
                         ScreenPlane.position.y = 13; // TOP BOTTOM
                         ScreenPlane.rotation.z = Math.PI / 2;
@@ -1081,7 +1101,6 @@
                         LargeScreen.scale.y = 0.5;
                         LargeScreen.scale.z = 0.5;
                         scene.add(LargeScreen);
-
                         setTimeout(function () {
                             grupMecanism.remove(ScreenPlane);
                             scene.remove(LargeScreen);
@@ -1089,8 +1108,6 @@
                         setTimeout(function () {
                             displayDisruptor();
                         }, 2100);
-
-
                     } else {
                         alert('Cannot add doubles @ this');
                     }
@@ -1101,7 +1118,6 @@
 
 
                     var small_screen_already_exists = scene.getObjectByName('smallScreen');
-
                     if (!small_screen_already_exists) {
                         //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
 
@@ -1119,7 +1135,7 @@
                         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
                         LargeScreen.name = 'largeScreen';
                         grupMecanism.add(ScreenPlane);
-                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
                         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
                         ScreenPlane.position.y = 13; // TOP BOTTOM
                         ScreenPlane.rotation.z = Math.PI / 2;
@@ -1148,12 +1164,10 @@
                         LargeScreen.scale.y = 0.5;
                         LargeScreen.scale.z = 0.5;
                         scene.add(LargeScreen);
-
                         setTimeout(function () {
                             grupMecanism.remove(ScreenPlane);
                             scene.remove(LargeScreen);
                         }, 1500);
-
                     } else {
                         alert('Cannot add doubles @ this');
                     }
@@ -1164,7 +1178,6 @@
 
 
                     var small_screen_already_exists = scene.getObjectByName('smallScreen');
-
                     if (!small_screen_already_exists) {
                         //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
 
@@ -1185,7 +1198,7 @@
                         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
                         LargeScreen.name = 'largeScreen';
                         grupMecanism.add(ScreenPlane);
-                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
                         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
                         ScreenPlane.position.y = 13; // TOP BOTTOM
                         ScreenPlane.rotation.z = Math.PI / 2;
@@ -1213,7 +1226,6 @@
                                     font: "" + (0.20 * 256) + "px Arial"
                                 }
                         );
-
                         //WATTAGE INFORMATION
                         screenDynamicTexture.drawTextCooked(
                                 {
@@ -1239,11 +1251,7 @@
                         LargeScreen.scale.y = 0.5;
                         LargeScreen.scale.z = 0.5;
                         scene.add(LargeScreen);
-
-
                         setRemoteVisible();
-
-
                     } else {
                         alert('Cannot add doubles @ this');
                     }
@@ -1252,12 +1260,9 @@
 
                     var existingSmallScreen = scene.getObjectByName('smallScreen');
                     var existingLargeScreen = scene.getObjectByName('largeScreen');
-
-
                     var newScreenDynamicTexture = new THREEx.DynamicTexture(400, 200);
                     newScreenDynamicTexture.name = 'screenDynamicTexture';
                     newScreenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
-
                     newScreenDynamicTexture.texture.needsUpdate = true;
                     newScreenDynamicTexture.clear('#667788');
                     //OHM INFORMATION
@@ -1281,7 +1286,6 @@
                                 font: "" + (0.20 * 256) + "px Arial"
                             }
                     );
-
                     //WATTAGE INFORMATION
                     newScreenDynamicTexture.drawTextCooked(
                             {
@@ -1300,8 +1304,6 @@
                                 font: "bold " + (0.2 * 256) + "px Arial"
                             }
                     );
-
-
                     var newPlaneMaterial = new THREE.MeshBasicMaterial({
                         map: newScreenDynamicTexture.texture
                     });
@@ -1313,7 +1315,6 @@
 
 
                     var small_screen_already_exists = scene.getObjectByName('smallScreen');
-
                     if (!small_screen_already_exists) {
                         //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
 
@@ -1331,7 +1332,7 @@
                         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
                         LargeScreen.name = 'largeScreen';
                         grupMecanism.add(ScreenPlane);
-                        ScreenPlane.position.x = -15.8;  // DEPTH BIGGER IS INSIDE
+                        ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
                         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
                         ScreenPlane.position.y = 13; // TOP BOTTOM
                         ScreenPlane.rotation.z = Math.PI / 2;
@@ -1358,7 +1359,7 @@
                     }
                 }
 
-                var manager = new THREE.LoadingManager();
+
                 manager.onProgress = function (item, loaded, total) {
                     console.log(item, loaded, total);
                 }
@@ -1457,7 +1458,6 @@
                         'text_baterie_bottom',
                         'text_mecanism_interior',
                     ];
-                    var objLoader = new THREE.OBJLoader(manager);
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
                     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
@@ -1530,9 +1530,6 @@
                     grupBaterie.position.y = -15;
                     grupFiltru.position.y = -15;
                     grupMecanism.position.y = -15;
-
-
-
                     grupBaterie.position.x = -9.45;
                     grupBaterie.position.z = 2;
                     grupFiltru.position.z = 2;
@@ -1540,10 +1537,6 @@
                     grupMecanism.position.z = 2;
                     grupMecanism.position.x = 5.5;
                     grupRoata.position.y = -46;
-
-
-
-
                     colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
                     colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
                     colorizeGlass(defaultMaterials.defaultFilterGlass);
@@ -1557,7 +1550,6 @@
                     colorizeScreenFrame(defaultMaterials.defaultScreenTransparent);
                     colorizeScreenGlass(defaultMaterials.defaultScreenTransparent);
                     colorizeScreenBackground(defaultMaterials.defaultScreenBackground);
-
                 }
 
 
@@ -1570,7 +1562,6 @@
                     screenBackground.scale.z = 0.6;
                     screenBackground.scale.y = 0.8;
                     screenBackground.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-
                 }
 
                 function colorizeScreenGlass(materialColor) {
@@ -1594,8 +1585,6 @@
                     var sipcaConnector = scene.getObjectByName('filet_capac_mecanism_tigara');
                     powerConnectors.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                     sipcaConnector.children[0].material = new THREE.MeshPhongMaterial(materialColor);
-
-
                 }
 
                 function colorizeBatteryInside(materialColor) {
@@ -1610,7 +1599,6 @@
                     var batteryLogo = scene.getObjectByName('logo_textura_baterie');
                     var bottomLogo = scene.getObjectByName('text_baterie_bottom');
                     var insideLogo = scene.getObjectByName('text_mecanism_interior');
-
                     filterLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                     batteryLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                     bottomLogo.children[0].material = new THREE.MeshPhongMaterial(materialColor);
@@ -1620,7 +1608,6 @@
                 function colorizeMechanism(materialColor) {
                     var mechanism = scene.getObjectByName('shell_mecanism_tigara');
                     var mechanismBottom = scene.getObjectByName('partea_inferioara_stecher');
-
                     mechanism.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                     mechanismBottom.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                 }
@@ -1646,7 +1633,6 @@
                     var sticlaColor = materialColor;
                     sticlaColor.transparent = true;
                     sticlaColor.opacity = 0.2;
-
                     sticla.children[0].material = new THREE.MeshPhongMaterial(sticlaColor);
                 }
                 function colorizeFilter(materialColor) {
@@ -2137,9 +2123,6 @@
                                     font: "bold " + (0.2 * 190) + "px Arial"
                                 }
                         );
-
-
-
 //                    var optionGeometry = new THREE.BoxGeometry(50, 25, 1, 1);
 //                    var mat1 = new THREE.MeshPhongMaterial(optionsMaterials.red);
 //                    var mat2 = new THREE.MeshPhongMaterial(optionsMaterials.blue);
@@ -2174,8 +2157,6 @@
 
                     if (pbc_debug) {
                         remoteDiv = document.getElementById("remoteDiv");
-
-
                         remoteDiv.style.display = "inline";
 //                    console.log(remoteDiv);
 ////                    remoteDiv.style.display = "true";
@@ -2188,67 +2169,242 @@
 
                 function test() {
 
-                    var geometry = new THREE.CylinderGeometry(6, 6, 20, 32);
-                    var material = new THREE.MeshBasicMaterial({color: 0xffff00});
-                    var cylinder = new THREE.Mesh(geometry, material);
-                    scene.add(cylinder);
-                    cylinder.position.x = 18;
-                    cylinder.position.z = 19;
-
+                    var height_for_all = -15.5;
+                    var geometry = new THREE.CylinderGeometry(8, 7, 2, 60);
+                    var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
+                    var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+                    var material3 = new THREE.MeshBasicMaterial({color: 0x0033FF});
+                    var material4 = new THREE.MeshBasicMaterial({color: 0xFF33FF});
+                    var material5 = new THREE.MeshBasicMaterial({color: 0xFF3300});
+                    var material6 = new THREE.MeshBasicMaterial({color: 0x663311});
+                    var material7 = new THREE.MeshBasicMaterial({color: 0xCACA33});
+                    var material8 = new THREE.MeshBasicMaterial({color: 0xFF0000});
+                    var cylinder1 = new THREE.Mesh(geometry, material1);
+                    cylinder1.name = "testCylinder1";
+                    scene.add(cylinder1);
+                    cylinder1.position.x = 22;
+                    cylinder1.position.z = 22;
+                    cylinder1.position.y = height_for_all;
+                    var cylinder2 = new THREE.Mesh(geometry, material2);
+                    cylinder2.name = "testCylinder2";
+                    scene.add(cylinder2);
+                    cylinder2.position.x = 31;
+                    cylinder2.position.z = 0;
+                    cylinder2.position.y = height_for_all;
+                    var cylinder3 = new THREE.Mesh(geometry, material3);
+                    cylinder3.name = "testCylinder3";
+                    scene.add(cylinder3);
+                    cylinder3.position.x = -31;
+                    cylinder3.position.z = 0;
+                    cylinder3.position.y = height_for_all;
+                    var cylinder4 = new THREE.Mesh(geometry, material4);
+                    cylinder4.name = "testCylinder4";
+                    scene.add(cylinder4);
+                    cylinder4.position.x = -22;
+                    cylinder4.position.z = -22;
+                    cylinder4.position.y = height_for_all;
+                    var cylinder5 = new THREE.Mesh(geometry, material5);
+                    cylinder5.name = "testCylinder5";
+                    scene.add(cylinder5);
+                    cylinder5.position.x = -22;
+                    cylinder5.position.z = 22;
+                    cylinder5.position.y = height_for_all;
+                    var cylinder6 = new THREE.Mesh(geometry, material6);
+                    cylinder6.name = "testCylinder6";
+                    scene.add(cylinder6);
+                    cylinder6.position.x = 22;
+                    cylinder6.position.z = -22;
+                    cylinder6.position.y = height_for_all;
+                    var cylinder7 = new THREE.Mesh(geometry, material7);
+                    cylinder7.name = "testCylinder7";
+                    scene.add(cylinder7);
+                    cylinder7.position.x = 0;
+                    cylinder7.position.z = 31;
+                    cylinder7.position.y = height_for_all;
+                    var cylinder8 = new THREE.Mesh(geometry, material8);
+                    cylinder8.name = "testCylinder8";
+                    scene.add(cylinder8);
+                    cylinder8.position.x = 0;
+                    cylinder8.position.z = -31;
+                    cylinder8.position.y = height_for_all;
                 }
 
 
                 function moveXplus(objectName) {
 
                     var object = scene.getObjectByName(objectName);
-
-                    object.position.x += 1 * scale_to_move;
-                    console.log(object.position);
-
+                    if (object) {
+                        object.position.x += 1 * scale_to_move;
+                        console.log(object.position);
+                    } else {
+                        console.log("Object " + objectName + " does not exist on the screen");
+                    }
                 }
 
                 function moveXminus(objectName) {
-
                     var object = scene.getObjectByName(objectName);
-
-                    object.position.x -= 1 * scale_to_move;
-                    console.log(object.position);
-
+                    if (object) {
+                        object.position.x -= 1 * scale_to_move;
+                        console.log(object.position);
+                    } else {
+                        console.log("Object " + objectName + " does not exist on the screen");
+                    }
                 }
                 function moveYplus(objectName) {
-
                     var object = scene.getObjectByName(objectName);
-
-                    object.position.y += 1 * scale_to_move;
-                    console.log(object.position);
-
+                    if (object) {
+                        object.position.y += 1 * scale_to_move;
+                        console.log(object.position);
+                    } else {
+                        console.log("Object " + objectName + " does not exist on the screen");
+                    }
                 }
-
                 function moveYminus(objectName) {
-
                     var object = scene.getObjectByName(objectName);
-
-                    object.position.y -= 1 * scale_to_move;
-                    console.log(object.position);
-
+                    if (object) {
+                        object.position.y -= 1 * scale_to_move;
+                        console.log(object.position);
+                    } else {
+                        console.log("Object " + objectName + " does not exist on the screen");
+                    }
                 }
                 function moveZplus(objectName) {
-
                     var object = scene.getObjectByName(objectName);
-
-                    object.position.z += 1 * scale_to_move;
-                    console.log(object.position);
-
+                    if (object) {
+                        object.position.z += 1 * scale_to_move;
+                        console.log(object.position);
+                    } else {
+                        console.log("Object " + objectName + " does not exist on the screen");
+                    }
                 }
-
                 function moveZminus(objectName) {
-
                     var object = scene.getObjectByName(objectName);
-
-                    object.position.z -= 1 * scale_to_move;
-                    console.log(object.position);
-
+                    if (object) {
+                        object.position.z -= 1 * scale_to_move;
+                        console.log(object.position);
+                    } else {
+                        console.log("Object " + objectName + " does not exist on the screen");
+                    }
                 }
+
+
+                function load8times() {
+                    var batteryChoicesGroup = new THREE.Group();
+                    batteryChoicesGroup.name = "batteryChoicesGroup";
+                    scene.add(batteryChoicesGroup);
+                    var materials = [
+                        new THREE.MeshBasicMaterial({color: 0xffff00}),
+                        new THREE.MeshBasicMaterial({color: 0x00ff00}),
+                        new THREE.MeshBasicMaterial({color: 0x0033FF}),
+                        new THREE.MeshBasicMaterial({color: 0xFF33FF}),
+                        new THREE.MeshBasicMaterial({color: 0xFF3300}),
+                        new THREE.MeshBasicMaterial({color: 0x663311}),
+                        new THREE.MeshBasicMaterial({color: 0xCACA33}),
+                        new THREE.MeshBasicMaterial({color: 0xFF0000}),
+                    ];
+//                    var mat1 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
+//                    var mat2 = new THREE.MeshPhongMaterial(batteryMaterials.green_battery);
+//                    var mat3 = new THREE.MeshPhongMaterial(batteryMaterials.purple_battery);
+//                    var mat4 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
+//                    var mat5 = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
+//                    var mat6 = new THREE.MeshPhongMaterial(batteryMaterials.black_battery);
+//                    var mat7 = new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery);
+                    var general_height = -36;
+                    var name = 'invelis_baterie';
+                    for (var i = 0; i < 8; i++) {
+//                        var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
+                        var material1 = materials[i];
+                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
+
+
+                            object.traverse(function (child) {
+                                if (child instanceof THREE.Mesh) {
+                                    child.material.map = texture;
+                                }
+                            });
+                            object.name = 'testbaterie' + i;
+                            object.scale.x = 0.5;
+                            object.scale.y = 0.5;
+                            object.scale.z = 0.5;
+                            console.log(object);
+                            switch (i) {
+                                case 0:
+                                    object.position.x = 16;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = 2;
+                                    
+                                    //NO ROTATION NEEDED @ THIS
+//                                    object.rotation.y = Math.PI/4;
+                                    break;
+                                case 2:
+                                    //IF NOT ROTATED
+//                                    object.position.x = -15;
+//                                    object.position.y = general_height;
+//                                    object.position.z = 33;
+                                    //IF ROTATED
+                                    object.position.x = -2;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = 16;
+                                    
+                                    
+                                    object.rotation.y = -Math.PI/2;
+                                    break;
+                                case 1:
+                                    //IF NOT ROTATED
+                                    object.position.x = 7;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = 24;
+                                    //IF ROTATED
+                                    object.position.x = 10;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = 12.5;
+                                    object.rotation.y = -Math.PI/4;
+                                    break;
+                                case 3:
+                                    object.position.x = -37;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = 24;
+                                    break;
+                                    ///x=-37y=-32z=24
+                                case 4:
+                                    object.position.x = -46;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = 1.5;
+                                    break;
+                                case 5:
+                                    object.position.x = -37;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = -20;
+                                    break;
+                                case 6:
+                                    object.position.x = -14.7;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = -29;
+                                    break;
+                                case 7:
+                                    object.position.x = 7;
+                                    object.position.y = general_height+5*i;
+                                    object.position.z = -20.5;
+                                    break;
+                            }
+
+//                          new THREE.GeometryUtils.center(object);
+
+
+//                        object.position = correctposition;
+
+//                        groupName.position.y = -600;
+//                        groupName.add(object);
+//                        groupName.position.y = -600;
+                            batteryChoicesGroup.add(object);
+                            object.children[0].material = material1;
+//                        OBJ_count += 1;
+
+                        }, onProgress, onError);
+                    }
+                    console.log(scene);
+                }
+
 
 
         </script>
