@@ -46,7 +46,7 @@
 
             @font-face {
                 font-family: "DisrupterLCDFont";
-                src: url("fonts/chesstype.ttf") format("truetype");
+                src: url("chesstype.ttf") format("truetype");
                 font-weight: normal;
                 font-style: normal;
             }
@@ -64,16 +64,10 @@
         <div id ="leftcontrols">
 
 
-            <!--            <button id="btn21" onclick="changeMecanismColor('black');">M.Black</button>
-                        <button id="btn22" onclick="changeMecanismColor('gold');">M.Gold</button>
-                        <button id="btn23" onclick="changeMecanismColor('silver');">M.Silver</button>
-                        <button id="btn24" onclick="changeBatteryColor('black');">Bat.Black</button>
-                        <button id="btn25" onclick="changeBatteryColor('blue');">Bat.Blue</button>
-                        <button id="btn26" onclick="changeBatteryColor('pink');">Bat.Pink</button>-->
 
-            <button id="btn1" onclick="switchBattery({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});">Button1-Switch Battery</button>
+            <!--            <button id="btn1" onclick="switchBattery({color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide});">Switch Battery</button>-->
 
-
+            <button id="firstBtn" onclick="addControls();">AAAA</button>
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
             <button id="btn6" onclick="refreshDisruptorInformations();">test</button>
@@ -171,6 +165,16 @@
                     green_battery: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
                     purple_battery: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
                     whiteblue_battery: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
+                };
+
+                var optionsMaterials = {
+                    black: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
+                    blue: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
+                    pink: {color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide},
+                    red: {color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide},
+                    green: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
+                    purple: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
+                    whiteblue: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
                 };
 
                 var defaultMaterials = {
@@ -780,6 +784,29 @@
                             boxes[i].translateX(-110 + 40 * i);
                         }
                     }
+                    optionsGroup = scene.getObjectByName("optionsGroup");
+                    if (optionsGroup) {
+                        optionBox1 = optionsGroup.children[0];
+                        optionBox1.position.copy(camera.position);
+
+                        optionBox1.position.x += 0.4;
+                        optionBox1.position.y += 0.2;
+                        optionBox1.position.z += 0.2;
+                        
+                        optionBox1.rotation.copy(camera.rotation);
+                        
+//                        optionBox1.rotation.x += 0.4;
+//                        optionBox1.rotation.y += 0.2;
+//                        optionBox1.rotation.z += 0.2;
+
+
+                        optionBox1.translateZ(-300);
+                        optionBox1.translateY(-40);
+                        optionBox1.translateX(100);
+                        optionBox1.updateMatrix();
+
+                    }
+
                     largeScreenShown = scene.getObjectByName('largeScreen');
                     if (largeScreenShown) {
                         largeScreenShown.position.copy(camera.position);
@@ -894,7 +921,8 @@
                                     align: 'center',
                                     lineHeight: 0.3,
                                     fillStyle: '#FDFDFD',
-                                    font: "" + (0.2 * 190) + "px DisrupterLCDFont"
+                                    font: "" + (0.2 * 190) + "px DisrupterLCDFont",
+                                    family: "DisrupterLCDFont"
                                 }
                         );
                         ScreenPlane.scale.x = 0.25;
@@ -1904,7 +1932,23 @@
 //                    tweenHead.start();
                 }
 
+                function addControls() {
 
+                    var optionGeometry = new THREE.BoxGeometry(32, 32, 32, 32);
+                    var mat1 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
+//                    alert("addin controls to the screen");
+                    var option1 = new THREE.Mesh(optionGeometry, mat1);
+                    option1.name = "option1_box";
+//                    option1.rotation.x = 0.4;
+//                    option1.rotation.y = 0.5;
+//                    option1.rotation.z = 0.2;
+
+                    optionsGroup = new THREE.Group();
+                    optionsGroup.name = "optionsGroup";
+                    scene.add(optionsGroup);
+                    optionsGroup.add(option1);
+
+                }
 
 
 
