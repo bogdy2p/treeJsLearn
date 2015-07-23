@@ -101,12 +101,13 @@
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
             <button id="btn6" onclick="test();">test</button>
+            <button id="btn8" onclick="clearScene();">clearScene</button>
 
 
 
             <script>
 
-                var pbc_debug = true;
+                var pbc_debug = false;
                 var toMoveObject = 'roata';
                 var scale_to_move = 0.5;</script>
 
@@ -167,6 +168,7 @@
                         'testbaterie5',
                         'testbaterie6',
                         'testbaterie7',
+                        'clone',
                     ];
                     for (i = 0; i < test_objects.length; i++) {
                         all_objects.push(test_objects[i]);
@@ -264,7 +266,7 @@
                 var tigara;
                 var container, mapCanvas;
                 var controls, controls2;
-                var camera, mapCamera, scene, renderer, raycaster, raycasterMap;
+                var camera, mapCamera, scene, scene2, renderer, raycaster, raycasterMap;
                 var positions, colors;
                 var mouseX = 0, mouseY = 0;
                 var mouseXOnMouseDown = 0;
@@ -357,7 +359,6 @@
                     camera.position.x = -140;
                     camera.position.y = 70;
                     camera.position.z = 85;
-
                     if (pbc_debug) {
                         camera.position.x = -120;
                         camera.position.y = 80;
@@ -491,8 +492,7 @@
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
 //                    renderer.autoClear = false;
-                    test();
-
+//                    test();
 //                    addScreens('ana are mere');
                 }
 
@@ -901,13 +901,11 @@
                     }
                     batteryChoicesGroup = scene.getObjectByName("batteryChoicesGroup");
                     if (batteryChoicesGroup) {
-//                        console.log(batteryChoicesGroup.children.length);
-
-//                         batteryChoicesGroup.children[0].position.x += 0.01;
-
-//                          batteryChoicesGroup.children[0].position.copy(camera.position);
-//                          batteryChoicesGroup.children[0].rotation.copy(camera.rotation);
-
+                        support = scene.getObjectByName("roata");
+                        if (support) {
+                            support.rotation.y += 0.002;
+                        }
+                        batteryChoicesGroup.rotation.y += 0.002;
 
                     }
                     var rotationSpeed = 10;
@@ -947,6 +945,11 @@
                             boxes[i].translateX(-110 + 40 * i);
                         }
                     }
+
+
+
+
+
                     optionsGroup = scene.getObjectByName("optionsGroup");
                     if (optionsGroup) {
 
@@ -2303,146 +2306,76 @@
                         new THREE.MeshPhongMaterial(batteryMaterials.pink_battery),
                         new THREE.MeshPhongMaterial(batteryMaterials.purple_battery),
                         new THREE.MeshPhongMaterial(batteryMaterials.red_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.green_battery),
                     ];
-//                    var mat1 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
-//                    var mat2 = new THREE.MeshPhongMaterial(batteryMaterials.green_battery);
-//                    var mat3 = new THREE.MeshPhongMaterial(batteryMaterials.purple_battery);
-//                    var mat4 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
-//                    var mat5 = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
-//                    var mat6 = new THREE.MeshPhongMaterial(batteryMaterials.black_battery);
-//                    var mat7 = new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery);
+                    var positions = [
+                        {x: 16, y: -36, z: 2},
+                        {x: 10, y: -36, z: 12.5},
+                        {x: -2, y: -36, z: 16},
+                        {x: -13, y: -36, z: 10},
+                        {x: -16.2, y: -36, z: -1.8},
+                        {x: -10.2, y: -36, z: -12.7},
+                        {x: 1.8, y: -36, z: -16.2},
+                        {x: 13, y: -36, z: -10},
+                    ];
+
+                    var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
+                    var degree_45 = Math.PI / 4;
+//                 
                     var general_height = -36;
                     var name = 'invelis_baterie';
-                    for (var i = 1; i <= 8; i++) {
-//                        var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
-                        var material1 = materials[i - 1];
-                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
+//                    for (var i = 0; i <= 7; i++) {
+                    var i = 0;
 
+//                        var material1 = materials[i];
+                    objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
 
-                            object.traverse(function (child) {
-                                if (child instanceof THREE.Mesh) {
-                                    child.material.map = texture;
-                                }
-                            });
-                            object.name = 'testbaterie' + i;
-                            object.scale.x = 0.5;
-                            object.scale.y = 0.5;
-                            object.scale.z = 0.5;
-                            console.log(object);
-                            switch (i) {
-                                case 0:
-                                    //THIS WILL NOT BE DISPLAYED AS WE ONLY HAVE 7 POSSIBILITIES FOR BATTERY MATERIALS ?
-                                    object.position.x = 16;
-                                    object.position.y = general_height + 15;
-                                    object.position.z = 2;
-
-                                    //NO ROTATION NEEDED @ THIS
-//                                    object.rotation.y = Math.PI/4;
-                                    break;
-                                case 1:
-                                    //IF NOT ROTATED
-//                                    object.position.x = 7;
-//                                    object.position.y = general_height;
-//                                    object.position.z = 24;
-                                    //IF ROTATED
-                                    object.position.x = 10;
-                                    object.position.y = general_height;
-                                    object.position.z = 12.5;
-                                    object.rotation.y = -Math.PI / 4;
-                                    break;
-                                case 2:
-                                    //IF NOT ROTATED
-//                                    object.position.x = -15;
-//                                    object.position.y = general_height;
-//                                    object.position.z = 33;
-                                    //IF ROTATED
-                                    object.position.x = -2;
-                                    object.position.y = general_height;
-                                    object.position.z = 16;
-
-
-                                    object.rotation.y = -Math.PI / 2;
-                                    break;
-
-                                case 3:
-                                    //IF NOT ROTATED
-//                                    object.position.x = -37;
-//                                    object.position.y = general_height;
-//                                    object.position.z = 24;
-                                    //IF ROTATED
-                                    object.position.x = -13;
-                                    object.position.y = general_height;
-                                    object.position.z = 10;
-
-                                    object.rotation.y = -3 * Math.PI / 4;
-//                                    object.rotation.y += 0.5;
-
-                                    break;
-                                    ///x=-37y=-32z=24
-                                case 4:
-                                    //IF NOT ROTATED
-//                                    object.position.x = -46;
-//                                    object.position.y = general_height + 5 * i;
-//                                    object.position.z = 1.5;
-                                    //IF ROTATED
-                                    object.position.x = -16.2;
-                                    object.position.y = general_height;
-                                    object.position.z = -1.8;
-                                    object.rotation.y = Math.PI;
-                                    break;
-                                case 5:
-                                    //IF NOT ROTATED
-//                                    object.position.x = -37;
-//                                    object.position.y = general_height + 5 * i;
-//                                    object.position.z = -20;
-                                    //IF ROTATED
-                                    object.position.x = -10.2;
-                                    object.position.y = general_height;
-                                    object.position.z = -12.7;
-                                    object.rotation.y = 3 * Math.PI / 4;
-                                    break;
-                                case 6:
-                                    //IF NOT ROTATED
-//                                    object.position.x = -14.7;
-//                                    object.position.y = general_height + 5 * i;
-//                                    object.position.z = -29;
-                                    //IF ROTATED
-                                    object.position.x = 1.8;
-                                    object.position.y = general_height;
-                                    object.position.z = -16.2;
-                                    object.rotation.y = 2 * Math.PI / 4;
-                                    break;
-                                case 7:
-                                    //IF NOT ROTATED
-//                                    object.position.x = 7;
-//                                    object.position.y = general_height + 5 * i;
-//                                    object.position.z = -20.5;
-                                    //IF ROTATED
-                                    object.position.x = 13;
-                                    object.position.y = general_height;
-                                    object.position.z = -10;
-                                    object.rotation.y = Math.PI / 4;
-                                    break;
+                        object.traverse(function (child) {
+                            if (child instanceof THREE.Mesh) {
+                                child.material.map = texture;
                             }
+                        });
 
-//                          new THREE.GeometryUtils.center(object);
+                        object.scale.x = 0.5;
+                        object.scale.y = 0.5;
+                        object.scale.z = 0.5;
 
+                        var material1 = materials[i];
+                        object.name = 'testbaterie' + (i);
+                        object.children[0].material = material1;
+                        object.position.x = positions[i].x;
+                        object.position.y = positions[i].y + 30;
+                        object.position.z = positions[i].z;
+                        object.rotation.y = rotations[i] * degree_45;
+                        batteryChoicesGroup.add(object);
 
-//                        object.position = correctposition;
+                        for (i = 1; i < 8; i++) {
+                            var newObject = object.clone();
+                            newObject.position.x = positions[i].x;
+                            newObject.position.y = positions[i].y;
+                            newObject.position.z = positions[i].z;
+                            newObject.rotation.y = rotations[i] * degree_45;
+                            newObject.name = 'testbaterie' + i;
+                            newObject.children[0].material = materials[i - 1];
+                            batteryChoicesGroup.add(newObject);
+                        }
 
-//                        groupName.position.y = -600;
-//                        groupName.add(object);
-//                        groupName.position.y = -600;
-                            batteryChoicesGroup.add(object);
-                            object.children[0].material = material1;
-//                        OBJ_count += 1;
+                    }, onProgress, onError);
+//                    }
 
-                        }, onProgress, onError);
-                    }
-                    console.log(scene);
+                    //END FOREACH
+                    console.log(batteryChoicesGroup);
                 }
 
-
+                function clearScene() {
+                    var childrens = scene.children;
+                    while (scene.children.length > 0) {
+                        for (i = 0; i < childrens.length; i++) {
+                            scene.remove(childrens[i]);
+                        }
+                        console.log(scene);
+                    }
+                }
 
         </script>
     </body>
