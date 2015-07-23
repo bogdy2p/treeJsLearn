@@ -23,7 +23,6 @@
             #selectDiv{
                 position:absolute;
                 top:20px;
-
             }
 
             .stateButtons{
@@ -51,7 +50,6 @@
                 visibility: hidden;
                 display:none;
             }
-
 
             @font-face {
                 font-family: "DisrupterLCDFont";
@@ -206,7 +204,7 @@
         <script>
 
                 var loadProgress = 0;
-
+                var battery_chosen = null;
                 var object_is_not_split = true;
                 var innokin_centered_to_screen = false;
                 var device_status = "OFF";
@@ -529,8 +527,7 @@
                     if (intersectedObjects.length > 0) {
 
                         var Object = intersectedObjects[0];
-                        console.log(Object);
-                        console.log(Object.object.name);
+//                        console.log(Object.object.parent.parent);
                         switch (Object.object.parent.name) {
 
                             case 'sevenColourBoxes':
@@ -564,13 +561,10 @@
                                 console.log(scene);
                                 console.log(window.SCREEN_WIDTH);
                                 console.log(window.SCREEN_HEIGHT);
-//                                startButtonCounter += 1;
-//                                playButonMareAction();
                                 break;
                             case 'buton_mic_1':
                                 console.log("You pressed the +");
                                 plusButtonClick();
-//                                restartEngine(Examples.smoke);
                                 break;
                             case 'buton_mic_2':
                                 console.log("You pressed the -");
@@ -589,6 +583,41 @@
                                 break;
                         }
 
+
+                        //
+                        // LOGIC FOR THE BATTERY CHOSING PART
+                        //
+
+
+                        switch (Object.object.parent.parent.name) {
+                            case "batteryChoicesGroup":
+                                var clickedObject = Object.object.parent;
+                                if (battery_chosen == null) {
+
+                                    battery_chosen = clickedObject.name;
+                                    
+
+                                    clickedObject.position.y += 30;
+                                } else {
+                                    
+                                    var old_choice_name = clickedObject.name;
+                                    console.log(old_choice_name);
+                                    if (clickedObject.name == battery_chosen) {
+                                        alert("Second click on same battery !");
+
+                                    } else {
+                                        var old_choice_object = scene.getObjectByName(old_choice_name);
+//                                        alert("You clicked another battery");
+                                        old_choice_object.position.y -=30;
+                                        clickedObject.position.y += 30;
+                                    }
+                                }
+
+//                                console.log(clickedObject.name);
+
+
+                                break;
+                        }
                     }
 
                 }
@@ -806,8 +835,8 @@
 
                 function render(dt) {
 
-                    if(loadProgress == 100){
-                     if (!innokin_centered_to_screen) {
+                    if (loadProgress == 100) {
+                        if (!innokin_centered_to_screen) {
                             basicColorizeOBJ();
                             if (!pbc_debug) {
                                 console.clear();
@@ -817,7 +846,7 @@
                             innokin_centered_to_screen = true;
                         }
                     }
-                    
+
                     if (particleGroup) {
                         particleGroup.tick(dt);
                     }
@@ -931,7 +960,7 @@
 
 
                 function switchBattery(materialColor) {
-//                    console.log(batterySupport.position);
+
                     setupTweenBatteryOut();
                     setupTweenBatteryIn();
                     tweenBatteryUp.start();
@@ -2142,7 +2171,7 @@
 
                     }, onProgress, onError);
                     //END FOREACH
-                    console.log(batteryChoicesGroup);
+//                    console.log(batteryChoicesGroup);
                 }
 
                 function clearScene() {
