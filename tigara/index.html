@@ -85,6 +85,7 @@
 
             <script>
                 var pbc_debug = false;
+                var no_polar = false;
                 var toMoveObject = 'roata';
                 var scale_to_move = 0.5;</script>
             <script>
@@ -145,6 +146,8 @@
                         'testbaterie7',
                         'clone',
                     ];
+
+
                     for (i = 0; i < test_objects.length; i++) {
                         all_objects.push(test_objects[i]);
                     }
@@ -152,6 +155,8 @@
                     var scales = [
                         0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 30, 50
                     ];
+
+
                     var selectList = document.createElement("select");
                     selectList.id = "mySelect";
                     selectList.setAttribute("onchange", "updateToMoveObject()");
@@ -298,6 +303,80 @@
                     quintic_in: 'Quintic.EaseOut',
                 }
 
+                var roata_only = [
+                    'roata',
+                ]
+
+                var filtru_only = [
+                    'sipca',
+                    'sticla',
+                    'logo_sipca',
+                ];
+                var mecanism_only = [
+                    'buton_interior_mecanism_tigara',
+                    'buton_mare',
+                    'buton_mic_1',
+                    'buton_mic_2',
+                    'capac_mecanism_tigara',
+                    'ecran',
+                    'ecran_behind',
+                    'ecran_rama',
+                    'filet_buton',
+                    'filet_capac_mecanism_tigara',
+                    'fund_mecanism_tigara',
+                    'partea_inferioara_stecher',
+                    'partea_superioara_stecher',
+                    'shell_mecanism_tigara',
+                    'suruburi_capac_mecanism_tigara',
+                    'suruburi_fund_mecanism_tigara',
+                    'text_mecanism_interior',
+                ];
+                var baterie_only = [
+                    'baterie',
+                    'baterie_2',
+                    'capac_baterie',
+                    'fund_baterie',
+                    'invelis_baterie',
+                    'logo_textura_baterie',
+                    'suruburi_baterie',
+                    'suruburi_capac_baterie',
+                    'suruburi_fund_baterie',
+                    'text_baterie_bottom',
+                    'battery_usb',
+                ];
+                var array_of_names = [
+                    'sipca',
+                    'sticla',
+                    'baterie',
+                    'baterie_2',
+                    'battery_usb',
+                    'buton_interior_mecanism_tigara',
+                    'buton_mare',
+                    'buton_mic_1',
+                    'buton_mic_2',
+                    'capac_baterie',
+                    'capac_mecanism_tigara',
+                    'ecran',
+                    'ecran_behind',
+                    'ecran_rama',
+                    'filet_buton',
+                    'filet_capac_mecanism_tigara',
+                    'fund_baterie',
+                    'fund_mecanism_tigara',
+                    'invelis_baterie',
+                    'logo_sipca',
+                    'logo_textura_baterie',
+                    'partea_inferioara_stecher',
+                    'partea_superioara_stecher',
+                    'shell_mecanism_tigara',
+                    'suruburi_baterie',
+                    'suruburi_capac_baterie',
+                    'suruburi_capac_mecanism_tigara',
+                    'suruburi_fund_baterie',
+                    'suruburi_fund_mecanism_tigara',
+                    'text_baterie_bottom',
+                    'text_mecanism_interior',
+                ];
 
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
                 var manager = new THREE.LoadingManager();
@@ -346,10 +425,13 @@
                         controls.maxDistance = 250;
                         controls.noPan = false;
                     }
-
-
                     controls.minPolarAngle = 0.8;
-                    controls.maxPolarAngle = 1.6;
+                    controls.maxPolarAngle = 1.2;
+                    if (no_polar) {
+                        controls.minPolarAngle = 1.1;
+                        controls.maxPolarAngle = 1.1;
+                    }
+
                     if (pbc_debug) {
                         controls.minPolarAngle = 0;
                         controls.maxPolarAngle = 2 * Math.PI;
@@ -515,6 +597,9 @@
 
 
                 function onDocumentMouseDown(event) {
+//                    console.log(camera.rotation);
+//                    asd = scene.getObjectByName("roata");
+//                    console.log(asd.rotation);
                     event.preventDefault();
                     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
@@ -527,7 +612,7 @@
                     if (intersectedObjects.length > 0) {
 
                         var Object = intersectedObjects[0];
-//                        console.log(Object.object.parent.parent);
+                        console.log(Object.object.parent.parent);
                         switch (Object.object.parent.name) {
 
                             case 'sevenColourBoxes':
@@ -589,33 +674,41 @@
                         //
 
 
-                        switch (Object.object.parent.parent.name) {
+                        switch (Object.object.parent.parent.parent.name) {
                             case "batteryChoicesGroup":
-                                var clickedObject = Object.object.parent;
-                                if (battery_chosen == null) {
+                                var clickedObject = Object.object.parent.parent;
+                                console.log(clickedObject);
 
+                                var old_choice_object = null;
+                                if (battery_chosen == null) {
                                     battery_chosen = clickedObject.name;
-                                    
 
                                     clickedObject.position.y += 30;
                                 } else {
-                                    
-                                    var old_choice_name = clickedObject.name;
-                                    console.log(old_choice_name);
+//                                    camera.rotation.y = clickedObject.rotation.y;
+                                    var old_choice_name = battery_chosen;
                                     if (clickedObject.name == battery_chosen) {
-                                        alert("Second click on same battery !");
+//                                        console.log("YOU CHOSE THIS BATTERY");
+                                        var chosenMaterial = clickedObject.children[0].material;
+
+                                        temp_material = Object.object.material.color;
+                                        temp_color = Object.object.material.color.getHex();
+                                        temp_specular = Object.object.material.specular.getHex();
+//                                        console.log(temp_material);
+                                        switchBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
+//                                        removeBatteryColourOptions();
+                                        removeBatteryChosingScene();
+
+
 
                                     } else {
-                                        var old_choice_object = scene.getObjectByName(old_choice_name);
-//                                        alert("You clicked another battery");
-                                        old_choice_object.position.y -=30;
+
+                                        old_choice_object = scene.getObjectByName(old_choice_name);
+                                        battery_chosen = clickedObject.name;
+                                        old_choice_object.position.y -= 30;
                                         clickedObject.position.y += 30;
                                     }
                                 }
-
-//                                console.log(clickedObject.name);
-
-
                                 break;
                         }
                     }
@@ -623,20 +716,6 @@
                 }
 
                 function onDocumentMouseMove(event) {
-//                    if (OBJ_count === OBJ_number) {
-////                        console.log("OBJECT COUNT IS NUMBER");
-////                        if (!innokin_centered_to_screen) {
-////                            basicColorizeOBJ();
-////                            if (!pbc_debug) {
-////                                console.clear();
-////                            }
-////                            load8times();
-////                            console.log("Cleared OnDocumentMouseMove");
-////                            innokin_centered_to_screen = true;
-////                            OBJ_count += 1;
-////                        }
-//                    }
-
                     mouseX = event.clientX - windowHalfX;
                     targetRotationX = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.002;
                 }
@@ -854,9 +933,9 @@
                     if (batteryChoicesGroup) {
                         support = scene.getObjectByName("roata");
                         if (support) {
-                            support.rotation.y += 0.001;
+//                            support.rotation.y += 0.001;
                         }
-                        batteryChoicesGroup.rotation.y += 0.001;
+//                        batteryChoicesGroup.rotation.y += 0.001;
 
                     }
                     var rotationSpeed = 10;
@@ -1332,80 +1411,7 @@
                 function load3DOBJmodels() {
 
 
-                    var roata_only = [
-                        'roata',
-                    ]
 
-                    var filtru_only = [
-                        'sipca',
-                        'sticla',
-                        'logo_sipca',
-                    ];
-                    var mecanism_only = [
-                        'buton_interior_mecanism_tigara',
-                        'buton_mare',
-                        'buton_mic_1',
-                        'buton_mic_2',
-                        'capac_mecanism_tigara',
-                        'ecran',
-                        'ecran_behind',
-                        'ecran_rama',
-                        'filet_buton',
-                        'filet_capac_mecanism_tigara',
-                        'fund_mecanism_tigara',
-                        'partea_inferioara_stecher',
-                        'partea_superioara_stecher',
-                        'shell_mecanism_tigara',
-                        'suruburi_capac_mecanism_tigara',
-                        'suruburi_fund_mecanism_tigara',
-                        'text_mecanism_interior',
-                    ];
-                    var baterie_only = [
-                        'baterie',
-                        'baterie_2',
-                        'capac_baterie',
-                        'fund_baterie',
-                        'invelis_baterie',
-                        'logo_textura_baterie',
-                        'suruburi_baterie',
-                        'suruburi_capac_baterie',
-                        'suruburi_fund_baterie',
-                        'text_baterie_bottom',
-                        'battery_usb',
-                    ];
-                    var array_of_names = [
-                        'sipca',
-                        'sticla',
-                        'baterie',
-                        'baterie_2',
-                        'battery_usb',
-                        'buton_interior_mecanism_tigara',
-                        'buton_mare',
-                        'buton_mic_1',
-                        'buton_mic_2',
-                        'capac_baterie',
-                        'capac_mecanism_tigara',
-                        'ecran',
-                        'ecran_behind',
-                        'ecran_rama',
-                        'filet_buton',
-                        'filet_capac_mecanism_tigara',
-                        'fund_baterie',
-                        'fund_mecanism_tigara',
-                        'invelis_baterie',
-                        'logo_sipca',
-                        'logo_textura_baterie',
-                        'partea_inferioara_stecher',
-                        'partea_superioara_stecher',
-                        'shell_mecanism_tigara',
-                        'suruburi_baterie',
-                        'suruburi_capac_baterie',
-                        'suruburi_capac_mecanism_tigara',
-                        'suruburi_fund_baterie',
-                        'suruburi_fund_mecanism_tigara',
-                        'text_baterie_bottom',
-                        'text_mecanism_interior',
-                    ];
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
                     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
@@ -1414,6 +1420,7 @@
                     loadObjectsAndAssignMaterials(baterie_only, testMaterial, grupBaterie);
                     loadObjectsAndAssignMaterials(filtru_only, testMaterial2, grupFiltru);
                     loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, grupMecanism);
+
                     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
 
                         array.forEach(function (name) {
@@ -1699,71 +1706,82 @@
                         console.log("The 7 colour boxes already are on the screen.");
                     }
                 }
+                function removeBatteryChosingScene() {
 
-
-                function removeBatteryColourOptions() {
-
-                    if (battery_colours_shown) {
-                        sevenColourBoxes = scene.getObjectByName("sevenColourBoxes");
-                        scene.remove(sevenColourBoxes);
-                        battery_colours_shown = false;
-                    } else {
-                        console.log("Cannot remove sevenColourBoxes if they dont exist");
+                    var batteries_group_present = scene.getObjectByName("batteryChoicesGroup");
+                    if (batteries_group_present) {
+                        scene.remove(batteries_group_present);
                     }
-
 
                 }
 
-                function changeMecanismColor(color) {
-                    console.log("attempting to change mechanism color to " + color);
-                    var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
-                    switch (color) {
-                        case "black":
-                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
-                            mecanism_tigara_mesh.material = blackBatteryMaterial;
-                            break;
-                        case "gold":
-                            var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
-                            mecanism_tigara_mesh.material = goldPolished;
-                            break;
-                        case "silver":
-                            var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
-                            mecanism_tigara_mesh.material = silverPolished;
-                            break;
-                        default:
-                            console.log("The colors you must chose are : black, gold or silver");
-                            break;
-                    }
-                }
+//                function removeBatteryColourOptions() {
+//
+//                    if (battery_colours_shown) {
+//                        sevenColourBoxes = scene.getObjectByName("sevenColourBoxes");
+//                        scene.remove(sevenColourBoxes);
+//                        battery_colours_shown = false;
+//                    } else {
+//                        console.log("Cannot remove sevenColourBoxes if they dont exist");
+//                    }
+//
+//
+//                }
+
+//                function changeMecanismColor(color) {
+//                    console.log("attempting to change mechanism color to " + color);
+//                    var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
+//                    switch (color) {
+//                        case "black":
+//                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
+//                            mecanism_tigara_mesh.material = blackBatteryMaterial;
+//                            break;
+//                        case "gold":
+//                            var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
+//                            mecanism_tigara_mesh.material = goldPolished;
+//                            break;
+//                        case "silver":
+//                            var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
+//                            mecanism_tigara_mesh.material = silverPolished;
+//                            break;
+//                        default:
+//                            console.log("The colors you must chose are : black, gold or silver");
+//                            break;
+//                    }
+//                }
 
                 function innokinSplitInThree() {
                     var mechanism = scene.getObjectByName('grupPrincipal');
                     var filter = scene.getObjectByName('grupFiltru');
                     var battery = scene.getObjectByName('grupBaterie');
                     if (object_is_not_split) {
-                        mechanism.position.x -= 20;
-                        filter.position.x = 0;
-                        filter.position.y += 0;
-                        battery.position.x += 20;
+                        mechanism.position.x = -14.45;
+                        filter.position.x = 5.5;
+                        battery.position.x = 10.55;
                         object_is_not_split = false;
+//                        console.log(mechanism.position);
+//                        console.log(filter.position);
+//                        console.log(battery.position);
+                        //HARDCODED?
+
                     } else {
-                        mechanism.position.x = 0;
-                        mechanism.position.y = -15;
-                        mechanism.position.z = 0;
-                        filter.position.x = 0;
-                        filter.position.y = -15;
-                        battery.position.x = -14.95;
-                        battery.position.y = -15;
                         object_is_not_split = true;
+                        mechanism.position.x = 5.5;
+                        filter.position.x = 5.5;
+                        battery.position.x = -9.45;
+//                        console.log(mechanism.position);
+//                        console.log(filter.position);
+//                        console.log(battery.position);
+
                     }
                 }
 
                 function playButonMareAction() {
 
                     if (startButtonCounter % 6 == 0) {
-                        console.log(scene);
+//                        console.log(scene);
                         grupParticule = scene.getObjectByProperty('type', 'PointCloud');
-                        console.log(grupParticule);
+//                        console.log(grupParticule);
                         emitter = null;
                         particleGroup = null;
                         scene.remove(grupParticule);
@@ -1791,7 +1809,7 @@
                     }
                     console.log("Battery Current Position");
                     console.log(batteryGroup.position);
-                    var current = {x: -14.95, y: -30, z: 0};
+                    var current = {x: -9.45, y: -15, z: 2};
                     // remove previous tweens if needed
                     TWEEN.removeAll();
                     var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
@@ -1832,13 +1850,13 @@
                     var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
                     // build the tween to go ahead
                     tweenBatteryIn = new TWEEN.Tween(current)
-                            .to({x: -14.95, y: 10, z: 0}, userOpts.duration)
+                            .to({x: -9.45, y: 15, z: 2}, userOpts.duration)
                             .delay(userOpts.delay)
                             .easing(quintic)
                             .onUpdate(update);
                     // build the tween to go backward
                     tweenBatteryDown = new TWEEN.Tween(current)
-                            .to({x: -14.95, y: -30, z: 0}, userOpts.duration / 2)
+                            .to({x: -9.45, y: -15, z: 2}, userOpts.duration / 2)
                             .delay(userOpts.delay)
                             .easing(easing)
                             .onUpdate(update)
@@ -2109,6 +2127,7 @@
                     var batteryChoicesGroup = new THREE.Group();
                     batteryChoicesGroup.name = "batteryChoicesGroup";
                     scene.add(batteryChoicesGroup);
+
                     var materials = [
                         new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery),
                         new THREE.MeshPhongMaterial(batteryMaterials.black_battery),
@@ -2134,46 +2153,26 @@
                     var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
                     var degree_45 = Math.PI / 4;
 
-                    var name = 'invelis_baterie';
-                    var i = 0;
-                    objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
-
-                        object.traverse(function (child) {
-                            if (child instanceof THREE.Mesh) {
-                                child.material.map = texture;
-                            }
-                        });
-
-                        object.scale.x = 0.5;
-                        object.scale.y = 0.5;
-                        object.scale.z = 0.5;
-
-                        //DO NOT ADD THE DEFAULT OBJECT (Uncomment to add)
-//                        var material1 = materials[i];
-//                        object.name = 'testbaterie' + (i);
-//                        object.children[0].material = material1;
-//                        object.position.x = positions[i].x;
-//                        object.position.y = positions[i].y + 30;
-//                        object.position.z = positions[i].z;
-//                        object.rotation.y = rotations[i] * degree_45;
-//                        batteryChoicesGroup.add(object);
-
                         for (i = 1; i < 8; i++) {
-                            var newObject = object.clone();
-                            newObject.position.x = positions[i].x;
-                            newObject.position.y = positions[i].y;
-                            newObject.position.z = positions[i].z;
-                            newObject.rotation.y = rotations[i] * degree_45;
-                            newObject.name = 'testbaterie' + i;
-                            newObject.children[0].material = materials[i - 1];
-                            batteryChoicesGroup.add(newObject);
+                            //Create a new clone Group
+                            var newGroup = new THREE.Group();
+                            newGroup.name = 'group_clona_baterie_' + i;
+                            newGroup.position.x = positions[i].x;
+                            newGroup.position.y = positions[i].y;
+                            newGroup.position.z = positions[i].z;
+                            newGroup.rotation.y = rotations[i] * degree_45;
+
+                            for (k = 0; k < baterie_only.length; k++) {
+                                var newObject = scene.getObjectByName(baterie_only[k]).clone();
+                                newObject.name = 'testbaterie_' + i + baterie_only[k];
+                                if (baterie_only[k] == 'invelis_baterie') {
+                                    newObject.children[0].material = materials[i - 1];
+                                }
+                                newGroup.add(newObject);
+                            }
+                            batteryChoicesGroup.add(newGroup);
                         }
-
-                    }, onProgress, onError);
-                    //END FOREACH
-//                    console.log(batteryChoicesGroup);
                 }
-
                 function clearScene() {
                     var childrens = scene.children;
                     while (scene.children.length > 0) {
