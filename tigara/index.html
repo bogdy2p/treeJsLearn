@@ -319,7 +319,7 @@
                     defaultLogos: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
                     defaultConnectorMaterial: {color: 0x9F8F53, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
                     defaultScreenTransparent: {color: 0x009900, shininess: 10, specular: 0xFF00FF, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
-//                    defaultScreenFrame: {color: 0x55500F, shininess: 50, specular: 0x33B0F0, metal: true, side: THREE.DoubleSide},
+                    defaultScreenFrame: {color: 0x55500F, shininess: 50, specular: 0x33B0F0, metal: true, side: THREE.DoubleSide},
                     defaultScreenBackground: {color: 0x33300F, shininess: 50, specular: 0x22A0C0, metal: true, side: THREE.DoubleSide},
                 }
                 var userOpts = {
@@ -359,9 +359,9 @@
                     camera.position.z = 85;
 
                     if (pbc_debug) {
-                        camera.position.x = 0;
+                        camera.position.x = -120;
                         camera.position.y = 80;
-                        camera.position.z = 155;
+                        camera.position.z = 20;
 //                        camera.translateY(350);
 
                     }
@@ -1634,6 +1634,9 @@
                     sticlaColor.transparent = true;
                     sticlaColor.opacity = 0.2;
                     sticla.children[0].material = new THREE.MeshPhongMaterial(sticlaColor);
+                    //Reset Opacity to FULL
+                    sticlaColor.transparent = false;
+                    sticlaColor.opacity = 1;
                 }
                 function colorizeFilter(materialColor) {
                     var sipca = scene.getObjectByName('sipca');
@@ -1665,32 +1668,32 @@
                     screwset5.children[0].material = new THREE.MeshPhongMaterial(materialColor);
                 }
 
-                function basicColorize() {
-
-                    var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
-                    var mecanism_tigara_mesh = mecanism_tigara.children[0];
-                    var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
-                    mecanism_tigara_mesh.material = silverPolished;
-                    var grupu = scene.getObjectByName("grupPrincipal");
-                    var grupuchildren = grupu.children;
-                    var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
-                    var filter_mesh = scene.getObjectByName("Cylinder001").children[0];
-                    filter_mesh.material = filter_material;
-                    var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
-                    var default_blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
-                    var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
-                    filter_glass_mesh.material = default_blueGlassMat;
-                    var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
-                    var bigButton_mesh = scene.getObjectByName("buton_mare").children[0];
-                    bigButton_mesh.material = buttonsMaterial;
-                    var smallButton1_mesh = scene.getObjectByName("buton_mic_1").children[0];
-                    var smallButton2_mesh = scene.getObjectByName("buton_mic_2").children[0];
-                    smallButton1_mesh.material = buttonsMaterial;
-                    smallButton2_mesh.material = buttonsMaterial;
-                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 10, specular: 0xFFFFCC, side: THREE.DoubleSide});
-                    var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
-                    rama_ecran_mesh.material = rama_ecranMaterial;
-                }
+//                function basicColorize() {
+//
+//                    var mecanism_tigara = scene.getObjectByName("mecanism_tigara");
+//                    var mecanism_tigara_mesh = mecanism_tigara.children[0];
+//                    var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
+//                    mecanism_tigara_mesh.material = silverPolished;
+//                    var grupu = scene.getObjectByName("grupPrincipal");
+//                    var grupuchildren = grupu.children;
+//                    var filter_material = new THREE.MeshPhongMaterial({color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide});
+//                    var filter_mesh = scene.getObjectByName("Cylinder001").children[0];
+//                    filter_mesh.material = filter_material;
+//                    var white_glass_material = new THREE.MeshPhongMaterial({color: 0x777777, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.5, side: THREE.DoubleSide});
+//                    var default_blueGlassMat = new THREE.MeshPhongMaterial({color: 0x007777, shininess: 10, specular: 0x006ECA, transparent: true, opacity: 0.6, side: THREE.DoubleSide});
+//                    var filter_glass_mesh = scene.getObjectByName("sticla001").children[0];
+//                    filter_glass_mesh.material = default_blueGlassMat;
+//                    var buttonsMaterial = new THREE.MeshPhongMaterial({color: 0xDDDDFF, shininess: 30, specular: 0xEEEEEE, metal: true, side: THREE.DoubleSide});
+//                    var bigButton_mesh = scene.getObjectByName("buton_mare").children[0];
+//                    bigButton_mesh.material = buttonsMaterial;
+//                    var smallButton1_mesh = scene.getObjectByName("buton_mic_1").children[0];
+//                    var smallButton2_mesh = scene.getObjectByName("buton_mic_2").children[0];
+//                    smallButton1_mesh.material = buttonsMaterial;
+//                    smallButton2_mesh.material = buttonsMaterial;
+//                    var rama_ecranMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 10, specular: 0xFFFFCC, side: THREE.DoubleSide});
+//                    var rama_ecran_mesh = scene.getObjectByName("rama_ecran").children[0];
+//                    rama_ecran_mesh.material = rama_ecranMaterial;
+//                }
 
 
                 function displayDisruptorColourOptions() {
@@ -2293,14 +2296,13 @@
                     batteryChoicesGroup.name = "batteryChoicesGroup";
                     scene.add(batteryChoicesGroup);
                     var materials = [
-                        new THREE.MeshBasicMaterial({color: 0xffff00}),
-                        new THREE.MeshBasicMaterial({color: 0x00ff00}),
-                        new THREE.MeshBasicMaterial({color: 0x0033FF}),
-                        new THREE.MeshBasicMaterial({color: 0xFF33FF}),
-                        new THREE.MeshBasicMaterial({color: 0xFF3300}),
-                        new THREE.MeshBasicMaterial({color: 0x663311}),
-                        new THREE.MeshBasicMaterial({color: 0xCACA33}),
-                        new THREE.MeshBasicMaterial({color: 0xFF0000}),
+                        new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.black_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.blue_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.green_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.pink_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.purple_battery),
+                        new THREE.MeshPhongMaterial(batteryMaterials.red_battery),
                     ];
 //                    var mat1 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
 //                    var mat2 = new THREE.MeshPhongMaterial(batteryMaterials.green_battery);
@@ -2311,9 +2313,9 @@
 //                    var mat7 = new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery);
                     var general_height = -36;
                     var name = 'invelis_baterie';
-                    for (var i = 0; i < 8; i++) {
+                    for (var i = 1; i <= 8; i++) {
 //                        var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
-                        var material1 = materials[i];
+                        var material1 = materials[i - 1];
                         objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
 
 
@@ -2329,12 +2331,24 @@
                             console.log(object);
                             switch (i) {
                                 case 0:
+                                    //THIS WILL NOT BE DISPLAYED AS WE ONLY HAVE 7 POSSIBILITIES FOR BATTERY MATERIALS ?
                                     object.position.x = 16;
-                                    object.position.y = general_height;
+                                    object.position.y = general_height + 15;
                                     object.position.z = 2;
 
                                     //NO ROTATION NEEDED @ THIS
 //                                    object.rotation.y = Math.PI/4;
+                                    break;
+                                case 1:
+                                    //IF NOT ROTATED
+//                                    object.position.x = 7;
+//                                    object.position.y = general_height;
+//                                    object.position.z = 24;
+                                    //IF ROTATED
+                                    object.position.x = 10;
+                                    object.position.y = general_height;
+                                    object.position.z = 12.5;
+                                    object.rotation.y = -Math.PI / 4;
                                     break;
                                 case 2:
                                     //IF NOT ROTATED
@@ -2349,17 +2363,7 @@
 
                                     object.rotation.y = -Math.PI / 2;
                                     break;
-                                case 1:
-                                    //IF NOT ROTATED
-//                                    object.position.x = 7;
-//                                    object.position.y = general_height;
-//                                    object.position.z = 24;
-                                    //IF ROTATED
-                                    object.position.x = 10;
-                                    object.position.y = general_height;
-                                    object.position.z = 12.5;
-                                    object.rotation.y = -Math.PI / 4;
-                                    break;
+
                                 case 3:
                                     //IF NOT ROTATED
 //                                    object.position.x = -37;
