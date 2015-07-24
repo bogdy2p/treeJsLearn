@@ -58,8 +58,7 @@
 
 
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
-                var manager = new THREE.LoadingManager();
-                var objLoader = new THREE.OBJLoader(manager);
+
                 init();
                 animate();
                 function init() {
@@ -112,26 +111,12 @@
                     pointLight = new THREE.PointLight(0xcccccc, 0.3);
                     pointLight.position.set(20, 20, 20);
                     scene.add(pointLight);
-                    group = new THREE.Group();
-                    scene.add(group);
-                    grupMecanism = new THREE.Group();
-                    grupMecanism.name = "grupPrincipal";
-                    scene.add(grupMecanism);
-                    grupFiltru = new THREE.Group();
-                    grupFiltru.name = "grupFiltru";
-                    scene.add(grupFiltru);
-                    grupBaterie = new THREE.Group();
-                    grupBaterie.name = "grupBaterie";
-                    scene.add(grupBaterie);
-                    grupRoata = new THREE.Group();
-                    grupRoata.name = "grupRoata";
-                    scene.add(grupRoata);
-                    //load the 3d Model files
-                    //////////////////////////////////////////////
+
+
+                    setUpGroups(groups_array);
+
 
                     load3DOBJmodels();
-                    //////////////////////////////////////////////
-                    // Add Charger 
 
                     renderer = new THREE.WebGLRenderer({antialias: true});
                     renderer.setClearColor(0x559955, 1);
@@ -144,8 +129,20 @@
                     renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
-//                    renderer.autoClear = false;
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 function initParticles() {
                     particleGroup = new SPE.Group({
@@ -653,13 +650,6 @@
                 }
 
 
-                function disrupter() {
-                    console.log(scene);
-                    var grupbaterie = scene.getObjectByName("grupBaterie");
-                    grupbaterie.position.z += 5;
-                }
-
-
                 function startDisruptorWithLogo() {
                     var small_screen_already_exists = scene.getObjectByName('smallScreen');
                     if (!small_screen_already_exists) {
@@ -966,13 +956,7 @@
                 }
 
 
-                manager.onProgress = function (item, loaded, total) {
-//                    console.log(item, loaded, total);
 
-                    loadProgress = loaded / total * 100;
-//                    console.log(loadProgress);
-
-                }
 
 
                 var onProgress = function (xhr) {
@@ -994,16 +978,22 @@
                 var texture = new THREE.Texture();
 
                 function load3DOBJmodels() {
+                    var manager = new THREE.LoadingManager();
+                    var objLoader = new THREE.OBJLoader(manager);
+                    manager.onProgress = function (item, loaded, total) {
+                        loadProgress = loaded / total * 100;
+                    }
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
                     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
                     var roataMaterial = new THREE.MeshPhongMaterial(defaultMaterials.defaultMechanism);
-                    loadObjectsAndAssignMaterials(roata_only, roataMaterial, grupRoata);
-                    loadObjectsAndAssignMaterials(baterie_only, testMaterial, grupBaterie);
-                    loadObjectsAndAssignMaterials(filtru_only, testMaterial2, grupFiltru);
-                    loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, grupMecanism);
+                    loadObjectsAndAssignMaterials(roata_only, roataMaterial, 'grupRoata');
+                    loadObjectsAndAssignMaterials(baterie_only, testMaterial, 'grupBaterie');
+                    loadObjectsAndAssignMaterials(filtru_only, testMaterial2, 'grupFiltru');
+                    loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, 'grupMecanism');
 
                     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
+                        var group = scene.getObjectByName(groupName);
                         array.forEach(function (name) {
                             objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
                                 object.traverse(function (child) {
@@ -1015,8 +1005,8 @@
                                 object.scale.x = 0.5;
                                 object.scale.y = 0.5;
                                 object.scale.z = 0.5;
-                                groupName.position.y = -600;
-                                groupName.add(object);
+                                group.position.y = -600;
+                                group.add(object);
                                 object.children[0].material = defaultMaterial;
                                 if (!debug_mode_on) {
                                     console.clear();
@@ -1031,17 +1021,17 @@
                 }
 
                 function basicColorizeOBJ() {
-                    console.log("basicColorizeOBJ entered");
-                    grupBaterie.position.y = -15;
-                    grupFiltru.position.y = -15;
-                    grupMecanism.position.y = -15;
-                    grupBaterie.position.x = -9.45;
-                    grupBaterie.position.z = 2;
-                    grupFiltru.position.z = 2;
-                    grupFiltru.position.x = 5.5;
-                    grupMecanism.position.z = 2;
-                    grupMecanism.position.x = 5.5;
-                    grupRoata.position.y = -46;
+                    
+//                    grupBaterie.position.y = -15;
+//                    grupFiltru.position.y = -15;
+//                    grupMecanism.position.y = -15;
+//                    grupBaterie.position.x = -9.45;
+//                    grupBaterie.position.z = 2;
+//                    grupFiltru.position.z = 2;
+//                    grupFiltru.position.x = 5.5;
+//                    grupMecanism.position.z = 2;
+//                    grupMecanism.position.x = 5.5;
+//                    grupRoata.position.y = -46;
                     colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
                     colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
                     colorizeGlass(defaultMaterials.defaultFilterGlass);
@@ -1733,6 +1723,8 @@
                         console.log(scene);
                     }
                 }
+
+
 
         </script>
     </body>

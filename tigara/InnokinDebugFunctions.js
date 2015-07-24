@@ -7,8 +7,8 @@ function showDebugHUD() {
     }
     var myDiv = document.getElementById("debugDiv");
 
-    for (i = 0; i < test_objects.length; i++) {
-        all_objects.push(test_objects[i]);
+    for (i = 0; i < debug_test_objects.length; i++) {
+        debug_all_objects.push(debug_test_objects[i]);
     }
 
     var selectList = document.createElement("select");
@@ -19,10 +19,10 @@ function showDebugHUD() {
     scalesList.setAttribute("onchange", "updateScaleToMoveObject()");
     myDiv.appendChild(selectList);
     myDiv.appendChild(scalesList);
-    for (var i = 0; i < all_objects.length; i++) {
+    for (var i = 0; i < debug_all_objects.length; i++) {
         var option = document.createElement("option");
-        option.value = all_objects[i];
-        option.text = all_objects [i];
+        option.value = debug_all_objects[i];
+        option.text = debug_all_objects [i];
         selectList.appendChild(option);
     }
 

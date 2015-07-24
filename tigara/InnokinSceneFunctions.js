@@ -8,3 +8,11 @@ function addLightingToScene(lightingPositions) {
         scene.add(directLight);
     }
 }
+
+function setUpGroups(groups_array) {
+    for (i = 0; i < groups_array.length; i++) {
+        group = new THREE.Group();
+        group.name = groups_array[i];
+        scene.add(group);
+    }
+}
