@@ -11,8 +11,19 @@ function addLightingToScene(lightingPositions) {
 
 function setUpGroups(groups_array) {
     for (i = 0; i < groups_array.length; i++) {
+
         group = new THREE.Group();
-        group.name = groups_array[i];
+        group.name = groups_array[i].name;
         scene.add(group);
     }
+}
+
+function fixGroupsPositionsToCenter(groups_array) {
+    console.log("fixGroupsPositionsToCenter");
+    for (i = 0; i < groups_array.length; i++) {
+        var group = scene.getObjectByName(groups_array[i].name);
+        group.position.set(groups_array[i].x, groups_array[i].y, groups_array[i].z);
+
+    }
+
 }

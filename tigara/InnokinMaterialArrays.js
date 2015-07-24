@@ -13,7 +13,6 @@ var batteryMaterials = {
     whiteblue_battery: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
 };
 var optionsMaterials = {
-    //SPECULAR
     black: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
     blue: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
     pink: {color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide},

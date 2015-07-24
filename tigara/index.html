@@ -962,7 +962,7 @@
                 var onProgress = function (xhr) {
 
                     if (xhr.lengthComputable) {
-                        alert('TRUE');
+//                        alert('TRUE');
                         var percentComplete = xhr.loaded / xhr.total * 100;
                         console.log(Math.round(percentComplete, 2) + '% downloaded');
                     }
@@ -1018,10 +1018,11 @@
 
 
 
+
                 }
 
                 function basicColorizeOBJ() {
-                    
+
 //                    grupBaterie.position.y = -15;
 //                    grupFiltru.position.y = -15;
 //                    grupMecanism.position.y = -15;
@@ -1032,6 +1033,7 @@
 //                    grupMecanism.position.z = 2;
 //                    grupMecanism.position.x = 5.5;
 //                    grupRoata.position.y = -46;
+                    fixGroupsPositionsToCenter(groups_array);
                     colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
                     colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
                     colorizeGlass(defaultMaterials.defaultFilterGlass);
