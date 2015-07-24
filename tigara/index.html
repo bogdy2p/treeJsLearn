@@ -4,379 +4,58 @@
         <title>three.js webgl - InnoKin Sketch</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <style>
-            body {
-                color: #cccccc;
-                font-family:Monospace;
-                font-size:13px;
-                text-align:center;
-                background-color: #000000;
-                margin: 0px;
-                overflow: hidden;
-            }
-            #info {
-                position: absolute;
-                top: 0px; width: 100%;
-                padding: 5px;
-            }
-
-            #selectDiv{
-                position:absolute;
-                top:20px;
-            }
-
-            .stateButtons{
-                margin:0px auto;
-                margin-top: 3px;
-                text-align:center;
-            }
-
-            a {
-                color: #0080ff;
-            }
-
-            #leftcontrols {
-                position: absolute;
-                bottom: 0px; width: 100%;
-                height: 30px;
-                padding: 5px;
-                background-color: #FF66FF;
-            }
-            #container{
-                position: absolute; left:0px; top:0px;
-            }
-            #hidden{
-                z-index: 500;
-                visibility: hidden;
-                display:none;
-            }
-
-            @font-face {
-                font-family: "DisrupterLCDFont";
-                src: url("chesstype.ttf") format("truetype");
-                font-weight: normal;
-                font-style: normal;
-            }
-
-        </style>
+        <link rel ="stylesheet" href="css/style.css">
     </head>
     <body>
 
         <div id="container"></div>
         <div id="info">
+            <div id="debugDiv"></div>
             <div id="hidden">
                 <img id="logoImage" src="LogoInokin.png">
             </div>
             <a href="http://threejs.org" target="_blank"></a> Innoking sketch  - by <a href="http://reea.net/">ThePBC</a>
         </div>
 
-        <div id="selectDiv">
-
-        </div>
         <div id ="leftcontrols">
-
             <button id="firstBtn" onclick="load8times();">load8times</button>
             <button id="btn4" onclick="displayDisruptorColourOptions();">Display Disruptor Colors</button>
             <button id="btn5" onclick="displayBatteryColourOptions();">BatteryColors</button>
             <button id="btn6" onclick="test();">test</button>
             <button id="btn8" onclick="clearScene();">clearScene</button>
-
-
-
-            <script>
-                var pbc_debug = true;
-                var no_polar = false;
-                var toMoveObject = 'roata';
-                var scale_to_move = 0.5;
-                
-                if (pbc_debug) {
-                    function updateToMoveObject() {
-                        toMoveObject = selectList.value;
-                    }
-                    function updateScaleToMoveObject() {
-                        scale_to_move = scalesList.value;
-                    }
-                    var myDiv = document.getElementById("selectDiv");
-                    var all_objects = [
-                        'buton_interior_mecanism_tigara',
-                        'buton_mare',
-                        'buton_mic_1',
-                        'buton_mic_2',
-                        'capac_mecanism_tigara',
-                        'ecran',
-                        'ecran_behind',
-                        'ecran_rama',
-                        'filet_buton',
-                        'filet_capac_mecanism_tigara',
-                        'fund_mecanism_tigara',
-                        'partea_inferioara_stecher',
-                        'partea_superioara_stecher',
-                        'shell_mecanism_tigara',
-                        'suruburi_capac_mecanism_tigara',
-                        'suruburi_fund_mecanism_tigara',
-                        'text_mecanism_interior',
-                        'sipca',
-                        'sticla',
-                        'logo_sipca',
-                        'baterie',
-                        'baterie_2',
-                        'capac_baterie',
-                        'fund_baterie',
-                        'invelis_baterie',
-                        'logo_textura_baterie',
-                        'suruburi_baterie',
-                        'suruburi_capac_baterie',
-                        'suruburi_fund_baterie',
-                        'text_baterie_bottom',
-                        'battery_usb'];
-                    var test_objects = [
-                        'testCylinder1',
-                        'testCylinder2',
-                        'testCylinder3',
-                        'testCylinder4',
-                        'testCylinder5',
-                        'testCylinder6',
-                        'testbaterie0',
-                        'testbaterie1',
-                        'testbaterie2',
-                        'testbaterie3',
-                        'testbaterie4',
-                        'testbaterie5',
-                        'testbaterie6',
-                        'testbaterie7',
-                        'clone',
-                    ];
-
-
-                    for (i = 0; i < test_objects.length; i++) {
-                        all_objects.push(test_objects[i]);
-                    }
-
-                    var scales = [
-                        0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 30, 50
-                    ];
-
-
-                    var selectList = document.createElement("select");
-                    selectList.id = "mySelect";
-                    selectList.setAttribute("onchange", "updateToMoveObject()");
-                    var scalesList = document.createElement("select");
-                    scalesList.id = "scaleSelect";
-                    scalesList.setAttribute("onchange", "updateScaleToMoveObject()");
-                    myDiv.appendChild(selectList);
-                    myDiv.appendChild(scalesList);
-                    for (var i = 0; i < all_objects.length; i++) {
-                        var option = document.createElement("option");
-                        option.value = all_objects[i];
-                        option.text = all_objects [i];
-                        selectList.appendChild(option);
-                    }
-
-                    for (var i = 0; i < scales.length; i++) {
-                        var option = document.createElement("option");
-                        option.value = scales[i];
-                        option.text = scales[i];
-                        scalesList.appendChild(option);
-                    }
-                }
-            </script>
-
             <button id="btn6" onclick="innokinSplitInThree();">SPLIT / UNSPLIT</button>
-            <button id="btn6" onclick="moveXplus(toMoveObject);">X + </button>
-            <button id="btn6" onclick="moveXminus(toMoveObject);">X -</button>
-            <button id="btn6" onclick="moveYplus(toMoveObject);">Y + </button>
-            <button id="btn6" onclick="moveYminus(toMoveObject);">Y -</button>
-            <button id="btn6" onclick="moveZplus(toMoveObject);">Z + </button>
-            <button id="btn6" onclick="moveZminus(toMoveObject);">Z-</button>
-
+            <button id="btn6" onclick="moveXplus(objectToMoveOnDebug);">X + </button>
+            <button id="btn6" onclick="moveXminus(objectToMoveOnDebug);">X -</button>
+            <button id="btn6" onclick="moveYplus(objectToMoveOnDebug);">Y + </button>
+            <button id="btn6" onclick="moveYminus(objectToMoveOnDebug);">Y -</button>
+            <button id="btn6" onclick="moveZplus(objectToMoveOnDebug);">Z + </button>
+            <button id="btn6" onclick="moveZminus(objectToMoveOnDebug);">Z-</button>
         </div>
 
         <script src="js/three.min.js"></script>
         <script src="js/threex.dynamictexture.js"></script>
-        <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
+        <script src="js/RequestAnimationFrame.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script src="js/libs/stats.min.js"></script>
         <script src ="js/ColladaLoader.js"></script>
         <script src ="js/OBJLoader.js"></script>
         <script src="js/Tween.js"></script>
         <script src="dat-gui/build/DAT.GUI.js"></script>
-
-
         <script src="js/ShaderParticles.min.js"></script>
         <script src="js/ShaderParticleGroup.js"></script>
         <script src="js/ShaderParticleEmitter.js"></script>
+        <script src="InnokinConfiguration.js"></script>
+        <script src="InnokinArrays.js"></script>
+        <script src="InnokinMaterialArrays.js"></script>
+        <script src="InnokinDebugFunctions.js"></script>
+        <script src="InnokinSceneFunctions.js"></script>
 
         <script>
 
-                var loadProgress = 0;
-                var battery_chosen = null;
-                var object_is_not_split = true;
-                var innokin_centered_to_screen = false;
-                var device_status = "OFF";
-                var device_state = 'watt';
-                var startButtonTime = null;
-                var startClick1 = null;
-                var startClick2 = null;
-                var startClick3 = null;
-                var timer_running = false;
-                var disruptor_started = false;
-                var startButtonPushStart = null;
-                var startButtonPushed = false;
-                var device_variables = {
-                    ohmz: 0.48,
-                    volt: 7.5,
-                    watt: 30.0,
-                    battery: 100,
+                if (debug_mode_on) {
+                    showDebugHUD();
                 }
 
-                var ohmLetter = String.fromCharCode(0x2126);
-                var group, grupMecanism, grupFiltru, grupBaterie, grupRoata, group2, group3, batteryChoicesGroup;
-                var disruptor;
-                var battery;
-                var tigara;
-                var container, mapCanvas;
-                var controls, controls2;
-                var camera, mapCamera, scene, scene2, renderer, raycaster, raycasterMap;
-                var positions, colors;
-                var mouseX = 0, mouseY = 0;
-                var mouseXOnMouseDown = 0;
-                var SCREEN_WIDTH, SCREEN_HEIGHT;
-                var targetRotation = 0;
-                var startButton, minusButtonCylinder, plusButtonCylinder, filtruTigara, chargerCube, disrupterCube;
-                var targetRotationOnMouseDown = 0;
-                var windowHalfX = window.innerWidth / 2;
-                var windowHalfY = window.innerHeight / 2;
-                var pointLight;
-                var startButtonCounter = 0;
-                var startButtonCounter2 = 0;
-                var chargerMaterial;
-                var tweenBatteryOut, tweenBatteryIn, tweenBatteryUp, tweenBatteryDown;
-                var startTime = Date.now();
-                var emitter, particleGroup;
-                var disruptor_colours_shown = false;
-                var battery_colours_shown = false;
-//             
-                var disruptorMaterials = {
-                    silver_material: {color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide},
-                    black_material: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
-                    golden_material: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
-                };
-                var batteryMaterials = {
-                    black_battery: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
-                    blue_battery: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
-                    pink_battery: {color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide},
-                    red_battery: {color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide},
-                    green_battery: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
-                    purple_battery: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
-                    whiteblue_battery: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
-                };
-                var optionsMaterials = {
-                    //SPECULAR
-                    black: {color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide},
-                    blue: {color: 0x009EFA, shininess: 50, specular: 0x005ECA, metal: true, side: THREE.DoubleSide},
-                    pink: {color: 0xFA55BB, shininess: 50, specular: 0xFA55BB, metal: true, side: THREE.DoubleSide},
-                    red: {color: 0xFF6677, shininess: 30, specular: 0x990000, metal: true, side: THREE.DoubleSide},
-                    green: {color: 0x00FF00, shininess: 50, specular: 0x00FF00, metal: true, side: THREE.DoubleSide},
-                    purple: {color: 0xFF00FF, shininess: 50, specular: 0xFF00FF, metal: true, side: THREE.DoubleSide},
-                    whiteblue: {color: 0x009EFA, shininess: 50, specular: 0x00FFFF, metal: true, side: THREE.DoubleSide},
-                };
-                var defaultMaterials = {
-                    defaultBatterySupport: batteryMaterials.blue_battery,
-                    defaultBatteryInside: batteryMaterials.black_battery,
-                    defaultMechanism: disruptorMaterials.silver_material,
-                    defaultFilter: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
-                    defaultFilterGlass: {color: 0xFFFFFF, shininess: 10, specular: 0xDDDDDD, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
-                    topAndBottom: {color: 0xCCCCCC, shininess: 50, specular: 0xBBBBBB, metal: true, side: THREE.DoubleSide},
-                    defaultScrews: {color: 0xCCCCCC, shininess: 50, specular: 0xAACCDD, metal: true, side: THREE.DoubleSide},
-                    defaultLogos: {color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
-                    defaultConnectorMaterial: {color: 0x9F8F53, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide},
-                    defaultScreenTransparent: {color: 0x009900, shininess: 10, specular: 0xFF00FF, transparent: true, opacity: 0.3, side: THREE.DoubleSide},
-                    defaultScreenFrame: {color: 0x55500F, shininess: 50, specular: 0x33B0F0, metal: true, side: THREE.DoubleSide},
-                    defaultScreenBackground: {color: 0x33300F, shininess: 50, specular: 0x22A0C0, metal: true, side: THREE.DoubleSide},
-                }
-                var userOpts = {
-                    liftoff: 16,
-                    range: 2000,
-                    duration: 1500,
-                    delay: 0,
-                    easing: 'Exponential.EaseIn',
-                    quintic_in: 'Quintic.EaseOut',
-                }
-
-                var roata_only = [
-                    'roata',
-                ]
-
-                var filtru_only = [
-                    'sipca',
-                    'sticla',
-                    'logo_sipca',
-                ];
-                var mecanism_only = [
-                    'buton_interior_mecanism_tigara',
-                    'buton_mare',
-                    'buton_mic_1',
-                    'buton_mic_2',
-                    'capac_mecanism_tigara',
-                    'ecran',
-                    'ecran_behind',
-                    'ecran_rama',
-                    'filet_buton',
-                    'filet_capac_mecanism_tigara',
-                    'fund_mecanism_tigara',
-                    'partea_inferioara_stecher',
-                    'partea_superioara_stecher',
-                    'shell_mecanism_tigara',
-                    'suruburi_capac_mecanism_tigara',
-                    'suruburi_fund_mecanism_tigara',
-                    'text_mecanism_interior',
-                ];
-                var baterie_only = [
-                    'baterie',
-                    'baterie_2',
-                    'capac_baterie',
-                    'fund_baterie',
-                    'invelis_baterie',
-                    'logo_textura_baterie',
-                    'suruburi_baterie',
-                    'suruburi_capac_baterie',
-                    'suruburi_fund_baterie',
-                    'text_baterie_bottom',
-                    'battery_usb',
-                ];
-                var array_of_names = [
-                    'sipca',
-                    'sticla',
-                    'baterie',
-                    'baterie_2',
-                    'battery_usb',
-                    'buton_interior_mecanism_tigara',
-                    'buton_mare',
-                    'buton_mic_1',
-                    'buton_mic_2',
-                    'capac_baterie',
-                    'capac_mecanism_tigara',
-                    'ecran',
-                    'ecran_behind',
-                    'ecran_rama',
-                    'filet_buton',
-                    'filet_capac_mecanism_tigara',
-                    'fund_baterie',
-                    'fund_mecanism_tigara',
-                    'invelis_baterie',
-                    'logo_sipca',
-                    'logo_textura_baterie',
-                    'partea_inferioara_stecher',
-                    'partea_superioara_stecher',
-                    'shell_mecanism_tigara',
-                    'suruburi_baterie',
-                    'suruburi_capac_baterie',
-                    'suruburi_capac_mecanism_tigara',
-                    'suruburi_fund_baterie',
-                    'suruburi_fund_mecanism_tigara',
-                    'text_baterie_bottom',
-                    'text_mecanism_interior',
-                ];
 
                 document.addEventListener('mousemove', onDocumentMouseMove, false);
                 var manager = new THREE.LoadingManager();
@@ -392,113 +71,42 @@
                     SCREEN_HEIGHT = window.innerHeight;
                     var ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
                     camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 600);
-                    if (pbc_debug) {
-                        camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 10000);
-                    }
-                    //Normal (below)
-                    camera.position.x = -120;
-                    camera.position.z = 100;
-                    camera.position.y = -80;
+
                     //Over-item
                     camera.position.x = -140;
                     camera.position.y = 70;
                     camera.position.z = 85;
-                    if (pbc_debug) {
+                    if (debug_mode_on) {
+                        camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 10000);
                         camera.position.x = -120;
                         camera.position.y = 80;
                         camera.position.z = 20;
-//                        camera.translateY(350);
-
                     }
                     camera.rotateOnAxis(300);
-//                    camera.position.x = 0;
-//                    camera.position.z = 500;
-//                    camera.position.y = 0;
                     scene.add(camera);
                     controls = new THREE.OrbitControls(camera, container);
                     controls.noZoom = false;
                     controls.minDistance = 80;
                     controls.maxDistance = 180;
                     controls.noPan = true;
-                    if (pbc_debug) {
-                        controls.minDistance = 2;
-                        controls.maxDistance = 250;
-                        controls.noPan = false;
-                    }
+
                     controls.minPolarAngle = 0.8;
                     controls.maxPolarAngle = 1.2;
                     if (no_polar) {
                         controls.minPolarAngle = 1.1;
                         controls.maxPolarAngle = 1.1;
                     }
-
-                    if (pbc_debug) {
+                    if (debug_mode_on) {
+                        controls.minDistance = 2;
+                        controls.maxDistance = 250;
+                        controls.noPan = false;
                         controls.minPolarAngle = 0;
                         controls.maxPolarAngle = 2 * Math.PI;
                     }
 
-                    var directionalLightStrength = 0.15;
-                    var increase = 1;
-                    var luminaDirectionala1 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
-                    luminaDirectionala1.position.set(300 * increase, 300 * increase, 0 * increase);
-                    luminaDirectionala1.name = "luminaDirectionala1";
-                    scene.add(luminaDirectionala1);
-                    var luminaDirectionala2 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
-                    luminaDirectionala2.position.set(0 * increase, 300 * increase, 300 * increase);
-                    luminaDirectionala2.name = "luminaDirectionala2";
-                    scene.add(luminaDirectionala2);
-                    var luminaDirectionala3 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
-                    luminaDirectionala3.position.set(0 * increase, -300 * increase, 300 * increase);
-                    luminaDirectionala3.name = "luminaDirectionala3";
-                    scene.add(luminaDirectionala3);
-                    var luminaDirectionala4 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
-                    luminaDirectionala4.position.set(-300 * increase, 300 * increase, 0 * increase);
-                    luminaDirectionala4.name = "luminaDirectionala4";
-                    scene.add(luminaDirectionala4);
-                    var luminaDirectionala5 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
-                    luminaDirectionala5.position.set(0 * increase, -300 * increase, 300 * increase);
-                    luminaDirectionala5.name = "luminaDirectionala5";
-                    scene.add(luminaDirectionala5);
-                    var luminaDirectionala6 = new THREE.DirectionalLight(0xffffff, directionalLightStrength);
-                    luminaDirectionala6.position.set(0 * increase, -300 * increase, -300 * increase);
-                    luminaDirectionala6.name = "luminaDirectionala6";
-                    scene.add(luminaDirectionala6);
-                    if (pbc_debug) {
-                        var testHelper = new THREE.AxisHelper(50);
-                        scene.add(testHelper);
-                        var testBoxGeom = new THREE.BoxGeometry(30, 30, 30, 30);
-                        var testBoxMat = new THREE.MeshBasicMaterial();
-                        var testBox = new THREE.Mesh(testBoxGeom, testBoxMat);
-                        var testBox2 = new THREE.Mesh(testBoxGeom, testBoxMat);
-                        var testBox3 = new THREE.Mesh(testBoxGeom, testBoxMat);
-                        var testBox4 = new THREE.Mesh(testBoxGeom, testBoxMat);
-                        var testBox5 = new THREE.Mesh(testBoxGeom, testBoxMat);
-                        var testBox6 = new THREE.Mesh(testBoxGeom, testBoxMat);
-                        scene.add(testBox);
-                        scene.add(testBox2);
-                        scene.add(testBox3);
-                        scene.add(testBox4);
-                        scene.add(testBox5);
-                        scene.add(testBox6);
-                        testBox.position.copy(luminaDirectionala1.position);
-                        testBox2.position.copy(luminaDirectionala2.position);
-                        testBox3.position.copy(luminaDirectionala3.position);
-                        testBox4.position.copy(luminaDirectionala4.position);
-                        testBox5.position.copy(luminaDirectionala5.position);
-                        testBox6.position.copy(luminaDirectionala6.position);
-                        var SphereSize = 100;
-                        var LightHelper1 = new THREE.DirectionalLightHelper(luminaDirectionala1, SphereSize);
-                        scene.add(LightHelper1);
-                        var LightHelper2 = new THREE.DirectionalLightHelper(luminaDirectionala2, SphereSize);
-                        scene.add(LightHelper2);
-                        var LightHelper3 = new THREE.DirectionalLightHelper(luminaDirectionala3, SphereSize);
-                        scene.add(LightHelper3);
-                        var LightHelper4 = new THREE.DirectionalLightHelper(luminaDirectionala4, SphereSize);
-                        scene.add(LightHelper4);
-                        var LightHelper5 = new THREE.DirectionalLightHelper(luminaDirectionala5, SphereSize);
-                        scene.add(LightHelper5);
-                        var LightHelper6 = new THREE.DirectionalLightHelper(luminaDirectionala6, SphereSize);
-                        scene.add(LightHelper6);
+                    addLightingToScene(lightingPositions);
+                    if (debug_mode_on) {
+                        showLightingAndAxisDebug(lightingPositions);
                     }
 
                     pointLight = new THREE.PointLight(0xcccccc, 0.3);
@@ -518,8 +126,6 @@
                     grupRoata = new THREE.Group();
                     grupRoata.name = "grupRoata";
                     scene.add(grupRoata);
-//                    grupRoata.position.x = 0;
-//                    grupRoata.position.z = 0.5;
                     //load the 3d Model files
                     //////////////////////////////////////////////
 
@@ -539,8 +145,6 @@
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
 //                    renderer.autoClear = false;
-//                    test();
-//                    addScreens('ana are mere');
                 }
 
                 function initParticles() {
@@ -557,7 +161,6 @@
                         accelerationSpread: new THREE.Vector3(0, 5, 0),
                         velocity: new THREE.Vector3(0, 0, 0),
                         velocitySpread: new THREE.Vector3(10, 10, 10),
-//                        velocitySpread: new THREE.Vector3(0, 0, 0),
                         colorStart: new THREE.Color(0x111111),
                         colorEnd: new THREE.Color(0x000000),
                         sizeStart: 15,
@@ -597,9 +200,6 @@
 
 
                 function onDocumentMouseDown(event) {
-//                    console.log(camera.rotation);
-//                    asd = scene.getObjectByName("roata");
-//                    console.log(asd.rotation);
                     event.preventDefault();
                     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
@@ -727,19 +327,6 @@
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
-//                    if (!disruptor_started) {
-//                        if (startButtonPushed) {
-//                            var newTime = clock.elapsedTime;
-//                            var timeDifference = newTime - startButtonPushStart;
-//                            startButtonPushed = false;
-////                            alert(timeDifference);
-//                            if (timeDifference > 1) {
-//                                startDisruptorWithLogo('ASD');
-//                            }
-//                        }
-//                    } else {
-//                        console.log("disruptor already  ON");
-//                    }
                 }
 
                 function onDocumentMouseOut(event) {
@@ -917,7 +504,7 @@
                     if (loadProgress == 100) {
                         if (!innokin_centered_to_screen) {
                             basicColorizeOBJ();
-                            if (!pbc_debug) {
+                            if (!debug_mode_on) {
                                 console.clear();
                             }
                             load8times();
@@ -1339,8 +926,6 @@
                     if (!small_screen_already_exists) {
                         //ONLY ADD THE SCREENS IF THEY ARE NOT ALREADY PRESENT !!!
 
-
-
                         var screenDynamicTexture = new THREEx.DynamicTexture(400, 200);
                         screenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
                         var planeGeometry1 = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
@@ -1400,7 +985,6 @@
 
                 }
 
-
                 var onLoad = function (xhr) {
 //                    console.log("OnLOAD CALLED !");
                 };
@@ -1408,10 +992,8 @@
 
                 };
                 var texture = new THREE.Texture();
+
                 function load3DOBJmodels() {
-
-
-
                     var testMaterial = new THREE.MeshPhongMaterial(batteryMaterials.pink_battery);
                     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
                     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
@@ -1422,7 +1004,6 @@
                     loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, grupMecanism);
 
                     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
-
                         array.forEach(function (name) {
                             objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
                                 object.traverse(function (child) {
@@ -1437,47 +1018,17 @@
                                 groupName.position.y = -600;
                                 groupName.add(object);
                                 object.children[0].material = defaultMaterial;
-                                if (!pbc_debug) {
+                                if (!debug_mode_on) {
                                     console.clear();
                                 }
                             }, onProgress, onError);
-
                         });
                     }
 
 
 
 
-
-
-
-//                    array_of_names.forEach(function (name) {
-//                        objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
-//                            object.traverse(function (child) {
-//                                if (child instanceof THREE.Mesh) {
-//                                    child.material.map = texture;
-//                                }
-//                            });
-//                            object.name = name;
-//                            object.scale.x = 0.5;
-//                            object.scale.y = 0.5;
-//                            object.scale.z = 0.5;
-//                            object.position.y = -30;
-//                            scene.add(object);
-//                            object.children[0].material = testMaterial;
-//                        }, onProgress, onError);
-//                    });
-
-
                 }
-
-
-                ///////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////
-                ///                    LOAD THE 3D MODELS                   ///
-                ///////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////
 
                 function basicColorizeOBJ() {
                     console.log("basicColorizeOBJ entered");
@@ -1995,7 +1546,7 @@
 
                 function setRemoteVisible() {
 
-                    if (pbc_debug) {
+                    if (debug_mode_on) {
                         remoteDiv = document.getElementById("remoteDiv");
                         remoteDiv.style.display = "inline";
                     }
@@ -2153,25 +1704,25 @@
                     var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
                     var degree_45 = Math.PI / 4;
 
-                        for (i = 1; i < 8; i++) {
-                            //Create a new clone Group
-                            var newGroup = new THREE.Group();
-                            newGroup.name = 'group_clona_baterie_' + i;
-                            newGroup.position.x = positions[i].x;
-                            newGroup.position.y = positions[i].y;
-                            newGroup.position.z = positions[i].z;
-                            newGroup.rotation.y = rotations[i] * degree_45;
+                    for (i = 1; i < 8; i++) {
+                        //Create a new clone Group
+                        var newGroup = new THREE.Group();
+                        newGroup.name = 'group_clona_baterie_' + i;
+                        newGroup.position.x = positions[i].x;
+                        newGroup.position.y = positions[i].y;
+                        newGroup.position.z = positions[i].z;
+                        newGroup.rotation.y = rotations[i] * degree_45;
 
-                            for (k = 0; k < baterie_only.length; k++) {
-                                var newObject = scene.getObjectByName(baterie_only[k]).clone();
-                                newObject.name = 'testbaterie_' + i + baterie_only[k];
-                                if (baterie_only[k] == 'invelis_baterie') {
-                                    newObject.children[0].material = materials[i - 1];
-                                }
-                                newGroup.add(newObject);
+                        for (k = 0; k < baterie_only.length; k++) {
+                            var newObject = scene.getObjectByName(baterie_only[k]).clone();
+                            newObject.name = 'testbaterie_' + i + baterie_only[k];
+                            if (baterie_only[k] == 'invelis_baterie') {
+                                newObject.children[0].material = materials[i - 1];
                             }
-                            batteryChoicesGroup.add(newGroup);
+                            newGroup.add(newObject);
                         }
+                        batteryChoicesGroup.add(newGroup);
+                    }
                 }
                 function clearScene() {
                     var childrens = scene.children;
