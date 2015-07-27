@@ -47,31 +47,29 @@ function rotateObjectZ(objectName, direction, time, amount) {
 
 function flyInPart(objectName, current, time) {
     var top = current;
-    top.y += 100;
-
+    top.y += 150;
     var ActualObject = scene.getObjectByName(objectName);
-//    var ActualObject = objectName;
     if (ActualObject) {
 //        console.log(Object.parent);
         var update = function () {
-            console.log("entere update");
+            console.log("entered update of flyInPart");
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
         }
         // remove previous tweens if needed
 //        TWEEN.removeAll();
-        var easing2 = TWEEN.Easing.Quadratic.EaseOut;
+        var easing = TWEEN.Easing.Quadratic.EaseInOut;
         // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
-                .to({y: -46}, time)
+                .to({y: -46, rotation: 0.3}, time)
 //            .delay(userOpts.delay)
-                .easing(easing2)
+                .easing(easing)
                 .onUpdate(update);
         tweenBatteryDown.start();
     } else {
         console.log(objectName);
-        console.log("NO ActualObject ...");
+        console.log("NO ActualObject ... Something wrong here");
     }
 }
 

@@ -33,10 +33,12 @@ function playScene1() {
 
 
 
-//    animateWheelRotation();
+    animateWheelRotation();
+    animateDisruptorFlyIns();
+    animateBatteryChoicesGroupRotation();
     setTimeout(function () {
         console.log("animateDisruptorFlyIns()");
-        animateDisruptorFlyIns();
+
     }, 100);
 
     // 
@@ -45,16 +47,20 @@ function playScene1() {
     // 
     function animateWheelRotation() {
 
-        rotateObjectY('grupRoata', 'left', 3000, 8 * Math.PI / 2);
+        rotateObjectY('grupRoata', 'left', 2000, 4 * Math.PI / 2);
 
     }
+    function animateBatteryChoicesGroupRotation() {
 
+        rotateObjectY('batteryChoicesGroup', 'left', 2000, 4 * Math.PI / 2);
+
+    }
     function animateDisruptorFlyIns() {
 
 //        var grup_batteryC = scene.getObjectByName("batteryChoicesGroup");
 //        console.log(grup_batteryC);
         for (i = 0; i < 8; i++) {
-            flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 100 + 500 * i);
+            flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 500 + 200 * i);
         }
     }
 
