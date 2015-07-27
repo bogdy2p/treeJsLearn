@@ -24,15 +24,7 @@ function setUpGroups(groups_array) {
     }
 }
 
-function fixGroupsPositionsToCenter(groups_array) {
-    console.log("fixGroupsPositionsToCenter");
-    for (i = 0; i < groups_array.length; i++) {
-        var group = scene.getObjectByName(groups_array[i].name);
-        group.position.set(groups_array[i].x, groups_array[i].y, groups_array[i].z);
 
-    }
-
-}
 
 function addOrbitControlsToScene() {
     controls = new THREE.OrbitControls(camera, container);

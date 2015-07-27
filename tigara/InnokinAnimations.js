@@ -4,7 +4,7 @@ function rotateObjectY(objectName, direction, time, amount) {
     if (amount == null) {
         amount = Math.PI / 4;
     }
-
+    
     rotateLeft = new TWEEN.Tween(Object.rotation).to({y: amount}, time).easing(TWEEN.Easing.Quadratic.EaseInOut);
     rotateRight = new TWEEN.Tween(Object.rotation).to({y: -amount}, time).easing(TWEEN.Easing.Quadratic.EaseInOut);
     if (direction == 'left') {
@@ -47,7 +47,7 @@ function rotateObjectZ(objectName, direction, time, amount) {
 
 function flyInPart(objectName, current, time) {
     var top = current;
-    top.y += 150;
+    top.y += 350;
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
 //        console.log(Object.parent);
@@ -62,7 +62,7 @@ function flyInPart(objectName, current, time) {
         var easing = TWEEN.Easing.Quadratic.EaseInOut;
         // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
-                .to({y: -46, rotation: 0.3}, time)
+                .to({y: wheel_general_height, rotation: 0.3}, time)
 //            .delay(userOpts.delay)
                 .easing(easing)
                 .onUpdate(update);
@@ -78,7 +78,7 @@ function flyOutPart(objectName, current, time) {
     
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
-//        console.log(Object.parent);
+//        console.log(parent);
         var update = function () {
             console.log("entered update of flyInPart");
             ActualObject.position.y = current.y;
@@ -90,7 +90,7 @@ function flyOutPart(objectName, current, time) {
         var easing = TWEEN.Easing.Quadratic.EaseIn;
         // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
-                .to({y: +150, rotation: 0.3}, time)
+                .to({y: +350, rotation: 0.3}, time)
 //            .delay(userOpts.delay)
                 .easing(easing)
                 .onUpdate(update);
@@ -132,7 +132,7 @@ function flyOutPart(objectName, current, time) {
 
 
   function animateWheelRotation(direction) {
-
+        console.log("AnimateWheelRotationLEFT");
         rotateObjectY('grupRoata', direction, 3000, 4 * Math.PI / 2);
 
     }
@@ -149,14 +149,14 @@ function flyOutPart(objectName, current, time) {
     function animateDisruptorFlyIns() {
 
         for (i = 0; i < 8; i++) {
-            flyInPart('group_clona_disruptor_' + i, wheel_hole_positions[i], 200 + 200 * i);
+            flyInPart('group_clona_disruptor_' + i, disruptor_positions_on_wheel[i], 200 + 200 * i);
         }
     }
 
     function animateDisruptorFlyOuts() {
         for (i = 0; i < 8; i++) {
 //            console.log('flying part ' + (7 - i));
-            flyOutPart('group_clona_disruptor_' + (7 - i), wheel_hole_positions[(7 - i)], 500 + 500 * i);
+            flyOutPart('group_clona_disruptor_' + (7 - i), disruptor_positions_on_wheel[(7 - i)], 500 + 500 * i);
         }
     }
 

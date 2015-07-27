@@ -18,7 +18,7 @@ function displayScene1Stuff() {
 
 setTimeout(function () {
     playScene1();
-}, 2300);
+}, 4300);
 
 
 
@@ -28,12 +28,12 @@ function playScene1() {
     animateWheelRotation('left');
     animateDisruptorFlyIns();
     animateDisruptorChoicesGroupRotation('left');
-    setTimeout(function () {
-        console.log("animateDisruptorFlyOUTS()");
-        animateWheelRotation('right');
-        animateDisruptorChoicesGroupRotation('right');
-        animateDisruptorFlyOuts();
-    }, 3500);
+//    setTimeout(function () {
+//        console.log("animateDisruptorFlyOUTS()");
+//        animateWheelRotation('right');
+//        animateDisruptorChoicesGroupRotation('right');
+//        animateDisruptorFlyOuts();
+//    }, 5500);
 
 }
 
@@ -54,18 +54,18 @@ function playScene2() {
 
     // 1. Display the wheel
     // 
-    moveTheWheelToCenter();
+//    moveTheWheelToCenter();
     // 2. Animate the Batteries Fly In The Wheel
 
     animateWheelRotation('left');
     animateBatteriesFlyIns();
     animateBatteryChoicesGroupRotation('left');
-    setTimeout(function () {
-        console.log("animateBatteriesFlyOUTS()");
-        animateWheelRotation('right');
-        animateBatteryChoicesGroupRotation('right');
-        animateBatteriesFlyOuts();
-    }, 3500);
+//    setTimeout(function () {
+//        console.log("animateBatteriesFlyOUTS()");
+//        animateWheelRotation('right');
+//        animateBatteryChoicesGroupRotation('right');
+//        animateBatteriesFlyOuts();
+//    }, 5500);
 
 //
 //    setInterval(function () {
@@ -296,6 +296,44 @@ function onDocumentMouseDown(event) {
                     }
                 }
                 break;
+
+            case "disruptorChoicesGroup":
+                var clickedObject = Object.object.parent.parent;
+
+                var old_choice_object = null;
+                if (disruptor_chosen == null) {
+                    disruptor_chosen = clickedObject.name;
+
+                    clickedObject.position.y += 30;
+                } else {
+//                                    camera.rotation.y = clickedObject.rotation.y;
+                    var old_choice_name = disruptor_chosen;
+                    if (clickedObject.name == disruptor_chosen) {
+//                                        console.log("YOU CHOSE THIS BATTERY");
+                        var chosenMaterial = clickedObject.children[0].material;
+
+                        temp_material = Object.object.material.color;
+                        temp_color = Object.object.material.color.getHex();
+                        temp_specular = Object.object.material.specular.getHex();
+
+                        chooseDisruptor({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
+
+                        removeDisruptorChosingScene();
+
+
+
+                    } else {
+
+                        old_choice_object = scene.getObjectByName(old_choice_name);
+                        disruptor_chosen = clickedObject.name;
+                        old_choice_object.position.y -= 30;
+                        clickedObject.position.y += 30;
+                    }
+                }
+
+
+
+                break;
         }
     }
 
@@ -491,7 +529,7 @@ function render(dt) {
             if (!debug_mode_on) {
                 console.clear();
             }
-//            loadBatteryChoices();
+            loadBatteryChoices();
             loadDisruptorChoices();
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
@@ -629,6 +667,31 @@ function switchBattery(materialColor) {
 //                        alert("Click sound");
     }, 5200);
 }
+
+function chooseDisruptor(materialColor) {
+
+
+    colorizeMechanism(materialColor);
+
+
+//    setupTweenBatteryOut();
+//    setupTweenBatteryIn();
+//    tweenBatteryUp.start();
+//    setTimeout(function () {
+//        colorizeBattery(materialColor);
+//    }, 2400);
+//    setTimeout(function () {
+//        tweenBatteryOut.stop();
+//        tweenBatteryIn.start();
+//    }, 3000);
+//    setTimeout(function () {
+//        tweenBatteryIn.stop();
+//    }, 4700);
+//    setTimeout(function () {
+////                        alert("Click sound");
+//    }, 5200);
+}
+
 
 function removeFilter() {
 
@@ -1065,7 +1128,7 @@ function basicColorizeOBJ() {
 //                    grupMecanism.position.z = 2;
 //                    grupMecanism.position.x = 5.5;
 //                    grupRoata.position.y = -46;
-    fixGroupsPositionsToCenter(groups_array);
+//    bringDeviceToCenterScreen(groups_array);
     colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
     colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
     colorizeGlass(defaultMaterials.defaultFilterGlass);
@@ -1289,6 +1352,22 @@ function removeBatteryChosingScene() {
     }
 
 }
+
+function removeDisruptorChosingScene() {
+    animateWheelRotation('right');
+    animateDisruptorChoicesGroupRotation('right');
+    animateDisruptorFlyOuts();
+//    var batteries_group_present = scene.getObjectByName("disruptorChoicesGroup");
+//    if (batteries_group_present) {
+//        batteries_group_present.position.y += 500;
+    setTimeout(function () {
+        playScene2();
+    }, 2500);
+
+//    }
+
+}
+
 
 //                function removeBatteryColourOptions() {
 //
@@ -1722,7 +1801,7 @@ function loadBatteryChoices() {
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_baterie_' + i;
         newGroup.position.x = wheel_hole_positions[i].x;
-        newGroup.position.y = wheel_hole_positions[i].y + 250;
+        newGroup.position.y = wheel_hole_positions[i].y + 750;
         newGroup.position.z = wheel_hole_positions[i].z;
         newGroup.rotation.y = rotations[i] * degree_45;
 
@@ -1761,8 +1840,9 @@ function loadDisruptorChoices() {
         //Create a new clone Group
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_disruptor_' + i;
+        console.log(newGroup.name);
         newGroup.position.x = disruptor_positions_on_wheel[i].x;
-        newGroup.position.y = disruptor_positions_on_wheel[i].y + 250;
+        newGroup.position.y = disruptor_positions_on_wheel[i].y + 750;
         newGroup.position.z = disruptor_positions_on_wheel[i].z;
         newGroup.rotation.y = rotations[i] * degree_45;
 
@@ -1798,4 +1878,8 @@ function displaySceneInformation() {
     var informationPlane = new THREE.Mesh(informationSquare, informationPlaneMaterial);
     informationPlane.name = 'informationPlane';
     scene.add(informationPlane);
+}
+
+function test() {
+    console.log(scene);
 }

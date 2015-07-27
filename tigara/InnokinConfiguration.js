@@ -10,6 +10,7 @@ var all_obj_models_loaded = false;
 var sceneNumber = 0;
 var loadProgress = 0;
 var battery_chosen = null;
+var disruptor_chosen = null;
 var object_is_not_split = true;
 var innokin_centered_to_screen = false;
 var device_status = "OFF";
