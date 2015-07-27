@@ -1,4 +1,19 @@
 
+var wheel_general_height = -46;
+
+var wheel_hole_positions = [
+    {x: 16, y: wheel_general_height, z: 2},
+    {x: 10, y: wheel_general_height, z: 12.5},
+    {x: -2, y: wheel_general_height, z: 16},
+    {x: -13, y: wheel_general_height, z: 10},
+    {x: -16.2, y: wheel_general_height, z: -1.8},
+    {x: -10.2, y: wheel_general_height, z: -12.7},
+    {x: 1.8, y: wheel_general_height, z: -16.2},
+    {x: 13, y: wheel_general_height, z: -10},
+];
+
+
+
 var groups_array = [
     {name: "grupPrincipal", x: 0, y: 0, z: 0},
     {name: "grupFiltru", x: 5.5, y: -15, z: 2},
@@ -147,14 +162,14 @@ var debug_test_objects = [
     'testCylinder4',
     'testCylinder5',
     'testCylinder6',
-    'testbaterie0',
-    'testbaterie1',
-    'testbaterie2',
-    'testbaterie3',
-    'testbaterie4',
-    'testbaterie5',
-    'testbaterie6',
-    'testbaterie7',
+    'group_clona_baterie_0',
+    'group_clona_baterie_1',
+    'group_clona_baterie_2',
+    'group_clona_baterie_3',
+    'group_clona_baterie_4',
+    'group_clona_baterie_5',
+    'group_clona_baterie_6',
+    'group_clona_baterie_7',
     'clone',
 ];
 var scales = [

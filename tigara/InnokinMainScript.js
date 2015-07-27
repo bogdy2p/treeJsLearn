@@ -27,36 +27,40 @@ function playScene1() {
     // 1. Display the wheel
     // 
     moveTheWheelToCenter();
-    function moveTheWheelToCenter() {
-        var wheel = scene.getObjectByName('grupRoata');
-        console.log(wheel.position);
-        if (wheel) {
-            wheel.position.x = 0;
-            wheel.position.y = 0;
-            wheel.position.z = 0;
 
-        }
-        console.log(wheel.position);
-    }
-    
-    animateWheelLeftRight60degree();
+
+
+
+
+
+//    animateWheelRotation();
+    setTimeout(function () {
+        console.log("animateDisruptorFlyIns()");
+        animateDisruptorFlyIns();
+    }, 100);
+
     // 
     // 
     // 2. Animate a little rotation to the wheel (60 degrees left , 60 degrees right
     // 
-    function animateWheelLeftRight60degree() {
-        console.log("Animating left ,  animating Light");
-        
-        //animation to left , 60 degree
-        function rotat60degreeOverXSeconds(object,axis,time) {
-            
-        }
-        // animation to right , 2 * 60 degree;
-        //return animation to middle sceeen
-        
+    function animateWheelRotation() {
+
+        rotateObjectY('grupRoata', 'left', 3000, 8 * Math.PI / 2);
+
     }
+
+    function animateDisruptorFlyIns() {
+
+//        var grup_batteryC = scene.getObjectByName("batteryChoicesGroup");
+//        console.log(grup_batteryC);
+        for (i = 0; i < 8; i++) {
+            flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 100 + 500 * i);
+        }
+    }
+
     // 
-    // 
+    //   // animation to right , 2 * 60 degree;
+    //return animation to middle sceeen
     // 3. Fly-in the disruptors only with the 3 colours specified , 
     // 4. Make the user choose a disruptor model/color.
     // After chosing , proceed to scene2 :)
@@ -452,17 +456,17 @@ function resetButtonPositions() {
 
 function render(dt) {
 
-//                    if (loadProgress == 100) {
-//                        if (!innokin_centered_to_screen) {
-//                            basicColorizeOBJ();
-//                            if (!debug_mode_on) {
-//                                console.clear();
-//                            }
-//                            load8times();
-//                            console.log("Cleared OnDocumentMouseMove");
-//                            innokin_centered_to_screen = true;
-//                        }
-//                    }
+    if (loadProgress == 100) {
+        if (!innokin_centered_to_screen) {
+            basicColorizeOBJ();
+            if (!debug_mode_on) {
+                console.clear();
+            }
+            load8times();
+            console.log("Cleared OnDocumentMouseMove");
+            innokin_centered_to_screen = true;
+        }
+    }
 
     if (particleGroup) {
         particleGroup.tick(dt);
@@ -1679,17 +1683,6 @@ function load8times() {
         new THREE.MeshPhongMaterial(batteryMaterials.red_battery),
         new THREE.MeshPhongMaterial(batteryMaterials.green_battery),
     ];
-    var general_height = -46;
-    var positions = [
-        {x: 16, y: general_height, z: 2},
-        {x: 10, y: general_height, z: 12.5},
-        {x: -2, y: general_height, z: 16},
-        {x: -13, y: general_height, z: 10},
-        {x: -16.2, y: general_height, z: -1.8},
-        {x: -10.2, y: general_height, z: -12.7},
-        {x: 1.8, y: general_height, z: -16.2},
-        {x: 13, y: general_height, z: -10},
-    ];
 
     var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
     var degree_45 = Math.PI / 4;
@@ -1698,9 +1691,9 @@ function load8times() {
         //Create a new clone Group
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_baterie_' + i;
-        newGroup.position.x = positions[i].x;
-        newGroup.position.y = positions[i].y;
-        newGroup.position.z = positions[i].z;
+        newGroup.position.x = wheel_hole_positions[i].x;
+        newGroup.position.y = wheel_hole_positions[i].y + 250;
+        newGroup.position.z = wheel_hole_positions[i].z;
         newGroup.rotation.y = rotations[i] * degree_45;
 
         for (k = 0; k < baterie_only.length; k++) {
