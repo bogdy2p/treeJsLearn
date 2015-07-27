@@ -1,20 +1,21 @@
+function updateToMoveObject() {
+    objectToMoveOnDebug = selectList.value;
+}
+function updateScaleToMoveObject() {
+    scale_to_move = scalesList.value;
+}
 function showDebugHUD() {
-    function updateToMoveObject() {
-        objectToMoveOnDebug = selectList.value;
-    }
-    function updateScaleToMoveObject() {
-        scale_to_move = scalesList.value;
-    }
+
     var myDiv = document.getElementById("debugDiv");
 
     for (i = 0; i < debug_test_objects.length; i++) {
         debug_all_objects.push(debug_test_objects[i]);
     }
 
-    var selectList = document.createElement("select");
+    selectList = document.createElement("select");
     selectList.id = "mySelect";
     selectList.setAttribute("onchange", "updateToMoveObject()");
-    var scalesList = document.createElement("select");
+    scalesList = document.createElement("select");
     scalesList.id = "scaleSelect";
     scalesList.setAttribute("onchange", "updateScaleToMoveObject()");
     myDiv.appendChild(selectList);

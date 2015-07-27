@@ -2,8 +2,12 @@ var debug_mode_on = false;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
 var scale_to_move = 0.5;
+var selectList;
+var scalesList;
 
 
+var all_obj_models_loaded = false;
+var sceneNumber = 0;
 var loadProgress = 0;
 var battery_chosen = null;
 var object_is_not_split = true;
@@ -36,7 +40,7 @@ var camera, mapCamera, scene, scene2, renderer, raycaster, raycasterMap;
 var positions, colors;
 var mouseX = 0, mouseY = 0;
 var mouseXOnMouseDown = 0;
-var SCREEN_WIDTH, SCREEN_HEIGHT;
+var ASPECT_RATIO, SCREEN_WIDTH, SCREEN_HEIGHT;
 var targetRotation = 0;
 var startButton, minusButtonCylinder, plusButtonCylinder, filtruTigara, chargerCube, disrupterCube;
 var targetRotationOnMouseDown = 0;
