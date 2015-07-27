@@ -13,12 +13,40 @@ displayScene1Stuff();
 function displayScene1Stuff() {
 
 }
+
+
+
 setTimeout(function () {
     playScene1();
-}, 5000);
+}, 2300);
+
 
 
 function playScene1() {
+    moveTheWheelToCenter();
+
+    animateWheelRotation('left');
+    animateDisruptorFlyIns();
+    animateDisruptorChoicesGroupRotation('left');
+    setTimeout(function () {
+        console.log("animateDisruptorFlyOUTS()");
+        animateWheelRotation('right');
+        animateDisruptorChoicesGroupRotation('right');
+        animateDisruptorFlyOuts();
+    }, 3500);
+
+}
+
+
+
+
+
+
+
+
+
+
+function playScene2() {
 
 
     //after Everything is loaded ,
@@ -27,42 +55,37 @@ function playScene1() {
     // 1. Display the wheel
     // 
     moveTheWheelToCenter();
+    // 2. Animate the Batteries Fly In The Wheel
 
-
-
-
-
-
-    animateWheelRotation();
-    animateDisruptorFlyIns();
-    animateBatteryChoicesGroupRotation();
+    animateWheelRotation('left');
+    animateBatteriesFlyIns();
+    animateBatteryChoicesGroupRotation('left');
     setTimeout(function () {
-        console.log("animateDisruptorFlyIns()");
+        console.log("animateBatteriesFlyOUTS()");
+        animateWheelRotation('right');
+        animateBatteryChoicesGroupRotation('right');
+        animateBatteriesFlyOuts();
+    }, 3500);
 
-    }, 100);
+//
+//    setInterval(function () {
+//        animateWheelRotation('left');
+//        animateDisruptorFlyIns();
+//        animateBatteryChoicesGroupRotation('left');
+//        setTimeout(function () {
+//            console.log("animateDisruptorFlyOUTS()");
+//            animateWheelRotation('right');
+//            animateBatteryChoicesGroupRotation('right');
+//            animateBatteriesFlyOuts();
+//        }, 3500);
+//
+//
+//
+//    }, 12000);
 
-    // 
-    // 
     // 2. Animate a little rotation to the wheel (60 degrees left , 60 degrees right
     // 
-    function animateWheelRotation() {
 
-        rotateObjectY('grupRoata', 'left', 2000, 4 * Math.PI / 2);
-
-    }
-    function animateBatteryChoicesGroupRotation() {
-
-        rotateObjectY('batteryChoicesGroup', 'left', 2000, 4 * Math.PI / 2);
-
-    }
-    function animateDisruptorFlyIns() {
-
-//        var grup_batteryC = scene.getObjectByName("batteryChoicesGroup");
-//        console.log(grup_batteryC);
-        for (i = 0; i < 8; i++) {
-            flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 500 + 200 * i);
-        }
-    }
 
     // 
     //   // animation to right , 2 * 60 degree;
@@ -468,7 +491,8 @@ function render(dt) {
             if (!debug_mode_on) {
                 console.clear();
             }
-            load8times();
+//            loadBatteryChoices();
+            loadDisruptorChoices();
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
@@ -1553,68 +1577,68 @@ function setRemoteVisible() {
 
 }
 
-function addColouredCylinders() {
-
-    var height_for_all = -15.5;
-    var geometry = new THREE.CylinderGeometry(8, 7, 2, 60);
-    var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
-    var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    var material3 = new THREE.MeshBasicMaterial({color: 0x0033FF});
-    var material4 = new THREE.MeshBasicMaterial({color: 0xFF33FF});
-    var material5 = new THREE.MeshBasicMaterial({color: 0xFF3300});
-    var material6 = new THREE.MeshBasicMaterial({color: 0x663311});
-    var material7 = new THREE.MeshBasicMaterial({color: 0xCACA33});
-    var material8 = new THREE.MeshBasicMaterial({color: 0xFF0000});
-    var cylinder1 = new THREE.Mesh(geometry, material1);
-    cylinder1.name = "testCylinder1";
-    scene.add(cylinder1);
-    cylinder1.position.x = 22;
-    cylinder1.position.z = 22;
-    cylinder1.position.y = height_for_all;
-    var cylinder2 = new THREE.Mesh(geometry, material2);
-    cylinder2.name = "testCylinder2";
-    scene.add(cylinder2);
-    cylinder2.position.x = 31;
-    cylinder2.position.z = 0;
-    cylinder2.position.y = height_for_all;
-    var cylinder3 = new THREE.Mesh(geometry, material3);
-    cylinder3.name = "testCylinder3";
-    scene.add(cylinder3);
-    cylinder3.position.x = -31;
-    cylinder3.position.z = 0;
-    cylinder3.position.y = height_for_all;
-    var cylinder4 = new THREE.Mesh(geometry, material4);
-    cylinder4.name = "testCylinder4";
-    scene.add(cylinder4);
-    cylinder4.position.x = -22;
-    cylinder4.position.z = -22;
-    cylinder4.position.y = height_for_all;
-    var cylinder5 = new THREE.Mesh(geometry, material5);
-    cylinder5.name = "testCylinder5";
-    scene.add(cylinder5);
-    cylinder5.position.x = -22;
-    cylinder5.position.z = 22;
-    cylinder5.position.y = height_for_all;
-    var cylinder6 = new THREE.Mesh(geometry, material6);
-    cylinder6.name = "testCylinder6";
-    scene.add(cylinder6);
-    cylinder6.position.x = 22;
-    cylinder6.position.z = -22;
-    cylinder6.position.y = height_for_all;
-    var cylinder7 = new THREE.Mesh(geometry, material7);
-    cylinder7.name = "testCylinder7";
-    scene.add(cylinder7);
-    cylinder7.position.x = 0;
-    cylinder7.position.z = 31;
-    cylinder7.position.y = height_for_all;
-    var cylinder8 = new THREE.Mesh(geometry, material8);
-    cylinder8.name = "testCylinder8";
-    scene.add(cylinder8);
-    cylinder8.position.x = 0;
-    cylinder8.position.z = -31;
-    cylinder8.position.y = height_for_all;
-}
-
+//function addColouredCylinders() {
+//
+//    var height_for_all = -15.5;
+//    var geometry = new THREE.CylinderGeometry(8, 7, 2, 60);
+//    var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
+//    var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+//    var material3 = new THREE.MeshBasicMaterial({color: 0x0033FF});
+//    var material4 = new THREE.MeshBasicMaterial({color: 0xFF33FF});
+//    var material5 = new THREE.MeshBasicMaterial({color: 0xFF3300});
+//    var material6 = new THREE.MeshBasicMaterial({color: 0x663311});
+//    var material7 = new THREE.MeshBasicMaterial({color: 0xCACA33});
+//    var material8 = new THREE.MeshBasicMaterial({color: 0xFF0000});
+//    var cylinder1 = new THREE.Mesh(geometry, material1);
+//    cylinder1.name = "testCylinder1";
+//    scene.add(cylinder1);
+//    cylinder1.position.x = 22;
+//    cylinder1.position.z = 22;
+//    cylinder1.position.y = height_for_all;
+//    var cylinder2 = new THREE.Mesh(geometry, material2);
+//    cylinder2.name = "testCylinder2";
+//    scene.add(cylinder2);
+//    cylinder2.position.x = 31;
+//    cylinder2.position.z = 0;
+//    cylinder2.position.y = height_for_all;
+//    var cylinder3 = new THREE.Mesh(geometry, material3);
+//    cylinder3.name = "testCylinder3";
+//    scene.add(cylinder3);
+//    cylinder3.position.x = -31;
+//    cylinder3.position.z = 0;
+//    cylinder3.position.y = height_for_all;
+//    var cylinder4 = new THREE.Mesh(geometry, material4);
+//    cylinder4.name = "testCylinder4";
+//    scene.add(cylinder4);
+//    cylinder4.position.x = -22;
+//    cylinder4.position.z = -22;
+//    cylinder4.position.y = height_for_all;
+//    var cylinder5 = new THREE.Mesh(geometry, material5);
+//    cylinder5.name = "testCylinder5";
+//    scene.add(cylinder5);
+//    cylinder5.position.x = -22;
+//    cylinder5.position.z = 22;
+//    cylinder5.position.y = height_for_all;
+//    var cylinder6 = new THREE.Mesh(geometry, material6);
+//    cylinder6.name = "testCylinder6";
+//    scene.add(cylinder6);
+//    cylinder6.position.x = 22;
+//    cylinder6.position.z = -22;
+//    cylinder6.position.y = height_for_all;
+//    var cylinder7 = new THREE.Mesh(geometry, material7);
+//    cylinder7.name = "testCylinder7";
+//    scene.add(cylinder7);
+//    cylinder7.position.x = 0;
+//    cylinder7.position.z = 31;
+//    cylinder7.position.y = height_for_all;
+//    var cylinder8 = new THREE.Mesh(geometry, material8);
+//    cylinder8.name = "testCylinder8";
+//    scene.add(cylinder8);
+//    cylinder8.position.x = 0;
+//    cylinder8.position.z = -31;
+//    cylinder8.position.y = height_for_all;
+//}
+//
 
 function moveXplus(objectName) {
 
@@ -1674,7 +1698,7 @@ function moveZminus(objectName) {
 }
 
 
-function load8times() {
+function loadBatteryChoices() {
     var batteryChoicesGroup = new THREE.Group();
     batteryChoicesGroup.name = "batteryChoicesGroup";
     scene.add(batteryChoicesGroup);
@@ -1687,13 +1711,13 @@ function load8times() {
         new THREE.MeshPhongMaterial(batteryMaterials.pink_battery),
         new THREE.MeshPhongMaterial(batteryMaterials.purple_battery),
         new THREE.MeshPhongMaterial(batteryMaterials.red_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.green_battery),
+        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
     ];
 
     var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
     var degree_45 = Math.PI / 4;
 
-    for (i = 1; i < 8; i++) {
+    for (i = 0; i < 8; i++) {
         //Create a new clone Group
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_baterie_' + i;
@@ -1706,11 +1730,51 @@ function load8times() {
             var newObject = scene.getObjectByName(baterie_only[k]).clone();
             newObject.name = 'testbaterie_' + i + baterie_only[k];
             if (baterie_only[k] == 'invelis_baterie') {
-                newObject.children[0].material = materials[i - 1];
+                newObject.children[0].material = materials[i];
             }
             newGroup.add(newObject);
         }
         batteryChoicesGroup.add(newGroup);
+    }
+}
+
+function loadDisruptorChoices() {
+    var disruptorChoicesGroup = new THREE.Group();
+    disruptorChoicesGroup.name = "disruptorChoicesGroup";
+    scene.add(disruptorChoicesGroup);
+
+    var materials = [
+        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+    ];
+
+    var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
+    var degree_45 = Math.PI / 4;
+
+    for (i = 0; i < 8; i++) {
+        //Create a new clone Group
+        var newGroup = new THREE.Group();
+        newGroup.name = 'group_clona_disruptor_' + i;
+        newGroup.position.x = disruptor_positions_on_wheel[i].x;
+        newGroup.position.y = disruptor_positions_on_wheel[i].y + 250;
+        newGroup.position.z = disruptor_positions_on_wheel[i].z;
+        newGroup.rotation.y = rotations[i] * degree_45;
+
+        for (k = 0; k < mecanism_only.length; k++) {
+            var newObject = scene.getObjectByName(mecanism_only[k]).clone();
+            newObject.name = 'testmecanism' + i + mecanism_only[k];
+            if (mecanism_only[k] == 'shell_mecanism_tigara') {
+                newObject.children[0].material = materials[i];
+            }
+            newGroup.add(newObject);
+        }
+        disruptorChoicesGroup.add(newGroup);
     }
 }
 function clearScene() {

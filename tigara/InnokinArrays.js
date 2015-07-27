@@ -12,7 +12,16 @@ var wheel_hole_positions = [
     {x: 13, y: wheel_general_height, z: -10},
 ];
 
-
+var disruptor_positions_on_wheel = [
+    {x:100,y:1,z:100},
+    {x:1,y:1,z:1},
+    {x:1,y:300,z:100},
+    {x:1,y:1,z:1},
+    {x:1,y:100,z:1},
+    {x:1,y:1,z:1},
+    {x:1,y:1,z:1},
+    {x:1,y:1,z:1},
+];
 
 var groups_array = [
     {name: "grupPrincipal", x: 0, y: 0, z: 0},
