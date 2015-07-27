@@ -56,13 +56,14 @@ function flyInPart(objectName, current, time) {
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
+            
         }
         // remove previous tweens if needed
 //        TWEEN.removeAll();
         var easing = TWEEN.Easing.Quadratic.EaseInOut;
         // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
-                .to({y: wheel_general_height, rotation: 0.3}, time)
+                .to({y: wheel_general_height, rotation: 0.4}, time)
 //            .delay(userOpts.delay)
                 .easing(easing)
                 .onUpdate(update);
@@ -148,22 +149,22 @@ function animateDisruptorChoicesGroupRotation(direction) {
 }
 function animateDisruptorFlyIns() {
 
-    for (i = 0; i < 8; i++) {
-        flyInPart('group_clona_disruptor_' + i, disruptor_positions_on_wheel[i], 200 + 500 * i);
+    for (i = 0; i < 3; i++) {
+        flyInPart('group_clona_disruptor_' + i, disruptor_positions_three_only[i], 200 + 500 * i);
     }
 }
 
 function animateDisruptorFlyOuts() {
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < 3; i++) {
 //            console.log('flying part ' + (7 - i));
-        flyOutPart('group_clona_disruptor_' + (7 - i), disruptor_positions_on_wheel[(7 - i)], 200 + 500 * i);
+        flyOutPart('group_clona_disruptor_' + (3 - i), disruptor_positions_three_only[(3 - i)], 200 + 500 * i);
     }
 }
 
 function animateBatteriesFlyIns() {
 
     for (i = 0; i < 8; i++) {
-        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i],  500 * i);
+        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 500 * i);
     }
 }
 

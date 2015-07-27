@@ -12,11 +12,11 @@ setTimeout(function () {
 }, 4000);
 
 function playScene1() {
-    resetWheelRotation();
-    moveTheWheelToCenter();
-    animateWheelRotation('left');
+//    resetWheelRotation();
+//    moveTheWheelToCenter();
+//    animateWheelRotation('left');
     animateDisruptorFlyIns();
-    animateDisruptorChoicesGroupRotation('left');
+//    animateDisruptorChoicesGroupRotation('left');
 //    setTimeout(function () {
 //        console.log("animateDisruptorFlyOUTS()");
 //        animateWheelRotation('right');
@@ -492,8 +492,9 @@ function render(dt) {
             if (!debug_mode_on) {
                 console.clear();
             }
-            loadBatteryChoices();
             loadDisruptorChoices();
+            loadBatteryChoices();
+
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
@@ -502,6 +503,8 @@ function render(dt) {
     if (particleGroup) {
         particleGroup.tick(dt);
     }
+
+
     batteryChoicesGroup = scene.getObjectByName("batteryChoicesGroup");
     if (batteryChoicesGroup) {
         support = scene.getObjectByName("roata");
@@ -511,87 +514,13 @@ function render(dt) {
 //                        batteryChoicesGroup.rotation.y += 0.001;
 
     }
-    var rotationSpeed = 10;
-    threeBoxesGroup = scene.getObjectByName("threeColourBoxes");
-    if (threeBoxesGroup) {
-        goldenBox = threeBoxesGroup.children[0];
-        silverBox = threeBoxesGroup.children[1];
-        blackBox = threeBoxesGroup.children[2];
-        goldenBox.position.copy(camera.position);
-        goldenBox.rotation.copy(camera.rotation);
-        goldenBox.updateMatrix();
-        goldenBox.translateZ(-300);
-        goldenBox.translateX(40);
-        goldenBox.translateY(100);
-        silverBox.position.copy(camera.position);
-        silverBox.rotation.copy(camera.rotation);
-        silverBox.updateMatrix();
-        silverBox.translateZ(-300);
-        silverBox.translateX(-40);
-        silverBox.translateY(100);
-        blackBox.position.copy(camera.position);
-        blackBox.rotation.copy(camera.rotation);
-        blackBox.updateMatrix();
-        blackBox.translateZ(-300);
-        blackBox.translateX(-00);
-        blackBox.translateY(100);
-    }
-    sevenBoxesGroup = scene.getObjectByName("sevenColourBoxes");
-    if (sevenBoxesGroup) {
-        var boxes = [];
-        for (i = 0; i < 7; i++) {
-            boxes[i] = sevenBoxesGroup.children[i];
-            boxes[i].position.copy(camera.position);
-            boxes[i].rotation.copy(camera.rotation);
-            boxes[i].translateZ(-300);
-            boxes[i].translateY(100);
-            boxes[i].translateX(-110 + 40 * i);
-        }
-    }
 
 
-
-
-
-    optionsGroup = scene.getObjectByName("optionsGroup");
-    if (optionsGroup) {
-
-        optionBox1 = optionsGroup.children[0];
-//                        optionBox2 = optionsGroup.children[1];
-//                        optionBox3 = optionsGroup.children[2];
-        optionBox1.position.copy(camera.position);
-        optionBox1.rotation.copy(camera.rotation);
-//                        optionBox2.position.copy(camera.position);
-//                        optionBox2.rotation.copy(camera.rotation);
-//                        optionBox3.position.copy(camera.position);
-//                        optionBox3.rotation.copy(camera.rotation);
-
-        optionBox1.translateZ(-250); // BIGGER IS MORE TO THE CAMERA
-        optionBox1.translateY(-30); // top bottom  (bottom is about 80)
-        optionBox1.translateX(window.SCREEN_WIDTH / 2 - 800); // 0 - middle , + = to right , - = to left
-//                        optionBox2.translateZ(-250); // BIGGER IS MORE TO THE CAMERA
-//                        optionBox2.translateY(-55); // top bottom  (bottom is about 80)
-//                        optionBox2.translateX(-120); // 0 - middle , + = to right , - = to left
-//                        optionBox3.translateZ(-250); // BIGGER IS MORE TO THE CAMERA
-//                        optionBox3.translateY(-80); // top bottom  (bottom is about 80)
-//                        optionBox3.translateX(-120); // 0 - middle , + = to right , - = to left
-
-        optionBox1.updateMatrix();
-//                        optionBox2.updateMatrix();
-//                        optionBox3.updateMatrix();
-
-    }
-
-    largeScreenShown = scene.getObjectByName('largeScreen');
-    if (largeScreenShown) {
-        largeScreenShown.position.copy(camera.position);
-        largeScreenShown.rotation.copy(camera.rotation);
-        largeScreenShown.translateZ(-150);
-        largeScreenShown.updateMatrix();
-        largeScreenShown.translateY(-40);
-        largeScreenShown.translateX(80);
-    }
-
+    staticizeThreeBoxesGroup();
+    staticizeSevenBoxes();
+    staticizeDisruptors();
+    staticizeOptionsGroup();
+    staticizeLargeScreenCanvas();
 
 
 
@@ -1789,33 +1718,36 @@ function loadDisruptorChoices() {
         new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
         new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
         new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+//        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+//        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+//        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
+//        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+//        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
     ];
 
-    var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
+    var rotations = [-0.6, 0.8, 1.4, 5, 4, 3, 2, 1];
     var degree_45 = Math.PI / 4;
 
-    for (i = 0; i < 8; i++) {
+//    for (i = 0; i < 8; i++) {
+    for (i = 0; i < 3; i++) {
         //Create a new clone Group
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_disruptor_' + i;
         console.log(newGroup.name);
-        newGroup.position.x = disruptor_positions_on_wheel[i].x;
-        newGroup.position.y = disruptor_positions_on_wheel[i].y + 750;
-        newGroup.position.z = disruptor_positions_on_wheel[i].z;
-        newGroup.rotation.y = rotations[i] * degree_45;
+        newGroup.position.x = disruptor_positions_three_only[i].x;
+        newGroup.position.y = disruptor_positions_three_only[i].y + 750;
+        newGroup.position.z = disruptor_positions_three_only[i].z;
+//        newGroup.rotation.y = rotations[i] * degree_45 ;
 
         for (k = 0; k < mecanism_only.length; k++) {
             var newObject = scene.getObjectByName(mecanism_only[k]).clone();
             newObject.name = 'testmecanism' + i + mecanism_only[k];
             if (mecanism_only[k] == 'shell_mecanism_tigara') {
                 newObject.children[0].material = materials[i];
+//                newObject.rotation.y = 0.8;
             }
             newGroup.add(newObject);
+            
         }
         disruptorChoicesGroup.add(newGroup);
     }
