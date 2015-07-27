@@ -102,22 +102,15 @@
                         controls.minPolarAngle = 0;
                         controls.maxPolarAngle = 2 * Math.PI;
                     }
-
                     addLightingToScene(lightingPositions);
                     if (debug_mode_on) {
                         showLightingAndAxisDebug(lightingPositions);
                     }
-
                     pointLight = new THREE.PointLight(0xcccccc, 0.3);
                     pointLight.position.set(20, 20, 20);
                     scene.add(pointLight);
-
-
                     setUpGroups(groups_array);
-
-
                     load3DOBJmodels();
-
                     renderer = new THREE.WebGLRenderer({antialias: true});
                     renderer.setClearColor(0x559955, 1);
                     renderer.setPixelRatio(window.devicePixelRatio);
@@ -130,19 +123,6 @@
                     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
                     window.addEventListener('resize', onWindowResize, false);
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 function initParticles() {
                     particleGroup = new SPE.Group({
@@ -171,7 +151,6 @@
 
 
                 function onWindowResize() {
-
                     windowHalfX = window.innerWidth / 2;
                     windowHalfY = window.innerHeight / 2;
                     camera.aspect = window.innerWidth / window.innerHeight;
@@ -180,7 +159,6 @@
                 }
 
                 function animate() {
-
                     requestAnimationFrame(animate);
                     render(clock.getDelta());
                     TWEEN.update();
@@ -188,7 +166,6 @@
 
                 function restartEngine(parameters)
                 {
-
                     engine.destroy();
                     engine = new ParticleEngine();
                     engine.setValues(parameters);
@@ -318,9 +295,7 @@
                 }
 
                 function onDocumentMouseUp(event) {
-//                    console.log(event);
-                    renderer.domElement.addEventListener(
-                            'mousemove', onDocumentMouseMove, false);
+                    renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
                     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
                     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
                     resetButtonPositions();
