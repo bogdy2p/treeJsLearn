@@ -56,7 +56,7 @@ function flyInPart(objectName, current, time) {
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
-            
+
         }
         // remove previous tweens if needed
 //        TWEEN.removeAll();
@@ -156,8 +156,10 @@ function animateDisruptorFlyIns() {
 
 function animateDisruptorFlyOuts() {
     for (i = 0; i < 3; i++) {
-//            console.log('flying part ' + (7 - i));
-        flyOutPart('group_clona_disruptor_' + (3 - i), disruptor_positions_three_only[(3 - i)], 200 + 500 * i);
+//        console.log('flying part Out ' + (i));
+
+//        console.log('position ' + (3 - i));
+        flyOutPart('group_clona_disruptor_' + (3 - (i+1)), disruptor_positions_three_only[(3 - (i+1))], 200 + 500 * i);
     }
 }
 
