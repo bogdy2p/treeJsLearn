@@ -7,24 +7,13 @@ document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 initializeEmptyScene();
 
-displayScene1Stuff();
-
-
-function displayScene1Stuff() {
-
-}
-
-
-
 setTimeout(function () {
     playScene1();
-}, 4300);
-
-
+}, 4000);
 
 function playScene1() {
+    resetWheelRotation();
     moveTheWheelToCenter();
-
     animateWheelRotation('left');
     animateDisruptorFlyIns();
     animateDisruptorChoicesGroupRotation('left');
@@ -34,30 +23,18 @@ function playScene1() {
 //        animateDisruptorChoicesGroupRotation('right');
 //        animateDisruptorFlyOuts();
 //    }, 5500);
-
 }
 
 
 
 
-
-
-
-
-
-
 function playScene2() {
+//    rotateObjectY('grupRoata', 'left', 0, 0);
+    resetWheelRotation();
+    setTimeout(function () {
+        animateWheelRotation('left');
+    }, 100);
 
-
-    //after Everything is loaded ,
-
-
-    // 1. Display the wheel
-    // 
-//    moveTheWheelToCenter();
-    // 2. Animate the Batteries Fly In The Wheel
-
-    animateWheelRotation('left');
     animateBatteriesFlyIns();
     animateBatteryChoicesGroupRotation('left');
 //    setTimeout(function () {
@@ -66,8 +43,6 @@ function playScene2() {
 //        animateBatteryChoicesGroupRotation('right');
 //        animateBatteriesFlyOuts();
 //    }, 5500);
-
-//
 //    setInterval(function () {
 //        animateWheelRotation('left');
 //        animateDisruptorFlyIns();
@@ -78,25 +53,13 @@ function playScene2() {
 //            animateBatteryChoicesGroupRotation('right');
 //            animateBatteriesFlyOuts();
 //        }, 3500);
-//
-//
-//
 //    }, 12000);
-
     // 2. Animate a little rotation to the wheel (60 degrees left , 60 degrees right
-    // 
-
-
-    // 
     //   // animation to right , 2 * 60 degree;
     //return animation to middle sceeen
     // 3. Fly-in the disruptors only with the 3 colours specified , 
     // 4. Make the user choose a disruptor model/color.
     // After chosing , proceed to scene2 :)
-
-
-
-
 }
 
 
@@ -1362,7 +1325,7 @@ function removeDisruptorChosingScene() {
 //        batteries_group_present.position.y += 500;
     setTimeout(function () {
         playScene2();
-    }, 2500);
+    }, 2800);
 
 //    }
 

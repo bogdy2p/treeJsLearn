@@ -7,6 +7,16 @@ function moveTheWheelToCenter() {
     }
 }
 
+function resetWheelRotation() {
+    var wheel = scene.getObjectByName('grupRoata');
+    if (wheel) {
+        wheel.rotation.x = 0;
+        wheel.rotation.y = 0;
+        wheel.rotation.z = 0;
+    }
+}
+
+
 function bringDeviceToCenterScreen(groups_array) {
     console.log("fixGroupsPositionsToCenter");
     for (i = 0; i < groups_array.length; i++) {

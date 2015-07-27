@@ -4,7 +4,7 @@ function rotateObjectY(objectName, direction, time, amount) {
     if (amount == null) {
         amount = Math.PI / 4;
     }
-    
+
     rotateLeft = new TWEEN.Tween(Object.rotation).to({y: amount}, time).easing(TWEEN.Easing.Quadratic.EaseInOut);
     rotateRight = new TWEEN.Tween(Object.rotation).to({y: -amount}, time).easing(TWEEN.Easing.Quadratic.EaseInOut);
     if (direction == 'left') {
@@ -75,12 +75,12 @@ function flyInPart(objectName, current, time) {
 
 function flyOutPart(objectName, current, time) {
     var top = current;
-    
+
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
 //        console.log(parent);
         var update = function () {
-            console.log("entered update of flyInPart");
+            console.log("entered update of flyOUTPart");
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
@@ -131,45 +131,45 @@ function flyOutPart(objectName, current, time) {
 //}        
 
 
-  function animateWheelRotation(direction) {
-        console.log("AnimateWheelRotationLEFT");
-        rotateObjectY('grupRoata', direction, 3000, 4 * Math.PI / 2);
+function animateWheelRotation(direction) {
+    console.log("AnimateWheelRotationLEFT");
+    rotateObjectY('grupRoata', direction, 3000, 4 * Math.PI / 2);
 
+}
+function animateBatteryChoicesGroupRotation(direction) {
+
+    rotateObjectY('batteryChoicesGroup', direction, 3000, 4 * Math.PI / 2);
+
+}
+function animateDisruptorChoicesGroupRotation(direction) {
+
+    rotateObjectY('disruptorChoicesGroup', direction, 3000, 4 * Math.PI / 2);
+
+}
+function animateDisruptorFlyIns() {
+
+    for (i = 0; i < 8; i++) {
+        flyInPart('group_clona_disruptor_' + i, disruptor_positions_on_wheel[i], 200 + 500 * i);
     }
-    function animateBatteryChoicesGroupRotation(direction) {
+}
 
-        rotateObjectY('batteryChoicesGroup', direction, 3000, 4 * Math.PI / 2);
-
-    }
-    function animateDisruptorChoicesGroupRotation(direction) {
-
-        rotateObjectY('disruptorChoicesGroup', direction, 3000, 4 * Math.PI / 2);
-
-    }
-    function animateDisruptorFlyIns() {
-
-        for (i = 0; i < 8; i++) {
-            flyInPart('group_clona_disruptor_' + i, disruptor_positions_on_wheel[i], 200 + 200 * i);
-        }
-    }
-
-    function animateDisruptorFlyOuts() {
-        for (i = 0; i < 8; i++) {
+function animateDisruptorFlyOuts() {
+    for (i = 0; i < 8; i++) {
 //            console.log('flying part ' + (7 - i));
-            flyOutPart('group_clona_disruptor_' + (7 - i), disruptor_positions_on_wheel[(7 - i)], 500 + 500 * i);
-        }
+        flyOutPart('group_clona_disruptor_' + (7 - i), disruptor_positions_on_wheel[(7 - i)], 200 + 500 * i);
     }
+}
 
-    function animateBatteriesFlyIns() {
+function animateBatteriesFlyIns() {
 
-        for (i = 0; i < 8; i++) {
-            flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 200 + 200 * i);
-        }
+    for (i = 0; i < 8; i++) {
+        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i],  500 * i);
     }
+}
 
-    function animateBatteriesFlyOuts() {
-        for (i = 0; i < 8; i++) {
+function animateBatteriesFlyOuts() {
+    for (i = 0; i < 8; i++) {
 //            console.log('flying part ' + (7 - i));
-            flyOutPart('group_clona_baterie_' + (7 - i), wheel_hole_positions[(7 - i)], 500 + 500 * i);
-        }
+        flyOutPart('group_clona_baterie_' + (7 - i), wheel_hole_positions[(7 - i)], 500 + 500 * i);
     }
+}
