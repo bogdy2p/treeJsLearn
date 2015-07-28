@@ -135,12 +135,10 @@ function onDocumentMouseDown(event) {
     if (intersectedObjects.length > 0) {
 
         var Object = intersectedObjects[0];
-        console.log(Object.object.parent.parent);
+//        console.log(Object.object.parent.parent);
         switch (Object.object.parent.name) {
 
             case 'sevenColourBoxes':
-
-
                 temp_material = Object.object.material.color;
                 temp_color = Object.object.material.color.getHex();
                 temp_specular = Object.object.material.specular.getHex();
@@ -200,7 +198,7 @@ function onDocumentMouseDown(event) {
         switch (Object.object.parent.parent.parent.name) {
             case "batteryChoicesGroup":
                 var clickedObject = Object.object.parent.parent;
-                console.log(clickedObject);
+//                console.log(clickedObject);
 
                 var old_choice_object = null;
                 if (battery_chosen == null) {
@@ -216,22 +214,10 @@ function onDocumentMouseDown(event) {
                         temp_color = Object.object.material.color.getHex();
                         temp_specular = Object.object.material.specular.getHex();
                         colorizeBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-
-
-
                         removeScene2();
                         setTimeout(function () {
                             playScene3();
-                        }, 2500);
-
-
-
-
-
-
-
-
-
+                        }, 3000);
                     } else {
                         old_choice_object = scene.getObjectByName(old_choice_name);
                         battery_chosen = clickedObject.name;
@@ -1050,11 +1036,12 @@ function removeDisruptorColourOptions() {
 
 function removeScene2() {
     console.clear();
-    console.log(scene);
+//    console.log(scene);
     console.log("removing scene2");
     var roataGroup = scene.getObjectByName("grupRoata");
 
     if (roataGroup) {
+        animateWheelGroupRotation('right');
         animateBatteriesFlyOuts();
         animateWheelFlyOut();
 //        scene.remove(roataGroup);
@@ -1369,28 +1356,21 @@ function loadDisruptorChoices() {
         new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
     ];
 
-//    var rotations = [-0.6, 0.8, 1.4];
-    var degree_45 = Math.PI / 4;
-
     for (i = 0; i < 3; i++) {
         //Create a new clone Group
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_disruptor_' + i;
-        console.log(newGroup.name);
         newGroup.position.x = disruptor_positions_three_only[i].x;
         newGroup.position.y = disruptor_positions_three_only[i].y + 750;
         newGroup.position.z = disruptor_positions_three_only[i].z;
-//        newGroup.rotation.y = rotations[i] * degree_45 ;
 
         for (k = 0; k < mecanism_only.length; k++) {
             var newObject = scene.getObjectByName(mecanism_only[k]).clone();
             newObject.name = 'testmecanism' + i + mecanism_only[k];
             if (mecanism_only[k] == 'shell_mecanism_tigara') {
                 newObject.children[0].material = materials[i];
-//                newObject.rotation.y = 0.8;
             }
             newGroup.add(newObject);
-
         }
         disruptorChoicesGroup.add(newGroup);
     }

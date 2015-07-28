@@ -52,7 +52,6 @@ function flyInPart(objectName, current, time, general_height) {
     if (ActualObject) {
 //        console.log(Object.parent);
         var update = function () {
-            console.log("entered update of flyInPart");
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
@@ -81,7 +80,6 @@ function flyOutPart(objectName, current, time) {
     if (ActualObject) {
 //        console.log(parent);
         var update = function () {
-            console.log("entered update of flyOUTPart");
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
@@ -109,7 +107,6 @@ function flyInWheel(objectName, current, time) {
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
         var update = function () {
-            console.log("entered update of flyInPart");
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
@@ -182,7 +179,7 @@ function animateWheelFlyIn() {
 }
 
 function animateWheelFlyOut() {
-    flyOutWheel('grupRoata', {x: 0, y: 0, z: 0}, 1000);
+    flyOutWheel('grupRoata', {x: 0, y: 0, z: 0}, 500);
 }
 
 
