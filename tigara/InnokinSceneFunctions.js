@@ -41,7 +41,7 @@ function addOrbitControlsToScene() {
     }
     if (debug_mode_on) {
         controls.minDistance = 2;
-        controls.maxDistance = 250;
+        controls.maxDistance = 1000;
         controls.noPan = false;
         controls.minPolarAngle = 0;
         controls.maxPolarAngle = 2 * Math.PI;

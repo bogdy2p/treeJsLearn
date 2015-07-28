@@ -166,7 +166,7 @@ function rotateWheelY(objectName, direction, time, amount) {
 }
 
 function animateWheelGroupRotation(direction) {
-    rotateWheelY('grupRoata', direction, 2500, 4 * Math.PI / 2);
+    rotateWheelY('groupRoata', direction, 2500, 4 * Math.PI / 2);
 
 }
 function animateBatteryChoicesGroupRotation(direction) {
@@ -175,11 +175,11 @@ function animateBatteryChoicesGroupRotation(direction) {
 
 
 function animateWheelFlyIn() {
-    flyInWheel('grupRoata', {x: 0, y: -46, z: 0}, 500);
+    flyInWheel('groupRoata', {x: 0, y: -46, z: 0}, 500);
 }
 
 function animateWheelFlyOut() {
-    flyOutWheel('grupRoata', {x: 0, y: 0, z: 0}, 500);
+    flyOutWheel('groupRoata', {x: 0, y: 0, z: 0}, 500);
 }
 
 
@@ -205,4 +205,10 @@ function animateDisruptorFlyOuts() {
     for (i = 0; i < 3; i++) {
         flyOutPart('group_clona_disruptor_' + (3 - (i + 1)), disruptor_positions_three_only[(3 - (i + 1))], 200 + 500 * i);
     }
+}
+
+function animateFiltersFlyIn() {
+    console.log("flyinfFILTRU");
+    flyInPart('group_clona_filtru_0', {x: 0, y: 0, z: 0}, 300, -30);
+    flyInPart('group_clona_filtru_1', {x: 10, y: 0, z: 10}, 300, -30);
 }

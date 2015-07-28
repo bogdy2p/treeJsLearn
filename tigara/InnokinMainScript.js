@@ -33,7 +33,7 @@ function playScene2() {
 
 function playScene3() {
     console.log("Started Playing Scene 3");
-
+    animateFiltersFlyIn();
 
 
 }
@@ -135,128 +135,110 @@ function onDocumentMouseDown(event) {
     if (intersectedObjects.length > 0) {
 
         var Object = intersectedObjects[0];
-//        console.log(Object.object.parent.parent);
-        switch (Object.object.parent.name) {
+        if (Object.object.parent.name) {
+            switch (Object.object.parent.name) {
+                case 'sevenColourBoxes':
+                    temp_material = Object.object.material.color;
+                    temp_color = Object.object.material.color.getHex();
+                    temp_specular = Object.object.material.specular.getHex();
+                    console.log(temp_material);
+                    switchBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
+                    removeBatteryColourOptions();
+                    break;
+                case 'threeColourBoxes':
 
-            case 'sevenColourBoxes':
-                temp_material = Object.object.material.color;
-                temp_color = Object.object.material.color.getHex();
-                temp_specular = Object.object.material.specular.getHex();
-                console.log(temp_material);
-                switchBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-                removeBatteryColourOptions();
-                break;
-            case 'threeColourBoxes':
-
-                mechanism_temp_material = Object.object.material;
-                var mechanism = scene.getObjectByName('shell_mecanism_tigara');
-                mechanism.children[0].material = mechanism_temp_material;
-                removeDisruptorColourOptions();
-                break;
-            case 9:
-                console.log("You clicked the disruptor");
-                break;
-            case 'buton_mare':
-                console.log("You clicked START");
-                startButtonClick();
-                break;
-            case 'optionsGroup':
-
-                optionsGroup = scene.getObjectByName("optionsGroup");
-                console.log(optionsGroup);
-                console.log(scene);
-                console.log(window.SCREEN_WIDTH);
-                console.log(window.SCREEN_HEIGHT);
-                break;
-            case 'buton_mic_1':
-                console.log("You pressed the +");
-                plusButtonClick();
-                break;
-            case 'buton_mic_2':
-                console.log("You pressed the -");
-                minusButtonClick();
-                break;
-            case 13:
-                console.log("Why did you click the screen ?");
-                break;
-            case 14:
-                console.log("Why click the Filter ?");
-                break;
-            default:
-//                                console.log(Object.object.name);
-//                                console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
-//                                console.log(Object);
-                break;
+                    mechanism_temp_material = Object.object.material;
+                    var mechanism = scene.getObjectByName('shell_mecanism_tigara');
+                    mechanism.children[0].material = mechanism_temp_material;
+                    removeDisruptorColourOptions();
+                    break;
+                case 9:
+                    console.log("You clicked the disruptor");
+                    break;
+                case 'buton_mare':
+                    console.log("You clicked START");
+                    startButtonClick();
+                    break;
+                case 'buton_mic_1':
+                    console.log("You pressed the +");
+                    plusButtonClick();
+                    break;
+                case 'buton_mic_2':
+                    console.log("You pressed the -");
+                    minusButtonClick();
+                    break;
+                case 13:
+                    console.log("Why did you click the screen ?");
+                    break;
+                case 14:
+                    console.log("Why click the Filter ?");
+                    break;
+                default:
+                    console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
+                    break;
+            }
         }
-
 
         //
         // LOGIC FOR THE BATTERY CHOSING PART
         //
 
-
-        switch (Object.object.parent.parent.parent.name) {
-            case "batteryChoicesGroup":
-                var clickedObject = Object.object.parent.parent;
-//                console.log(clickedObject);
-
-                var old_choice_object = null;
-                if (battery_chosen == null) {
-                    battery_chosen = clickedObject.name;
-
-                    clickedObject.position.y += 30;
-                } else {
-                    var old_choice_name = battery_chosen;
-                    if (clickedObject.name == battery_chosen) {
-                        var chosenMaterial = clickedObject.children[0].material;
-
-                        temp_material = Object.object.material.color;
-                        temp_color = Object.object.material.color.getHex();
-                        temp_specular = Object.object.material.specular.getHex();
-                        colorizeBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-                        removeScene2();
-                        setTimeout(function () {
-                            playScene3();
-                        }, 3000);
-                    } else {
-                        old_choice_object = scene.getObjectByName(old_choice_name);
+        if (Object.object.parent.parent.parent.name) {
+            switch (Object.object.parent.parent.parent.name) {
+                case "batteryChoicesGroup":
+                    var clickedObject = Object.object.parent.parent;
+                    //                console.log(clickedObject);
+                    var old_choice_object = null;
+                    if (battery_chosen == null) {
                         battery_chosen = clickedObject.name;
-                        old_choice_object.position.y -= 30;
+
                         clickedObject.position.y += 30;
-                    }
-                }
-                break;
-
-            case "disruptorChoicesGroup":
-                var clickedObject = Object.object.parent.parent;
-
-                var old_choice_object = null;
-                if (disruptor_chosen == null) {
-                    disruptor_chosen = clickedObject.name;
-
-                    clickedObject.position.y += 30;
-                } else {
-                    var old_choice_name = disruptor_chosen;
-                    if (clickedObject.name == disruptor_chosen) {
-                        var chosenMaterial = clickedObject.children[0].material;
-                        temp_material = Object.object.material.color;
-                        temp_color = Object.object.material.color.getHex();
-                        temp_specular = Object.object.material.specular.getHex();
-                        chooseDisruptor({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-                        removeDisruptorChosingScene();
-
                     } else {
-
-                        old_choice_object = scene.getObjectByName(old_choice_name);
-                        disruptor_chosen = clickedObject.name;
-                        old_choice_object.position.y -= 30;
-                        clickedObject.position.y += 30;
+                        var old_choice_name = battery_chosen;
+                        if (clickedObject.name == battery_chosen) {
+                            var chosenMaterial = clickedObject.children[0].material;
+                            temp_material = Object.object.material.color;
+                            temp_color = Object.object.material.color.getHex();
+                            temp_specular = Object.object.material.specular.getHex();
+                            colorizeBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
+                            removeScene2();
+                            setTimeout(function () {
+                                playScene3();
+                            }, 3000);
+                        } else {
+                            old_choice_object = scene.getObjectByName(old_choice_name);
+                            battery_chosen = clickedObject.name;
+                            old_choice_object.position.y -= 30;
+                            clickedObject.position.y += 30;
+                        }
                     }
-                }
+                    break;
 
+                case "disruptorChoicesGroup":
+                    var clickedObject = Object.object.parent.parent;
+                    var old_choice_object = null;
+                    if (disruptor_chosen == null) {
+                        disruptor_chosen = clickedObject.name;
 
-
-                break;
+                        clickedObject.position.y += 30;
+                    } else {
+                        var old_choice_name = disruptor_chosen;
+                        if (clickedObject.name == disruptor_chosen) {
+                            var chosenMaterial = clickedObject.children[0].material;
+                            temp_material = Object.object.material.color;
+                            temp_color = Object.object.material.color.getHex();
+                            temp_specular = Object.object.material.specular.getHex();
+                            colorizeMechanism({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
+                            removeDisruptorChosingScene();
+                        } else {
+                            old_choice_object = scene.getObjectByName(old_choice_name);
+                            disruptor_chosen = clickedObject.name;
+                            old_choice_object.position.y -= 30;
+                            clickedObject.position.y += 30;
+                        }
+                    }
+                    break;
+            }
         }
     }
 
@@ -286,7 +268,7 @@ function onDocumentTouchStart(event) {
 }
 
 function onDocumentTouchMove(event) {
-//                    alert("TOUCH MOVEMENT DETECTED");
+    //                    alert("TOUCH MOVEMENT DETECTED");
 }
 
 function startButtonClick() {
@@ -310,13 +292,13 @@ function startButtonClick() {
 
                     displayStartInformation();
 //                                    console.log('SOMETHING WENT WRONG');
-//                                    console.log("the 400 ms timeout has been exceeded or too many clicks");
+                    //                                    console.log("the 400 ms timeout has been exceeded or too many clicks");
                 } else {
                     if (startButtonCounter2 > 0)
                         if ((startButtonCounter2 % 3) == 0)
                         {
 //                                            console.log("I THINK WE SHOULD START THE LIGHTER (LOGO)");
-//                                            console.log(startButtonCounter2);
+                            //                                            console.log(startButtonCounter2);
                         }
 
                 }
@@ -328,8 +310,7 @@ function startButtonClick() {
             twoClicksDifference = startClick2 - startClick1;
             timer_running = false;
 //                            console.log("2Clizks");
-//                            console.log(twoClicksDifference);
-
+            //                            console.log(twoClicksDifference); 
         }
         if (startButtonCounter % 3 == 0) {
             clearTimeout();
@@ -338,7 +319,7 @@ function startButtonClick() {
             timer_running = false;
 //                            startButtonCounter = 0;
 //                            console.log("3Clizks");
-//                            console.log(threeClicksDifference);
+            //                            console.log(threeClicksDifference);
 
             startDisruptorWithLogo();
             device_status = "ON";
@@ -347,7 +328,7 @@ function startButtonClick() {
 
         console.log("ClickNUMBER");
         console.log(startButtonCounter);
-//                        
+        //                        
 
     }
     setTimeout(function () {
@@ -356,7 +337,7 @@ function startButtonClick() {
     }, 600);
     if (device_status === "ON") {
 
-//                        alert('THE DEVICE IS ONLINE');
+        //                        alert('THE DEVICE IS ONLINE');
 
     }
 }
@@ -443,7 +424,6 @@ function resetButtonPositions() {
     buttonSmall1.position.x = 0;
     buttonSmall2.position.x = 0;
 }
-
 function render(dt) {
 
     if (loadProgress == 100) {
@@ -454,6 +434,7 @@ function render(dt) {
             }
             loadDisruptorChoices();
             loadBatteryChoices();
+            loadFilterChoices();
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
@@ -463,20 +444,11 @@ function render(dt) {
         particleGroup.tick(dt);
     }
 
-    batteryChoicesGroup = scene.getObjectByName("batteryChoicesGroup");
-    if (batteryChoicesGroup) {
-        support = scene.getObjectByName("roata");
-        if (support) {
-//                            support.rotation.y += 0.001;
-        }
-//                        batteryChoicesGroup.rotation.y += 0.001;
-    }
 
 
     staticizeThreeBoxesGroup();
     staticizeSevenBoxes();
     staticizeDisruptors();
-    staticizeOptionsGroup();
     staticizeLargeScreenCanvas();
 
 
@@ -491,8 +463,7 @@ function render(dt) {
 
     renderer.setViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     renderer.clear();
-    // left side
-    renderer.setViewport(1, 1, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
+// left side     renderer.setViewport(1, 1, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
     renderer.render(scene, camera);
 }
 
@@ -517,34 +488,12 @@ function switchBattery(materialColor) {
     }, 5200);
 }
 
-function chooseDisruptor(materialColor) {
-    colorizeMechanism(materialColor);
-//    setupTweenBatteryOut();
-//    setupTweenBatteryIn();
-//    tweenBatteryUp.start();
-//    setTimeout(function () {
-//        colorizeBattery(materialColor);
-//    }, 2400);
-//    setTimeout(function () {
-//        tweenBatteryOut.stop();
-//        tweenBatteryIn.start();
-//    }, 3000);
-//    setTimeout(function () {
-//        tweenBatteryIn.stop();
-//    }, 4700);
-//    setTimeout(function () {
-////                        alert("Click sound");
-//    }, 5200);
-}
-
-
 function removeFilter() {
 
     setupTweenFilterRotate();
     setupTweenFilterGoUp();
     setupTweenFilterGoOut();
 }
-
 
 function startDisruptorWithLogo() {
     var small_screen_already_exists = scene.getObjectByName('smallScreen');
@@ -564,10 +513,10 @@ function startDisruptorWithLogo() {
         ScreenPlane.name = 'smallScreen';
         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
         LargeScreen.name = 'largeScreen';
-        grupMecanism = scene.getObjectByName('grupMecanism');
+        groupMecanism = scene.getObjectByName('groupMecanism');
 
 
-        grupMecanism.add(ScreenPlane);
+        groupMecanism.add(ScreenPlane);
         ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
         ScreenPlane.position.y = 13; // TOP BOTTOM
@@ -588,7 +537,7 @@ function startDisruptorWithLogo() {
         );
         screenDynamicTexture.drawTextCooked(
                 {
-//                                    margin: 0.15,
+                    //                                    margin: 0.15,
                     text: '                                      TECHNOLOGY',
                     align: 'center',
                     lineHeight: 0.3,
@@ -605,7 +554,7 @@ function startDisruptorWithLogo() {
         LargeScreen.scale.z = 0.5;
         scene.add(LargeScreen);
         setTimeout(function () {
-            grupMecanism.remove(ScreenPlane);
+            groupMecanism.remove(ScreenPlane);
             scene.remove(LargeScreen);
         }, 2000);
         setTimeout(function () {
@@ -634,7 +583,7 @@ function displayStartInformation() {
         ScreenPlane.name = 'smallScreen';
         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
         LargeScreen.name = 'largeScreen';
-        grupMecanism.add(ScreenPlane);
+        groupMecanism.add(ScreenPlane);
         ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
         ScreenPlane.position.y = 13; // TOP BOTTOM
@@ -642,21 +591,19 @@ function displayStartInformation() {
         ScreenPlane.rotation.y = -Math.PI / 2;
         screenDynamicTexture.texture.needsUpdate = true;
         screenDynamicTexture.clear('#667788');
-        screenDynamicTexture.drawTextCooked(
-                {
-                    text: "        OFF",
-                    lineHeight: 0.35,
-                    fillStyle: '#FDFDFD',
-                    font: "bold " + (0.2 * 256) + "px Arial"
-                }
+        screenDynamicTexture.drawTextCooked({
+            text: "        OFF",
+            lineHeight: 0.35,
+            fillStyle: '#FDFDFD',
+            font: "bold " + (0.2 * 256) + "px Arial"
+        }
         );
-        screenDynamicTexture.drawTextCooked(
-                {
-                    text: "                         Click 3x ON",
-                    lineHeight: 0.35,
-                    fillStyle: '#FDFDFD',
-                    font: "bold " + (0.2 * 256) + "px Arial"
-                });
+        screenDynamicTexture.drawTextCooked({
+            text: "                         Click 3x ON",
+            lineHeight: 0.35,
+            fillStyle: '#FDFDFD',
+            font: "bold " + (0.2 * 256) + "px Arial"
+        });
         ScreenPlane.scale.x = 0.25;
         ScreenPlane.scale.y = 0.25;
         ScreenPlane.scale.z = 0.25;
@@ -665,7 +612,7 @@ function displayStartInformation() {
         LargeScreen.scale.z = 0.5;
         scene.add(LargeScreen);
         setTimeout(function () {
-            grupMecanism.remove(ScreenPlane);
+            groupMecanism.remove(ScreenPlane);
             scene.remove(LargeScreen);
         }, 1500);
     } else {
@@ -694,7 +641,7 @@ function displayDisruptor() {
         ScreenPlane.name = 'smallScreen';
         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
         LargeScreen.name = 'largeScreen';
-        grupMecanism.add(ScreenPlane);
+        groupMecanism.add(ScreenPlane);
         ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
         ScreenPlane.position.y = 13; // TOP BOTTOM
@@ -708,8 +655,7 @@ function displayDisruptor() {
                     margin: 0.05,
                     text: device_variables.ohmz + ohmLetter,
                     lineHeight: 0.35,
-                    fillStyle: '#FDFDFD',
-                    font: "" + (0.20 * 256) + "px Arial"
+                    fillStyle: '#FDFDFD', font: "" + (0.20 * 256) + "px Arial"
                 }
         );
         //VOLTAGE INFORMATION
@@ -719,27 +665,24 @@ function displayDisruptor() {
                     top: 0.5,
                     text: '                          ' + device_variables.volt + 'V',
                     lineHeight: 0.35,
-                    fillStyle: '#FDFDFD',
-                    font: "" + (0.20 * 256) + "px Arial"
+                    fillStyle: '#FDFDFD', font: "" + (0.20 * 256) + "px Arial"
                 }
         );
         //WATTAGE INFORMATION
-        screenDynamicTexture.drawTextCooked(
-                {
-                    text: '      ' + device_variables.watt + 'W',
-                    lineHeight: 0.5,
-                    fillStyle: '#FDFDFD',
-                    font: "" + (0.3 * 256) + "px Arial"
-                }
+        screenDynamicTexture.drawTextCooked({
+            text: '      ' + device_variables.watt + 'W',
+            lineHeight: 0.5,
+            fillStyle: '#FDFDFD',
+            font: "" + (0.3 * 256) + "px Arial"
+        }
         );
         //BATTERY INFORMATION
-        screenDynamicTexture.drawTextCooked(
-                {
-                    text: '                                            B',
-                    lineHeight: 0.25,
-                    fillStyle: '#00FDFD',
-                    font: "bold " + (0.2 * 256) + "px Arial"
-                }
+        screenDynamicTexture.drawTextCooked({
+            text: '                                            B',
+            lineHeight: 0.25,
+            fillStyle: '#00FDFD',
+            font: "bold " + (0.2 * 256) + "px Arial"
+        }
         );
         ScreenPlane.scale.x = 0.25;
         ScreenPlane.scale.y = 0.25;
@@ -765,8 +708,7 @@ function refreshDisruptorInformations() {
     //OHM INFORMATION
     newScreenDynamicTexture.drawTextCooked(
             {
-                margin: 0.05,
-                text: device_variables.ohmz + ohmLetter,
+                margin: 0.05, text: device_variables.ohmz + ohmLetter,
                 lineHeight: 0.35,
                 fillStyle: '#FDFDFD',
                 font: "" + (0.20 * 256) + "px Arial"
@@ -797,8 +739,7 @@ function refreshDisruptorInformations() {
             {
                 text: '                                            B',
                 lineHeight: 0.25,
-                fillStyle: '#00FDFD',
-                font: "bold " + (0.2 * 256) + "px Arial"
+                fillStyle: '#00FDFD', font: "bold " + (0.2 * 256) + "px Arial"
             }
     );
     var newPlaneMaterial = new THREE.MeshBasicMaterial({
@@ -807,7 +748,6 @@ function refreshDisruptorInformations() {
     existingSmallScreen.material = newPlaneMaterial;
     existingLargeScreen.material = newPlaneMaterial;
 }
-
 function startTheDisruptor(text_to_display) {
 
 
@@ -826,7 +766,7 @@ function startTheDisruptor(text_to_display) {
         ScreenPlane.name = 'smallScreen';
         var LargeScreen = new THREE.Mesh(planeGeometry2, planeMaterial);
         LargeScreen.name = 'largeScreen';
-        grupMecanism.add(ScreenPlane);
+        groupMecanism.add(ScreenPlane);
         ScreenPlane.position.x = -15.8; // DEPTH BIGGER IS INSIDE
         ScreenPlane.position.z = -1.9; // LEFT RIGHT (smaller is LEFT
         ScreenPlane.position.y = 13; // TOP BOTTOM
@@ -834,13 +774,12 @@ function startTheDisruptor(text_to_display) {
         ScreenPlane.rotation.y = -Math.PI / 2;
         screenDynamicTexture.texture.needsUpdate = true;
         screenDynamicTexture.clear('#667788');
-        screenDynamicTexture.drawTextCooked(
-                {
-                    text: text_to_display,
-                    lineHeight: 0.3,
-                    fillStyle: '#FDFDFD',
-                    font: "bold " + (0.2 * 256) + "px Arial"
-                }
+        screenDynamicTexture.drawTextCooked({
+            text: text_to_display,
+            lineHeight: 0.3,
+            fillStyle: '#FDFDFD',
+            font: "bold " + (0.2 * 256) + "px Arial"
+        }
         );
         ScreenPlane.scale.x = 0.25;
         ScreenPlane.scale.y = 0.25;
@@ -854,14 +793,8 @@ function startTheDisruptor(text_to_display) {
     }
 }
 
-
-
-
-
 var onProgress = function (xhr) {
-
     if (xhr.lengthComputable) {
-//                        alert('TRUE');
         var percentComplete = xhr.loaded / xhr.total * 100;
         console.log(Math.round(percentComplete, 2) + '% downloaded');
     }
@@ -886,10 +819,10 @@ function load3DOBJmodelsWithDefaultMaterials() {
     var testMaterial2 = new THREE.MeshPhongMaterial(batteryMaterials.red_battery);
     var testMaterial3 = new THREE.MeshPhongMaterial(batteryMaterials.blue_battery);
     var roataMaterial = new THREE.MeshPhongMaterial(defaultMaterials.defaultMechanism);
-    loadObjectsAndAssignMaterials(roata_only, roataMaterial, 'grupRoata');
-    loadObjectsAndAssignMaterials(baterie_only, testMaterial, 'grupBaterie');
-    loadObjectsAndAssignMaterials(filtru_only, testMaterial2, 'grupFiltru');
-    loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, 'grupMecanism');
+    loadObjectsAndAssignMaterials(roata_only, roataMaterial, 'groupRoata');
+    loadObjectsAndAssignMaterials(baterie_only, testMaterial, 'groupBaterie');
+    loadObjectsAndAssignMaterials(filtru_only, testMaterial2, 'groupFiltru');
+    loadObjectsAndAssignMaterials(mecanism_only, testMaterial3, 'groupMecanism');
 
     function loadObjectsAndAssignMaterials(array, defaultMaterial, groupName) {
         var group = scene.getObjectByName(groupName);
@@ -913,11 +846,6 @@ function load3DOBJmodelsWithDefaultMaterials() {
             }, onProgress, onError);
         });
     }
-
-
-
-
-
 }
 
 
@@ -927,10 +855,10 @@ function loadObjWithoutMaterials() {
     manager.onProgress = function (item, loaded, total) {
         loadProgress = loaded / total * 100;
     }
-    loadObjectsAndAssignMaterials(roata_only, 'grupRoata');
-    loadObjectsAndAssignMaterials(baterie_only, 'grupBaterie');
-    loadObjectsAndAssignMaterials(filtru_only, 'grupFiltru');
-    loadObjectsAndAssignMaterials(mecanism_only, 'grupMecanism');
+    loadObjectsAndAssignMaterials(roata_only, 'groupRoata');
+    loadObjectsAndAssignMaterials(baterie_only, 'groupBaterie');
+    loadObjectsAndAssignMaterials(filtru_only, 'groupFiltru');
+    loadObjectsAndAssignMaterials(mecanism_only, 'groupMecanism');
 
     function loadObjectsAndAssignMaterials(array, groupName) {
         var group = scene.getObjectByName(groupName);
@@ -953,27 +881,12 @@ function loadObjWithoutMaterials() {
             }, onProgress, onError);
         });
     }
-
-
-
-
-
 }
 
 
 function basicColorizeOBJ() {
 
-//                    grupBaterie.position.y = -15;
-//                    grupFiltru.position.y = -15;
-//                    grupMecanism.position.y = -15;
-//                    grupBaterie.position.x = -9.45;
-//                    grupBaterie.position.z = 2;
-//                    grupFiltru.position.z = 2;
-//                    grupFiltru.position.x = 5.5;
-//                    grupMecanism.position.z = 2;
-//                    grupMecanism.position.x = 5.5;
-//                    grupRoata.position.y = -46;
-//    bringDeviceToCenterScreen(groups_array);
+    //    bringDeviceToCenterScreen(groups_array);
     colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
     colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
     colorizeGlass(defaultMaterials.defaultFilterGlass);
@@ -990,38 +903,6 @@ function basicColorizeOBJ() {
 }
 
 
-
-
-//function displayDisruptorColourOptions() {
-//
-//    if (disruptor_colours_shown === false) {
-//        console.log("SHOULD DISPLAY 3 COLOURS TO CHOOSE FROM FOR THE DISRUPTOR");
-//        var boxGeometry = new THREE.BoxGeometry(25, 25, 25, 25);
-//        var goldenMaterial = new THREE.MeshPhongMaterial(disruptorMaterials.golden_material);
-//        var silverMaterial = new THREE.MeshPhongMaterial(disruptorMaterials.silver_material);
-//        var blackMaterial = new THREE.MeshPhongMaterial(disruptorMaterials.black_material);
-//        var box1 = new THREE.Mesh(boxGeometry, goldenMaterial);
-//        box1.name = "GoldenBox";
-//        var box2 = new THREE.Mesh(boxGeometry, silverMaterial);
-//        box2.name = "SilverBox";
-//        var box3 = new THREE.Mesh(boxGeometry, blackMaterial);
-//        box3.name = "BlackBox";
-//        threeColourBoxes = new THREE.Group();
-//        threeColourBoxes.name = "threeColourBoxes";
-//        threeColourBoxes.add(box1);
-//        threeColourBoxes.add(box2);
-//        threeColourBoxes.add(box3);
-//        if (battery_colours_shown) {
-//            removeBatteryColourOptions();
-//        }
-//
-//        scene.add(threeColourBoxes);
-//        disruptor_colours_shown = true;
-//    } else {
-//        console.log("The 3 colour boxes already are on the screen.");
-//    }
-//}
-
 function removeDisruptorColourOptions() {
 
     if (disruptor_colours_shown) {
@@ -1036,9 +917,8 @@ function removeDisruptorColourOptions() {
 
 function removeScene2() {
     console.clear();
-//    console.log(scene);
-    console.log("removing scene2");
-    var roataGroup = scene.getObjectByName("grupRoata");
+    //    console.log(scene);     console.log("removing scene2");
+    var roataGroup = scene.getObjectByName("groupRoata");
 
     if (roataGroup) {
         animateWheelGroupRotation('right');
@@ -1057,15 +937,14 @@ function removeDisruptorChosingScene() {
 }
 
 function innokinSplitInThree() {
-    var mechanism = scene.getObjectByName('grupPrincipal');
-    var filter = scene.getObjectByName('grupFiltru');
-    var battery = scene.getObjectByName('grupBaterie');
+    var mechanism = scene.getObjectByName('groupPrincipal');
+    var filter = scene.getObjectByName('groupFiltru');
+    var battery = scene.getObjectByName('groupBaterie');
     if (object_is_not_split) {
         mechanism.position.x = -14.45;
         filter.position.x = 5.5;
         battery.position.x = 10.55;
         object_is_not_split = false;
-
 
     } else {
         object_is_not_split = true;
@@ -1079,9 +958,9 @@ function innokinSplitInThree() {
 function playButonMareAction() {
 
     if (startButtonCounter % 6 == 0) {
-//                        console.log(scene);
+        //                        console.log(scene);
         grupParticule = scene.getObjectByProperty('type', 'PointCloud');
-//                        console.log(grupParticule);
+        //                        console.log(grupParticule);
         emitter = null;
         particleGroup = null;
         scene.remove(grupParticule);
@@ -1100,95 +979,93 @@ function playButonMareAction() {
 ///////////////////////////////////////////////////////////////
 
 function setupTweenBatteryOut()
-{
-    batteryGroup = scene.getObjectByName("grupBaterie");
-    var update = function () {
-        batteryGroup.position.y = current.y;
-        batteryGroup.position.x = current.x;
-        batteryGroup.position.z = current.z;
-    }
-    console.log("Battery Current Position");
-    console.log(batteryGroup.position);
-    var current = {x: -9.45, y: -15, z: 2};
-    // remove previous tweens if needed
-    TWEEN.removeAll();
-    var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-    // build the tween lift the battery from the support
-    tweenBatteryUp = new TWEEN.Tween(current)
-            .to({y: +userOpts.liftoff}, userOpts.duration / 2)
-            .delay(userOpts.delay)
-            .easing(easing2)
-            .onUpdate(update);
-    tweenBatteryOut = new TWEEN.Tween(current)
-            .to({x: +userOpts.range}, userOpts.duration)
-            .delay(userOpts.delay)
-            .easing(easing2)
-            .onUpdate(update);
-    tweenBatteryUp.chain(tweenBatteryOut);
-    // start the first
-}
+        {
+        batteryGroup = scene.getObjectByName("groupBaterie");
+                var update = function () {
+                batteryGroup.position.y = current.y;
+                        batteryGroup.position.x = current.x;
+                        batteryGroup.position.z = current.z;
+                }
+        console.log("Battery Current Position");
+                console.log(batteryGroup.position);
+                var current = {x: - 9.45, y: - 15, z: 2};
+                // remove previous tweens if needed
+                TWEEN.removeAll();
+                var easing2 = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                // build the tween lift the battery from the support
+                tweenBatteryUp = new TWEEN.Tween(current)
+                .to({y: + userOpts.liftoff}, userOpts.duration / 2)
+                .delay(userOpts.delay)
+                .easing(easing2)
+                .onUpdate(update);
+                tweenBatteryOut = new TWEEN.Tween(current)
+                .to({x: + userOpts.range}, userOpts.duration)
+                .delay(userOpts.delay)
+                .easing(easing2)
+                .onUpdate(update);
+                tweenBatteryUp.chain(tweenBatteryOut);
+                // start the first }
 
-function setupTweenBatteryIn()
-{
-    var complete = function () {
-        console.log("BATTERY ATTACHED. PLAYING A CLICK SOUND !");
-        setTimeout(function () {
-//                            alert("PLAYING CLICK SOUND NOW");
-        }, 300);
-    }
+                        function setupTweenBatteryIn()
+                                {
+                                var complete = function () {
+                                console.log("BATTERY ATTACHED. PLAYING A CLICK SOUND !");
+                                        setTimeout(function () {
+                                        //                            alert("PLAYING CLICK SOUND NOW");
+                                        }, 300);
+                                }
 
-    var update = function () {
-        batteryGroup.position.x = current.x;
-        batteryGroup.position.y = current.y;
-        batteryGroup.position.z = current.z;
-    }
-    var current = {x: 2000, y: userOpts.liftoff, z: -30};
-    // remove previous tweens if needed
-    TWEEN.removeAll();
-    // convert the string from dat-gui into tween.js functions 
-    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
-    // build the tween to go ahead
-    tweenBatteryIn = new TWEEN.Tween(current)
-            .to({x: -9.45, y: 15, z: 2}, userOpts.duration)
-            .delay(userOpts.delay)
-            .easing(quintic)
-            .onUpdate(update);
-    // build the tween to go backward
-    tweenBatteryDown = new TWEEN.Tween(current)
-            .to({x: -9.45, y: -15, z: 2}, userOpts.duration / 2)
-            .delay(userOpts.delay)
-            .easing(easing)
-            .onUpdate(update)
-            .onComplete(complete);
-    tweenBatteryIn.chain(tweenBatteryDown);
-    // after tweenHead do tweenBack
-//                    tweenHead.chain(tweenBack);
-    // after tweenBack do tweenHead, so it is cycling
-//                    tweenBack.chain(tweenHead);
-}
-
-function setupTweenFilterRotate()
-{
-    var update = function () {
-        filtruTigara.rotation.y = current.rotY;
-        filtruTigara.position.x = current.x;
-        filtruTigara.position.y = current.y;
-    }
-    var current = {x: 2000, y: userOpts.liftoff, rotY: 0};
-    // remove previous tweens if needed
-    TWEEN.removeAll();
-    // convert the string from dat-gui into tween.js functions 
-    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+                                var update = function () {
+                                batteryGroup.position.x = current.x;
+                                        batteryGroup.position.y = current.y;
+                                        batteryGroup.position.z = current.z;
+                                }
+                                var current = {x: 2000, y: userOpts.liftoff, z: - 30};
+                                        // remove previous tweens if needed
+                                        TWEEN.removeAll();
+                                        // convert the string from dat-gui into tween.js functions 
+                                        var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                                        var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+                                        // build the tween to go ahead
+                                        tweenBatteryIn = new TWEEN.Tween(current)
+                                        .to({x: - 9.45, y: 15, z: 2}, userOpts.duration)
+                                        .delay(userOpts.delay)
+                                        .easing(quintic)
+                                        .onUpdate(update);
+                                        // build the tween to go backward
+                                        tweenBatteryDown = new TWEEN.Tween(current)
+                                        .to({x: - 9.45, y: - 15, z: 2}, userOpts.duration / 2)
+                                        .delay(userOpts.delay)
+                                        .easing(easing)
+                                        .onUpdate(update)
+                                        .onComplete(complete);
+                                        tweenBatteryIn.chain(tweenBatteryDown);
+                                        // after tweenHead do tweenBack
+                                        //                    tweenHead.chain(tweenBack);
+                                        // after tweenBack do tweenHead, so it is cycling
+                                        //                    tweenBack.chain(tweenHead);
+                                        }
+                        function setupTweenFilterRotate()
+                                {
+                                var update = function () {
+                                filtruTigara.rotation.y = current.rotY;
+                                        filtruTigara.position.x = current.x;
+                                        filtruTigara.position.y = current.y;
+                                }
+                                var current = {x: 2000, y: userOpts.liftoff, rotY: 0};
+                                        // remove previous tweens if needed
+                                        TWEEN.removeAll();
+                                        // convert the string from dat-gui into tween.js functions 
+                                        var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                                        var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
 //                    console.log(easing);
-    // build the tween to go ahead
+                                        // build the tween to go ahead
 //                    tweenFilterRotate = new TWEEN.Tween(current)
 //                            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
 //                            .delay(userOpts.delay)
 //                            .easing(quintic)
-//                            .onUpdate(update);
-    // build the tween to go backward
+                                        //                            .onUpdate(update);
+                                        // build the tween to go backward
 //                    tweenBatteryDown = new TWEEN.Tween(current)
 //                            .to({x: 15, y: 0}, userOpts.duration / 2)
 //                            .delay(userOpts.delay)
@@ -1199,207 +1076,218 @@ function setupTweenFilterRotate()
 //                            .delay(userOpts.delay)
 //                            .easing(easing)
 //                            .onUpdate(update);
-//                    tweenBatteryIn.chain(tweenBatteryDown);
-    // after tweenHead do tweenBack
-//                    tweenHead.chain(tweenBack);
-    // after tweenBack do tweenHead, so it is cycling
-//                    tweenBack.chain(tweenHead);
+                                        //                    tweenBatteryIn.chain(tweenBatteryDown);
+                                        // after tweenHead do tweenBack
+                                        //                    tweenHead.chain(tweenBack);
+                                        // after tweenBack do tweenHead, so it is cycling
+                                        //                    tweenBack.chain(tweenHead);
 
-    // start the first
-//                    tweenHead.start();
-}
+// start the first
+                                        //                    tweenHead.start();
+                                }
 
-function setupTweenFilterGoUp()
-{
-    // 
-    var update = function () {
-        chargerCube.position.x = current.x;
-        chargerCube.position.y = current.y;
-    }
-    var current = {x: 2000, y: userOpts.liftoff};
-    // remove previous tweens if needed
-    TWEEN.removeAll();
-    // convert the string from dat-gui into tween.js functions 
-    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
-//                    console.log(easing);
-    // build the tween to go ahead
-    tweenBatteryIn = new TWEEN.Tween(current)
-            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
-            .delay(userOpts.delay)
-            .easing(quintic)
-            .onUpdate(update);
-    // build the tween to go backward
-    tweenBatteryDown = new TWEEN.Tween(current)
-            .to({x: 15, y: 0}, userOpts.duration / 2)
-            .delay(userOpts.delay)
-            .easing(easing)
-            .onUpdate(update);
+                        function setupTweenFilterGoUp()
+                                {
+                                // 
+                                var update = function () {
+                                chargerCube.position.x = current.x;
+                                        chargerCube.position.y = current.y;
+                                }
+                                var current = {x: 2000, y: userOpts.liftoff};
+                                        // remove previous tweens if needed
+                                        TWEEN.removeAll();
+                                        // convert the string from dat-gui into tween.js functions 
+                                        var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                                        var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+                                        //                    console.log(easing);
+                                        // build the tween to go ahead
+                                        tweenBatteryIn = new TWEEN.Tween(current)
+                                        .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
+                                        .delay(userOpts.delay)
+                                        .easing(quintic)
+                                        .onUpdate(update);
+                                        // build the tween to go backward
+                                        tweenBatteryDown = new TWEEN.Tween(current)
+                                        .to({x: 15, y: 0}, userOpts.duration / 2)
+                                        .delay(userOpts.delay)
+                                        .easing(easing)
+                                        .onUpdate(update);
 //                    var tweenBack = new TWEEN.Tween(current)
 //                            .to({x: -userOpts.range}, userOpts.duration)
 //                            .delay(userOpts.delay)
 //                            .easing(easing)
-//                            .onUpdate(update);
-    tweenBatteryIn.chain(tweenBatteryDown);
-    // after tweenHead do tweenBack
-//                    tweenHead.chain(tweenBack);
-    // after tweenBack do tweenHead, so it is cycling
-//                    tweenBack.chain(tweenHead);
+                                        //                            .onUpdate(update);
+                                        tweenBatteryIn.chain(tweenBatteryDown);
+                                        // after tweenHead do tweenBack
+                                        //                    tweenHead.chain(tweenBack);
+                                        // after tweenBack do tweenHead, so it is cycling
+                                        //                    tweenBack.chain(tweenHead);
 
-    // start the first
-//                    tweenHead.start();
-}
+// start the first
+                                        //                    tweenHead.start();
+                                        }
 
-function setupTweenFilterGoOut()
-{
-    // 
-    var update = function () {
-        chargerCube.position.x = current.x;
-        chargerCube.position.y = current.y;
-    }
-    var current = {x: 2000, y: userOpts.liftoff};
-    // remove previous tweens if needed
-    TWEEN.removeAll();
-    // convert the string from dat-gui into tween.js functions 
-    var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
-    var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
-//                    console.log(easing);
-    // build the tween to go ahead
-    tweenBatteryIn = new TWEEN.Tween(current)
-            .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
-            .delay(userOpts.delay)
-            .easing(quintic)
-            .onUpdate(update);
-    // build the tween to go backward
-    tweenBatteryDown = new TWEEN.Tween(current)
-            .to({x: 15, y: 0}, userOpts.duration / 2)
-            .delay(userOpts.delay)
-            .easing(easing)
-            .onUpdate(update);
-    colladaLoader
+                        function setupTweenFilterGoOut()
+                                {
+                                // 
+                                var update = function () {
+                                chargerCube.position.x = current.x;
+                                        chargerCube.position.y = current.y;
+                                }
+                                var current = {x: 2000, y: userOpts.liftoff};
+                                        // remove previous tweens if needed
+                                        TWEEN.removeAll();
+                                        // convert the string from dat-gui into tween.js functions 
+                                        var easing = TWEEN.Easing[userOpts.easing.split('.')[0]][userOpts.easing.split('.')[1]];
+                                        var quintic = TWEEN.Easing[userOpts.quintic_in.split('.')[0]][userOpts.quintic_in.split('.')[1]];
+                                        //                    console.log(easing);
+                                        // build the tween to go ahead
+                                        tweenBatteryIn = new TWEEN.Tween(current)
+                                        .to({x: 15, y: userOpts.liftoff}, userOpts.duration)
+                                        .delay(userOpts.delay)
+                                        .easing(quintic)
+                                        .onUpdate(update);
+                                        // build the tween to go backward
+                                        tweenBatteryDown = new TWEEN.Tween(current)
+                                        .to({x: 15, y: 0}, userOpts.duration / 2)
+                                        .delay(userOpts.delay)
+                                        .easing(easing)
+                                        .onUpdate(update);
+                                        colladaLoader
 //                    var tweenBack = new TWEEN.Tween(current)
 //                            .to({x: -userOpts.range}, userOpts.duration)
 //                            .delay(userOpts.delay)
 //                            .easing(easing)
-//                            .onUpdate(update);
-    tweenBatteryIn.chain(tweenBatteryDown);
-    // after tweenHead do tweenBack
-//                    tweenHead.chain(tweenBack);
-    // after tweenBack do tweenHead, so it is cycling
-//                    tweenBack.chain(tweenHead);
+                                        //                            .onUpdate(update);
+                                        tweenBatteryIn.chain(tweenBatteryDown);
+                                        // after tweenHead do tweenBack
+                                        //                    tweenHead.chain(tweenBack);
+                                        // after tweenBack do tweenHead, so it is cycling
+                                        //                    tweenBack.chain(tweenHead);
 
-    // start the first
-//                    tweenHead.start();
-}
-
-
-function setRemoteVisible() {
-
-    if (debug_mode_on) {
-        remoteDiv = document.getElementById("remoteDiv");
-        remoteDiv.style.display = "inline";
-    }
-
-}
+// start the first
+                                        //                    tweenHead.start();
+                                        }
 
 
+                        function setRemoteVisible() {
+                        if (debug_mode_on) {
+                        remoteDiv = document.getElementById("remoteDiv");
+                                remoteDiv.style.display = "inline";
+                        }
 
-function loadBatteryChoices() {
-    var batteryChoicesGroup = new THREE.Group();
-    batteryChoicesGroup.name = "batteryChoicesGroup";
-    grupRoata = scene.getObjectByName('grupRoata');
-    grupRoata.add(batteryChoicesGroup);
+                        }
 
-    var materials = [
-        new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.black_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.blue_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.green_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.pink_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.purple_battery),
-        new THREE.MeshPhongMaterial(batteryMaterials.red_battery),
-        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-    ];
 
-    var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
-    var degree_45 = Math.PI / 4;
 
-    for (i = 0; i < 8; i++) {
-        //Create a new clone Group
-        var newGroup = new THREE.Group();
-        newGroup.name = 'group_clona_baterie_' + i;
-        newGroup.position.x = wheel_hole_positions[i].x;
-        newGroup.position.y = wheel_hole_positions[i].y + 950;
-        newGroup.position.z = wheel_hole_positions[i].z;
-        newGroup.rotation.y = rotations[i] * degree_45;
+                        function loadBatteryChoices() {
+                        var batteryChoicesGroup = new THREE.Group();
+                                batteryChoicesGroup.name = "batteryChoicesGroup";
+                                groupRoata = scene.getObjectByName('groupRoata');
+                                groupRoata.add(batteryChoicesGroup);
+                                var materials = [
+                                        new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery),
+                                        new THREE.MeshPhongMaterial(batteryMaterials.black_battery),
+                                        new THREE.MeshPhongMaterial(batteryMaterials.blue_battery),
+                                        new THREE.MeshPhongMaterial(batteryMaterials.green_battery),
+                                        new THREE.MeshPhongMaterial(batteryMaterials.pink_battery),
+                                        new THREE.MeshPhongMaterial(batteryMaterials.purple_battery),
+                                        new THREE.MeshPhongMaterial(batteryMaterials.red_battery),
+                                        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material), ];
+                                var rotations = [0, 7, 6, 5, 4, 3, 2, 1];
+                                var degree_45 = Math.PI / 4;
+                                for (i = 0; i < 8; i++) {
+                        //Create a new clone Group
+                        var newGroup = new THREE.Group();
+                                newGroup.name = 'group_clona_baterie_' + i;
+                                newGroup.position.x = wheel_hole_positions[i].x;
+                                newGroup.position.y = wheel_hole_positions[i].y + 950;
+                                newGroup.position.z = wheel_hole_positions[i].z;
+                                newGroup.rotation.y = rotations[i] * degree_45;
+                                for (k = 0; k < baterie_only.length; k++) {
+                        var newObject = scene.getObjectByName(baterie_only[k]).clone(); newObject.name = 'testbaterie_' + i + baterie_only[k];
+                                if (baterie_only[k] == 'invelis_baterie') {
+                        newObject.children[0].material = materials[i];
+                        }
+                        newGroup.add(newObject);
+                        }
+                        batteryChoicesGroup.add(newGroup);
+                        }
+                        }
 
-        for (k = 0; k < baterie_only.length; k++) {
-            var newObject = scene.getObjectByName(baterie_only[k]).clone();
-            newObject.name = 'testbaterie_' + i + baterie_only[k];
-            if (baterie_only[k] == 'invelis_baterie') {
-                newObject.children[0].material = materials[i];
-            }
-            newGroup.add(newObject);
-        }
-        batteryChoicesGroup.add(newGroup);
-    }
-}
+                        function loadDisruptorChoices() {
+                        var disruptorChoicesGroup = new THREE.Group();
+                                disruptorChoicesGroup.name = "disruptorChoicesGroup";
+                                scene.add(disruptorChoicesGroup);
+                                var materials = [
+                                        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+                                        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+                                        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
+                                ];
+                                for (i = 0; i < 3; i++) {
+                        //Create a new clone Group
+                        var newGroup = new THREE.Group();
+                                newGroup.name = 'group_clona_disruptor_' + i;
+                                newGroup.position.x = disruptor_positions_three_only[i].x;
+                                newGroup.position.y = disruptor_positions_three_only[i].y + 750;
+                                newGroup.position.z = disruptor_positions_three_only[i].z;
+                                for (k = 0; k < mecanism_only.length; k++) {
+                        var newObject = scene.getObjectByName(mecanism_only[k]).clone(); newObject.name = 'testmecanism' + i + mecanism_only[k];
+                                if (mecanism_only[k] == 'shell_mecanism_tigara') {
+                        newObject.children[0].material = materials[i];
+                        }
+                        newGroup.add(newObject);
+                        }
+                        disruptorChoicesGroup.add(newGroup);
+                        }
+                        }
 
-function loadDisruptorChoices() {
-    var disruptorChoicesGroup = new THREE.Group();
-    disruptorChoicesGroup.name = "disruptorChoicesGroup";
-    scene.add(disruptorChoicesGroup);
+                        function loadFilterChoices() {
+                        var filterChoicesGroup = new THREE.Group();
+                                filterChoicesGroup.name = "filterChoicesGroup"; scene.add(filterChoicesGroup);
+                                var materials = [
+                                        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+                                        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+                                        //        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
+                                ];
+                                for (i = 0; i < 2; i++) {
+                        //Create a new clone Group
+                        var newGroup = new THREE.Group();
+                                newGroup.name = 'group_clona_filtru_' + i;
+                                newGroup.position.x = disruptor_positions_three_only[i].x;
+                                newGroup.position.y = disruptor_positions_three_only[i].y + 750;
+                                newGroup.position.z = disruptor_positions_three_only[i].z;
+                                for (k = 0; k < filtru_only.length; k++) {
+                        var newObject = scene.getObjectByName(filtru_only[k]).clone(); newObject.name = 'testfiltru' + i + filtru_only[k];
+                                if (filtru_only[k] == 'shell_mecanism_tigara') {
+                        newObject.children[0].material = materials[i];
+                        }
+                        newGroup.add(newObject);
+                                }
+                        filterChoicesGroup.add(newGroup);
+                        } } function clearScene() {
+                        var childrens = scene.children;
+                                while (scene.children.length > 0) {
+                        for (i = 0; i < childrens.length; i++) {
+                        scene.remove(childrens[i]);
+                                }
+                        console.log(scene); }
+                        }
 
-    var materials = [
-        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-    ];
+                        function displaySceneInformation() {
+                        var informationDynamicTexture = new THREEx.DynamicTexture(100, 100);
+                                informationDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+                                var informationSquare = new THREE.PlaneBufferGeometry(100, 100, 0, 0);
+                                var informationPlaneMaterial = new THREE.MeshBasicMaterial({
+                                map: informationDynamicTexture.texture
+                                });
+                                var informationPlane = new THREE.Mesh(informationSquare, informationPlaneMaterial);
+                                informationPlane.name = 'informationPlane';
+                                scene.add(informationPlane);
+                                }
 
-    for (i = 0; i < 3; i++) {
-        //Create a new clone Group
-        var newGroup = new THREE.Group();
-        newGroup.name = 'group_clona_disruptor_' + i;
-        newGroup.position.x = disruptor_positions_three_only[i].x;
-        newGroup.position.y = disruptor_positions_three_only[i].y + 750;
-        newGroup.position.z = disruptor_positions_three_only[i].z;
-
-        for (k = 0; k < mecanism_only.length; k++) {
-            var newObject = scene.getObjectByName(mecanism_only[k]).clone();
-            newObject.name = 'testmecanism' + i + mecanism_only[k];
-            if (mecanism_only[k] == 'shell_mecanism_tigara') {
-                newObject.children[0].material = materials[i];
-            }
-            newGroup.add(newObject);
-        }
-        disruptorChoicesGroup.add(newGroup);
-    }
-}
-function clearScene() {
-    var childrens = scene.children;
-    while (scene.children.length > 0) {
-        for (i = 0; i < childrens.length; i++) {
-            scene.remove(childrens[i]);
-        }
-        console.log(scene);
-    }
-}
-
-function displaySceneInformation() {
-    var informationDynamicTexture = new THREEx.DynamicTexture(100, 100);
-    informationDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
-    var informationSquare = new THREE.PlaneBufferGeometry(100, 100, 0, 0);
-
-    var informationPlaneMaterial = new THREE.MeshBasicMaterial({
-        map: informationDynamicTexture.texture
-    });
-    var informationPlane = new THREE.Mesh(informationSquare, informationPlaneMaterial);
-    informationPlane.name = 'informationPlane';
-    scene.add(informationPlane);
-}
-
-function test() {
-    console.log(camera.position);
-    console.log(camera.rotation);
+                        function test() {
+                        console.log(scene);
+//    console.log(camera.rotation);
 //    setCameraPositionScene1();
-}
+                                }

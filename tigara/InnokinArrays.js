@@ -22,25 +22,24 @@ var disruptor_positions_three_only = [
 ];
 
 var groups_array = [
-    {name: "grupPrincipal", x: 0, y: 0, z: 0},
-    {name: "grupFiltru", x: 5.5, y: -15, z: 2},
-    {name: "grupBaterie", x: -9.45, y: -15, z: 2},
-    {name: "grupRoata", x: 0, y: -46, z: 0},
-    {name: "grupMecanism", x: 5.5, y: -15, z: 2},
-//    'grupPrincipal', 'grupFiltru', 'grupBaterie', 'grupRoata','grupMecanism'
+    {name: "groupPrincipal", x: 0, y: 0, z: 0},
+    {name: "groupFiltru", x: 5.5, y: -15, z: 2},
+    {name: "groupBaterie", x: -9.45, y: -15, z: 2},
+    {name: "groupRoata", x: 0, y: -46, z: 0},
+    {name: "groupMecanism", x: 5.5, y: -15, z: 2},
 ];
 
 
-// grupBaterie.position.y = -15;
-//  grupBaterie.position.x = -9.45;
-//                    grupBaterie.position.z = 2;
-//                    grupFiltru.position.y = -15;
-//                    grupFiltru.position.z = 2;
-//                    grupFiltru.position.x = 5.5;
-//                    grupMecanism.position.y = -15;
-//                    grupMecanism.position.z = 2;
-//                    grupMecanism.position.x = 5.5;
-//                    grupRoata.position.y = -46;
+// groupBaterie.position.y = -15;
+//  groupBaterie.position.x = -9.45;
+//                    groupBaterie.position.z = 2;
+//                    groupFiltru.position.y = -15;
+//                    groupFiltru.position.z = 2;
+//                    groupFiltru.position.x = 5.5;
+//                    groupMecanism.position.y = -15;
+//                    groupMecanism.position.z = 2;
+//                    groupMecanism.position.x = 5.5;
+//                    groupRoata.position.y = -46;
 
 //var disruptor_positions_on_wheel = [
 ////    {x: 16, y: wheel_general_height, z: 2},
@@ -197,12 +196,13 @@ var debug_test_objects = [
     'group_clona_disruptor_0',
     'group_clona_disruptor_1',
     'group_clona_disruptor_2',
-//    'group_clona_disruptor_3',
+    'group_clona_filtru_0',
+    'group_clona_filtru_1',
 //    'group_clona_disruptor_4',
 //    'group_clona_disruptor_5',
 //    'group_clona_disruptor_6',
 //    'group_clona_disruptor_7',
-    'clone',
+//    'clone',
 ];
 var scales = [
     0.1, 0.2, 0.5, 1, 2, 3, 5, 10, 30, 50
