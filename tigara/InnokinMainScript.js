@@ -1147,19 +1147,13 @@ function innokinSplitInThree() {
         filter.position.x = 5.5;
         battery.position.x = 10.55;
         object_is_not_split = false;
-//                        console.log(mechanism.position);
-//                        console.log(filter.position);
-//                        console.log(battery.position);
-        //HARDCODED?
+
 
     } else {
         object_is_not_split = true;
         mechanism.position.x = 5.5;
         filter.position.x = 5.5;
         battery.position.x = -9.45;
-//                        console.log(mechanism.position);
-//                        console.log(filter.position);
-//                        console.log(battery.position);
 
     }
 }
@@ -1390,125 +1384,6 @@ function setRemoteVisible() {
 
 }
 
-//function addColouredCylinders() {
-//
-//    var height_for_all = -15.5;
-//    var geometry = new THREE.CylinderGeometry(8, 7, 2, 60);
-//    var material1 = new THREE.MeshBasicMaterial({color: 0xffff00});
-//    var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-//    var material3 = new THREE.MeshBasicMaterial({color: 0x0033FF});
-//    var material4 = new THREE.MeshBasicMaterial({color: 0xFF33FF});
-//    var material5 = new THREE.MeshBasicMaterial({color: 0xFF3300});
-//    var material6 = new THREE.MeshBasicMaterial({color: 0x663311});
-//    var material7 = new THREE.MeshBasicMaterial({color: 0xCACA33});
-//    var material8 = new THREE.MeshBasicMaterial({color: 0xFF0000});
-//    var cylinder1 = new THREE.Mesh(geometry, material1);
-//    cylinder1.name = "testCylinder1";
-//    scene.add(cylinder1);
-//    cylinder1.position.x = 22;
-//    cylinder1.position.z = 22;
-//    cylinder1.position.y = height_for_all;
-//    var cylinder2 = new THREE.Mesh(geometry, material2);
-//    cylinder2.name = "testCylinder2";
-//    scene.add(cylinder2);
-//    cylinder2.position.x = 31;
-//    cylinder2.position.z = 0;
-//    cylinder2.position.y = height_for_all;
-//    var cylinder3 = new THREE.Mesh(geometry, material3);
-//    cylinder3.name = "testCylinder3";
-//    scene.add(cylinder3);
-//    cylinder3.position.x = -31;
-//    cylinder3.position.z = 0;
-//    cylinder3.position.y = height_for_all;
-//    var cylinder4 = new THREE.Mesh(geometry, material4);
-//    cylinder4.name = "testCylinder4";
-//    scene.add(cylinder4);
-//    cylinder4.position.x = -22;
-//    cylinder4.position.z = -22;
-//    cylinder4.position.y = height_for_all;
-//    var cylinder5 = new THREE.Mesh(geometry, material5);
-//    cylinder5.name = "testCylinder5";
-//    scene.add(cylinder5);
-//    cylinder5.position.x = -22;
-//    cylinder5.position.z = 22;
-//    cylinder5.position.y = height_for_all;
-//    var cylinder6 = new THREE.Mesh(geometry, material6);
-//    cylinder6.name = "testCylinder6";
-//    scene.add(cylinder6);
-//    cylinder6.position.x = 22;
-//    cylinder6.position.z = -22;
-//    cylinder6.position.y = height_for_all;
-//    var cylinder7 = new THREE.Mesh(geometry, material7);
-//    cylinder7.name = "testCylinder7";
-//    scene.add(cylinder7);
-//    cylinder7.position.x = 0;
-//    cylinder7.position.z = 31;
-//    cylinder7.position.y = height_for_all;
-//    var cylinder8 = new THREE.Mesh(geometry, material8);
-//    cylinder8.name = "testCylinder8";
-//    scene.add(cylinder8);
-//    cylinder8.position.x = 0;
-//    cylinder8.position.z = -31;
-//    cylinder8.position.y = height_for_all;
-//}
-//
-
-function moveXplus(objectName) {
-
-    var object = scene.getObjectByName(objectName);
-    if (object) {
-        object.position.x += 1 * scale_to_move;
-        console.log(object.position);
-    } else {
-        console.log("Object " + objectName + " does not exist on the screen");
-    }
-}
-
-function moveXminus(objectName) {
-    var object = scene.getObjectByName(objectName);
-    if (object) {
-        object.position.x -= 1 * scale_to_move;
-        console.log(object.position);
-    } else {
-        console.log("Object " + objectName + " does not exist on the screen");
-    }
-}
-function moveYplus(objectName) {
-    var object = scene.getObjectByName(objectName);
-    if (object) {
-        object.position.y += 1 * scale_to_move;
-        console.log(object.position);
-    } else {
-        console.log("Object " + objectName + " does not exist on the screen");
-    }
-}
-function moveYminus(objectName) {
-    var object = scene.getObjectByName(objectName);
-    if (object) {
-        object.position.y -= 1 * scale_to_move;
-        console.log(object.position);
-    } else {
-        console.log("Object " + objectName + " does not exist on the screen");
-    }
-}
-function moveZplus(objectName) {
-    var object = scene.getObjectByName(objectName);
-    if (object) {
-        object.position.z += 1 * scale_to_move;
-        console.log(object.position);
-    } else {
-        console.log("Object " + objectName + " does not exist on the screen");
-    }
-}
-function moveZminus(objectName) {
-    var object = scene.getObjectByName(objectName);
-    if (object) {
-        object.position.z -= 1 * scale_to_move;
-        console.log(object.position);
-    } else {
-        console.log("Object " + objectName + " does not exist on the screen");
-    }
-}
 
 
 function loadBatteryChoices() {
@@ -1560,17 +1435,11 @@ function loadDisruptorChoices() {
         new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
         new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
         new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-//        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
-//        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
-//        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-//        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
-//        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
     ];
 
-    var rotations = [-0.6, 0.8, 1.4, 5, 4, 3, 2, 1];
+//    var rotations = [-0.6, 0.8, 1.4];
     var degree_45 = Math.PI / 4;
 
-//    for (i = 0; i < 8; i++) {
     for (i = 0; i < 3; i++) {
         //Create a new clone Group
         var newGroup = new THREE.Group();
@@ -1618,5 +1487,7 @@ function displaySceneInformation() {
 }
 
 function test() {
-    console.log(scene);
+    console.log(camera.position);
+    console.log(camera.rotation);
+//    setCameraPositionScene1();
 }

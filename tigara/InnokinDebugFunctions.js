@@ -61,3 +61,60 @@ function showLightingAndAxisDebug(lightingPositions) {
     }
 
 }
+
+function moveXplus(objectName) {
+
+    var object = scene.getObjectByName(objectName);
+    if (object) {
+        object.position.x += 1 * scale_to_move;
+        console.log(object.position);
+    } else {
+        console.log("Object " + objectName + " does not exist on the screen");
+    }
+}
+
+function moveXminus(objectName) {
+    var object = scene.getObjectByName(objectName);
+    if (object) {
+        object.position.x -= 1 * scale_to_move;
+        console.log(object.position);
+    } else {
+        console.log("Object " + objectName + " does not exist on the screen");
+    }
+}
+function moveYplus(objectName) {
+    var object = scene.getObjectByName(objectName);
+    if (object) {
+        object.position.y += 1 * scale_to_move;
+        console.log(object.position);
+    } else {
+        console.log("Object " + objectName + " does not exist on the screen");
+    }
+}
+function moveYminus(objectName) {
+    var object = scene.getObjectByName(objectName);
+    if (object) {
+        object.position.y -= 1 * scale_to_move;
+        console.log(object.position);
+    } else {
+        console.log("Object " + objectName + " does not exist on the screen");
+    }
+}
+function moveZplus(objectName) {
+    var object = scene.getObjectByName(objectName);
+    if (object) {
+        object.position.z += 1 * scale_to_move;
+        console.log(object.position);
+    } else {
+        console.log("Object " + objectName + " does not exist on the screen");
+    }
+}
+function moveZminus(objectName) {
+    var object = scene.getObjectByName(objectName);
+    if (object) {
+        object.position.z -= 1 * scale_to_move;
+        console.log(object.position);
+    } else {
+        console.log("Object " + objectName + " does not exist on the screen");
+    }
+}

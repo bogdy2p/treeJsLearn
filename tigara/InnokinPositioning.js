@@ -32,7 +32,7 @@ function staticizeDisruptors() {
 
     disruptorsGroup = scene.getObjectByName("disruptorChoicesGroup");
     if (disruptorsGroup) {
-        
+
         disruptorsGroup.rotation.y = 0.65;
         for (i = 0; i < disruptorsGroup.children.length; i++) {
 //            disruptorsGroup.children[i].position.copy(camera.position);
@@ -135,3 +135,22 @@ function staticizeLargeScreenCanvas() {
     }
 }
 
+
+
+function setCameraPositionScene1() {
+    camera.position.x = -115.35;
+    camera.position.y = 27.86;
+    camera.position.z = 84.36;
+    camera.rotation.x = -0.31897;
+    camera.rotation.y = -0.91447;
+    camera.rotation.z = -0.25590;
+}
+
+function setCameraPositionScene2() {
+    camera.position.x = -120;
+    camera.position.y = 80;
+    camera.position.z = 20;
+    camera.rotation.x = -1.32581;
+    camera.rotation.y = -0.96872;
+    camera.rotation.z = -1.27628;
+}
