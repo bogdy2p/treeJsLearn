@@ -870,7 +870,7 @@ function load3DOBJmodelsWithDefaultMaterials() {
                 object.scale.x = 0.5;
                 object.scale.y = 0.5;
                 object.scale.z = 0.5;
-                group.position.y = -100;
+                group.position.y = -500;
                 group.add(object);
                 object.children[0].material = defaultMaterial;
                 if (!debug_mode_on) {
@@ -946,6 +946,7 @@ function removeScene3() {
     }
     setTimeout(function () {
         playScene4();
+        setCameraPositionScene4();
     }, 1500);
 }
 

@@ -165,4 +165,6 @@ function setCameraPositionScene4() {
     camera.rotation.x = -1.32581;
     camera.rotation.y = -0.96872;
     camera.rotation.z = -1.27628;
+    controls.minPolarAngle = 0.8;
+    controls.maxPolarAngle = 1.8;
 }
