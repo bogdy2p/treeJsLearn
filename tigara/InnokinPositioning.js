@@ -148,3 +148,21 @@ function setCameraPositionScene2() {
     camera.rotation.y = -0.96872;
     camera.rotation.z = -1.27628;
 }
+
+function setCameraPositionScene3() {
+    camera.position.x = -120;
+    camera.position.y = 80;
+    camera.position.z = 20;
+    camera.rotation.x = -1.32581;
+    camera.rotation.y = -0.96872;
+    camera.rotation.z = -1.27628;
+}
+
+function setCameraPositionScene4() {
+    camera.position.x = -120;
+    camera.position.y = 80;
+    camera.position.z = 20;
+    camera.rotation.x = -1.32581;
+    camera.rotation.y = -0.96872;
+    camera.rotation.z = -1.27628;
+}

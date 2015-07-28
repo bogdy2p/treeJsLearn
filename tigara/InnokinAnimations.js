@@ -50,15 +50,12 @@ function flyInPart(objectName, current, time, general_height) {
     top.y += 350;
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
-//        console.log(Object.parent);
         var update = function () {
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
 
         }
-        // remove previous tweens if needed
-//        TWEEN.removeAll();
         var easing = TWEEN.Easing.Linear.EaseNone;
         // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
@@ -78,16 +75,12 @@ function flyOutPart(objectName, current, time) {
 
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
-//        console.log(parent);
         var update = function () {
             ActualObject.position.y = current.y;
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
         }
-        // remove previous tweens if needed
-//        TWEEN.removeAll();
         var easing = TWEEN.Easing.Quadratic.EaseIn;
-        // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
                 .to({y: +600}, time)
 //            .delay(userOpts.delay)
@@ -103,7 +96,6 @@ function flyOutPart(objectName, current, time) {
 function flyInWheel(objectName, current, time) {
     var top = current;
     top.y -= 350;
-//    var ActualObject = scene.getObjectByName(objectName).children[0];
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
         var update = function () {
@@ -148,6 +140,50 @@ function flyOutWheel(objectName, current, time) {
         console.log("NO ActualObject ... Something wrong here");
     }
 }
+
+function flyOutFilter(objectName, current, time) {
+    var top = current;
+
+    var ActualObject = scene.getObjectByName(objectName);
+    if (ActualObject) {
+        var update = function () {
+            ActualObject.position.y = current.y;
+            ActualObject.position.x = current.x;
+            ActualObject.position.z = current.z;
+        }
+        var easing = TWEEN.Easing.Elastic.EaseIn;
+        // build the tween lift the battery from the support
+        tweenBatteryDown = new TWEEN.Tween(top)
+                .to({y: +250}, time)
+//                .delay(50)
+                .easing(easing)
+                .onUpdate(update);
+        tweenBatteryDown.start();
+    } else {
+        console.log(objectName);
+        console.log("NO ActualObject ... Something wrong here");
+    }
+}
+
+function flyInChosenDisruptor() {
+    var theDisruptor = scene.getObjectByName('groupMecanism');
+    theDisruptor.position.x = 0;
+    theDisruptor.position.y = -20;
+    theDisruptor.position.z = 0;
+}
+function flyInChosenBattery() {
+    var theBattery = scene.getObjectByName('groupBaterie');
+    theBattery.position.x = -15;
+    theBattery.position.y =  -20;
+    theBattery.position.z = 0;
+}
+function flyInChosenFilter() {
+    var theFilter = scene.getObjectByName('groupFiltru');
+    theFilter.position.x = 0;
+    theFilter.position.y =  -20;
+    theFilter.position.z = 0;
+}
+
 
 function rotateWheelY(objectName, direction, time, amount) {
     var Object = scene.getObjectByName(objectName);
@@ -209,6 +245,11 @@ function animateDisruptorFlyOuts() {
 
 function animateFiltersFlyIn() {
     console.log("flyinfFILTRU");
-    flyInPart('group_clona_filtru_0', {x: 0, y: 0, z: 0}, 300, -30);
-    flyInPart('group_clona_filtru_1', {x: 10, y: 0, z: 10}, 300, -30);
+    flyInPart('group_clona_filtru_0', {x: -15, y: 0, z: -15}, 300, -60);
+    flyInPart('group_clona_filtru_1', {x: 15, y: 0, z: 15}, 300, -60);
+}
+
+function animateFiltersFlyOut() {
+    flyOutFilter('group_clona_filtru_0', {x: -15, y: 0, z: -15}, 1500);
+    flyOutFilter('group_clona_filtru_1', {x: 15, y: 0, z: 15}, 1500);
 }
