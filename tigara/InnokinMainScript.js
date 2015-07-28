@@ -24,7 +24,7 @@ function playScene2() {
 
     animateWheelFlyIn();
     setTimeout(function () {
-        animateBatteriesFlyIns(); 
+        animateBatteriesFlyIns();
         animateWheelGroupRotation('left');
     }, 200);
 
@@ -33,9 +33,9 @@ function playScene2() {
 
 function playScene3() {
     console.log("Started Playing Scene 3");
-    
-    
-    
+
+
+
 }
 
 
@@ -208,24 +208,31 @@ function onDocumentMouseDown(event) {
 
                     clickedObject.position.y += 30;
                 } else {
-//                                    camera.rotation.y = clickedObject.rotation.y;
                     var old_choice_name = battery_chosen;
                     if (clickedObject.name == battery_chosen) {
-//                                        console.log("YOU CHOSE THIS BATTERY");
                         var chosenMaterial = clickedObject.children[0].material;
 
                         temp_material = Object.object.material.color;
                         temp_color = Object.object.material.color.getHex();
                         temp_specular = Object.object.material.specular.getHex();
-//                                        console.log(temp_material);
-                        switchBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-//                                        removeBatteryColourOptions();
-                        removeBatteryChosingScene();
+                        colorizeBattery({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
+
+
+
+                        removeScene2();
+                        setTimeout(function () {
+                            playScene3();
+                        }, 2500);
+
+
+
+
+
+
 
 
 
                     } else {
-
                         old_choice_object = scene.getObjectByName(old_choice_name);
                         battery_chosen = clickedObject.name;
                         old_choice_object.position.y -= 30;
@@ -243,21 +250,14 @@ function onDocumentMouseDown(event) {
 
                     clickedObject.position.y += 30;
                 } else {
-//                                    camera.rotation.y = clickedObject.rotation.y;
                     var old_choice_name = disruptor_chosen;
                     if (clickedObject.name == disruptor_chosen) {
-//                                        console.log("YOU CHOSE THIS BATTERY");
                         var chosenMaterial = clickedObject.children[0].material;
-
                         temp_material = Object.object.material.color;
                         temp_color = Object.object.material.color.getHex();
                         temp_specular = Object.object.material.specular.getHex();
-
                         chooseDisruptor({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-
                         removeDisruptorChosingScene();
-
-
 
                     } else {
 
@@ -1048,13 +1048,17 @@ function removeDisruptorColourOptions() {
     }
 }
 
-function removeBatteryChosingScene() {
+function removeScene2() {
+    console.clear();
+    console.log(scene);
+    console.log("removing scene2");
+    var roataGroup = scene.getObjectByName("grupRoata");
 
-    var batteries_group_present = scene.getObjectByName("batteryChoicesGroup");
-    if (batteries_group_present) {
-        scene.remove(batteries_group_present);
+    if (roataGroup) {
+        animateBatteriesFlyOuts();
+        animateWheelFlyOut();
+//        scene.remove(roataGroup);
     }
-
 }
 
 function removeDisruptorChosingScene() {
@@ -1064,42 +1068,6 @@ function removeDisruptorChosingScene() {
         playScene2();
     }, 2800);
 }
-
-
-//                function removeBatteryColourOptions() {
-//
-//                    if (battery_colours_shown) {
-//                        sevenColourBoxes = scene.getObjectByName("sevenColourBoxes");
-//                        scene.remove(sevenColourBoxes);
-//                        battery_colours_shown = false;
-//                    } else {
-//                        console.log("Cannot remove sevenColourBoxes if they dont exist");
-//                    }
-//
-//
-//                }
-
-//                function changeMecanismColor(color) {
-//                    console.log("attempting to change mechanism color to " + color);
-//                    var mecanism_tigara_mesh = scene.getObjectByName("mecanism_tigara").children[0];
-//                    switch (color) {
-//                        case "black":
-//                            var blackBatteryMaterial = new THREE.MeshPhongMaterial({color: 0xFFFFFF, shininess: 50, specular: 0x040404, metal: true, side: THREE.DoubleSide});
-//                            mecanism_tigara_mesh.material = blackBatteryMaterial;
-//                            break;
-//                        case "gold":
-//                            var goldPolished = new THREE.MeshPhongMaterial({color: 0xEAE0D7, shininess: 50, specular: 0xEAE0D7, metal: true, side: THREE.DoubleSide});
-//                            mecanism_tigara_mesh.material = goldPolished;
-//                            break;
-//                        case "silver":
-//                            var silverPolished = new THREE.MeshPhongMaterial({color: 0xE4E4EE, shininess: 50, specular: 0xE4E4EE, metal: true, side: THREE.DoubleSide});
-//                            mecanism_tigara_mesh.material = silverPolished;
-//                            break;
-//                        default:
-//                            console.log("The colors you must chose are : black, gold or silver");
-//                            break;
-//                    }
-//                }
 
 function innokinSplitInThree() {
     var mechanism = scene.getObjectByName('grupPrincipal');
