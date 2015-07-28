@@ -181,13 +181,14 @@ function onDocumentMouseDown(event) {
                     if (battery_chosen == null) {
                         battery_chosen = clickedObject.name;
                         clickedObject.position.y += 30;
-                    } else {
+                    } else {                        
                         var old_choice_name = battery_chosen;
                         if (clickedObject.name == battery_chosen) {
-//                            var chosenMaterial = clickedObject.children[0].material;
-//                            temp_battery_material = Object.object.material.color;
-                            temp_battery_color = Object.object.material.color.getHex();
-                            temp_battery_specular = Object.object.material.specular.getHex();
+                            theName = battery_chosen + "invelis_baterie";
+                            var batteryIntendedToBeClicked = scene.getObjectByName(battery_chosen + "invelis_baterie");
+                            var batteryChosenMaterial = batteryIntendedToBeClicked.children[0].material;
+                            temp_battery_color = batteryChosenMaterial.color.getHex();
+                            temp_battery_specular = batteryChosenMaterial.specular.getHex();
                             colorizeBattery({color: temp_battery_color, shininess: 30, specular: temp_battery_specular, metal: true, side: THREE.DoubleSide});
                             removeScene2();
 
@@ -202,7 +203,6 @@ function onDocumentMouseDown(event) {
 
                 case "disruptorChoicesGroup":
                     var clickedObject = Object.object.parent.parent;
-                    console.log(clickedObject.name);
                     var old_choice_object = null;
                     if (disruptor_chosen == null) {
                         disruptor_chosen = clickedObject.name;
@@ -210,15 +210,11 @@ function onDocumentMouseDown(event) {
                     } else {
                         var old_choice_name = disruptor_chosen;
                         if (clickedObject.name == disruptor_chosen) {
-//                            temp_disruptor_material = Object.object.material.color;
-
                             theName = disruptor_chosen + "shell_mecanism_tigara";
-//                            console.log(theName);
                             var whatActuallyClicked = scene.getObjectByName(disruptor_chosen + "shell_mecanism_tigara");
                             var chosenMaterial = whatActuallyClicked.children[0].material;
                             temp_disruptor_color = chosenMaterial.color.getHex();
                             temp_disruptor_specular = chosenMaterial.specular.getHex();
-//                            console.log(chosenMaterial);
                             colorizeMechanism({color: temp_disruptor_color, shininess: 30, specular: temp_disruptor_specular, metal: true, side: THREE.DoubleSide});
                             removeScene1();
                         } else {
@@ -1351,6 +1347,7 @@ function activateTheDevice() {
 
 function test() {
     console.log(scene);
-    playScene3();
-//    console.log(camera.rotation);
+//    playScene3();
+    console.log(camera.position);
+    console.log(camera.rotation);
 }

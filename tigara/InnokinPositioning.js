@@ -132,12 +132,12 @@ function staticizeLargeScreenCanvas() {
 }
 
 function setCameraPositionScene1() {
-    camera.position.x = -115.35;
-    camera.position.y = 27.86;
-    camera.position.z = 84.36;
-    camera.rotation.x = -0.31897;
-    camera.rotation.y = -0.91447;
-    camera.rotation.z = -0.25590;
+    camera.position.x = -60.1852;
+    camera.position.y = 28.989;
+    camera.position.z = 44.015;
+    camera.rotation.x = -0.582393;
+    camera.rotation.y = -0.85157;
+    camera.rotation.z = -0.46001;
 }
 
 function setCameraPositionScene2() {
