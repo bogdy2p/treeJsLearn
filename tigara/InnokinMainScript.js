@@ -12,58 +12,33 @@ setTimeout(function () {
 }, 4000);
 
 function playScene1() {
-//    resetWheelRotation();
-//    moveTheWheelToCenter();
-//    animateWheelRotation('left');
+    console.log("Playing Scene 1");
     animateDisruptorFlyIns();
-//    animateDisruptorChoicesGroupRotation('left');
-//    setTimeout(function () {
-//        console.log("animateDisruptorFlyOUTS()");
-//        animateWheelRotation('right');
-//        animateDisruptorChoicesGroupRotation('right');
-//        animateDisruptorFlyOuts();
-//    }, 5500);
 }
 
 
 
 
 function playScene2() {
-//    rotateObjectY('grupRoata', 'left', 0, 0);
-    resetWheelRotation();
-    setTimeout(function () {
-        animateWheelRotation('left');
-    }, 100);
+    console.log("Playing Scene 2");
 
-    animateBatteriesFlyIns();
-    animateBatteryChoicesGroupRotation('left');
-//    setTimeout(function () {
-//        console.log("animateBatteriesFlyOUTS()");
-//        animateWheelRotation('right');
-//        animateBatteryChoicesGroupRotation('right');
-//        animateBatteriesFlyOuts();
-//    }, 5500);
-//    setInterval(function () {
-//        animateWheelRotation('left');
-//        animateDisruptorFlyIns();
-//        animateBatteryChoicesGroupRotation('left');
-//        setTimeout(function () {
-//            console.log("animateDisruptorFlyOUTS()");
-//            animateWheelRotation('right');
-//            animateBatteryChoicesGroupRotation('right');
-//            animateBatteriesFlyOuts();
-//        }, 3500);
-//    }, 12000);
-    // 2. Animate a little rotation to the wheel (60 degrees left , 60 degrees right
-    //   // animation to right , 2 * 60 degree;
-    //return animation to middle sceeen
-    // 3. Fly-in the disruptors only with the 3 colours specified , 
-    // 4. Make the user choose a disruptor model/color.
-    // After chosing , proceed to scene2 :)
+    animateWheelFlyIn();
+    setTimeout(function () {
+        animateBatteriesFlyIns(); 
+        animateWheelGroupRotation('left');
+    }, 200);
+
 }
 
 
-//                displaySceneInformation();
+function playScene3() {
+    console.log("Started Playing Scene 3");
+    
+    
+    
+}
+
+
 
 animate();
 function initializeEmptyScene() {
@@ -79,9 +54,6 @@ function initializeEmptyScene() {
     addOrbitControlsToScene();
     addLightingToScene(lightingPositions);
 
-
-
-
     setUpGroups(groups_array);
     load3DOBJmodelsWithDefaultMaterials();
 //                    loadObjWithoutMaterials();
@@ -96,6 +68,8 @@ function initializeEmptyScene() {
     renderer.domElement.addEventListener('touchstart', onDocumentTouchStart, false);
     renderer.domElement.addEventListener('touchmove', onDocumentTouchMove, false);
     window.addEventListener('resize', onWindowResize, false);
+    //Modify The Camera Position for Scene1.
+    setCameraPositionScene1();
 
 }
 
@@ -494,7 +468,6 @@ function render(dt) {
             }
             loadDisruptorChoices();
             loadBatteryChoices();
-
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
@@ -504,7 +477,6 @@ function render(dt) {
         particleGroup.tick(dt);
     }
 
-
     batteryChoicesGroup = scene.getObjectByName("batteryChoicesGroup");
     if (batteryChoicesGroup) {
         support = scene.getObjectByName("roata");
@@ -512,7 +484,6 @@ function render(dt) {
 //                            support.rotation.y += 0.001;
         }
 //                        batteryChoicesGroup.rotation.y += 0.001;
-
     }
 
 
@@ -561,11 +532,7 @@ function switchBattery(materialColor) {
 }
 
 function chooseDisruptor(materialColor) {
-
-
     colorizeMechanism(materialColor);
-
-
 //    setupTweenBatteryOut();
 //    setupTweenBatteryIn();
 //    tweenBatteryUp.start();
@@ -1091,15 +1058,11 @@ function removeBatteryChosingScene() {
 }
 
 function removeDisruptorChosingScene() {
-    animateWheelRotation('right');
-    animateDisruptorChoicesGroupRotation('right');
     animateDisruptorFlyOuts();
     setTimeout(function () {
+        setCameraPositionScene2();
         playScene2();
     }, 2800);
-
-//    }
-
 }
 
 
@@ -1389,7 +1352,8 @@ function setRemoteVisible() {
 function loadBatteryChoices() {
     var batteryChoicesGroup = new THREE.Group();
     batteryChoicesGroup.name = "batteryChoicesGroup";
-    scene.add(batteryChoicesGroup);
+    grupRoata = scene.getObjectByName('grupRoata');
+    grupRoata.add(batteryChoicesGroup);
 
     var materials = [
         new THREE.MeshPhongMaterial(batteryMaterials.whiteblue_battery),
@@ -1410,7 +1374,7 @@ function loadBatteryChoices() {
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_baterie_' + i;
         newGroup.position.x = wheel_hole_positions[i].x;
-        newGroup.position.y = wheel_hole_positions[i].y + 750;
+        newGroup.position.y = wheel_hole_positions[i].y + 950;
         newGroup.position.z = wheel_hole_positions[i].z;
         newGroup.rotation.y = rotations[i] * degree_45;
 
@@ -1458,7 +1422,7 @@ function loadDisruptorChoices() {
 //                newObject.rotation.y = 0.8;
             }
             newGroup.add(newObject);
-            
+
         }
         disruptorChoicesGroup.add(newGroup);
     }

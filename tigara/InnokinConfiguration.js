@@ -1,4 +1,4 @@
-var debug_mode_on = true;
+var debug_mode_on = false;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
 var scale_to_move = 0.5;

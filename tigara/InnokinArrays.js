@@ -1,40 +1,24 @@
 
 var wheel_general_height = -30;
+var battery_clone_general_height = 10;
 
 var wheel_hole_positions = [
-    {x: 16, y: wheel_general_height, z: 2},
-    {x: 10, y: wheel_general_height, z: 12.5},
-    {x: -2, y: wheel_general_height, z: 16},
-    {x: -13, y: wheel_general_height, z: 10},
-    {x: -16.2, y: wheel_general_height, z: -1.8},
-    {x: -10.2, y: wheel_general_height, z: -12.7},
-    {x: 1.8, y: wheel_general_height, z: -16.2},
-    {x: 13, y: wheel_general_height, z: -10},
+    {x: 16, y: 30, z: 2},
+    {x: 10, y: 30 + 60, z: 12.5},
+    {x: -2, y: 30, z: 16},
+    {x: -13, y: 30, z: 10},
+    {x: -16.2, y: 30, z: -1.8},
+    {x: -10.2, y: 30, z: -12.7},
+    {x: 1.8, y: 30 + 60, z: -16.2},
+    {x: 13, y: 30, z: -10},
 ];
 
-//var disruptor_positions_on_wheel = [
-////    {x: 16, y: wheel_general_height, z: 2},
-////    {x: 10, y: wheel_general_height, z: 12.5},
-////    {x: -2, y: wheel_general_height, z: 16},
-////    {x: -13, y: wheel_general_height, z: 10},
-////    {x: -16.2, y: wheel_general_height, z: -1.8},
-////    {x: -10.2, y: wheel_general_height, z: -12.7},
-////    {x: 1.8, y: wheel_general_height, z: -16.2},
-////    {x: 13, y: wheel_general_height, z: -10},
-//    {x: -21, y: wheel_general_height, z: 1.5},
-//    {x: -15.5, y: wheel_general_height, z: -13.5},
-//    {x: -2, y: wheel_general_height, z: -20.6},
-//    {x: 13, y: wheel_general_height, z: -15},
-//    {x: 20, y: wheel_general_height, z: -2},
-//    {x: 15.5, y: wheel_general_height, z: 13},
-//    {x: 2, y: wheel_general_height, z: 20},
-//    {x: -13, y: wheel_general_height, z: 15.5},
-//];
+
 
 var disruptor_positions_three_only = [
-    {x: 33.5, y: wheel_general_height, z: -30},
-    {x: 33.5, y: wheel_general_height, z: 2},
-    {x: 32.5, y: wheel_general_height, z: 34},
+    {x: 33.5, y: -120, z: -30},
+    {x: 33.5, y: -120, z: 2},
+    {x: 32.5, y: -120, z: 34},
 ];
 
 var groups_array = [
@@ -58,7 +42,24 @@ var groups_array = [
 //                    grupMecanism.position.x = 5.5;
 //                    grupRoata.position.y = -46;
 
-
+//var disruptor_positions_on_wheel = [
+////    {x: 16, y: wheel_general_height, z: 2},
+////    {x: 10, y: wheel_general_height, z: 12.5},
+////    {x: -2, y: wheel_general_height, z: 16},
+////    {x: -13, y: wheel_general_height, z: 10},
+////    {x: -16.2, y: wheel_general_height, z: -1.8},
+////    {x: -10.2, y: wheel_general_height, z: -12.7},
+////    {x: 1.8, y: wheel_general_height, z: -16.2},
+////    {x: 13, y: wheel_general_height, z: -10},
+//    {x: -21, y: wheel_general_height, z: 1.5},
+//    {x: -15.5, y: wheel_general_height, z: -13.5},
+//    {x: -2, y: wheel_general_height, z: -20.6},
+//    {x: 13, y: wheel_general_height, z: -15},
+//    {x: 20, y: wheel_general_height, z: -2},
+//    {x: 15.5, y: wheel_general_height, z: 13},
+//    {x: 2, y: wheel_general_height, z: 20},
+//    {x: -13, y: wheel_general_height, z: 15.5},
+//];
 var roata_only = [
     'roata',
 ]
