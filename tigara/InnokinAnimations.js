@@ -165,6 +165,53 @@ function flyOutFilter(objectName, current, time) {
     }
 }
 
+function flyInDisruptorClone(objectName, current, time, general_height) {
+    var top = current;
+    top.y += 350;
+    var ActualObject = scene.getObjectByName(objectName);
+    if (ActualObject) {
+        var update = function () {
+            ActualObject.position.y = current.y;
+            ActualObject.position.x = current.x;
+            ActualObject.position.z = current.z;
+
+        }
+        var easing = TWEEN.Easing.Linear.EaseNone;
+        tweenBatteryDown = new TWEEN.Tween(top)
+                .to({y: general_height}, time)
+                .easing(easing)
+                .onUpdate(update);
+        tweenBatteryDown.start();
+    } else {
+        console.log(objectName);
+        console.log("NO ActualObject ... Something wrong here");
+    }
+}
+
+function flyOutDisruptorClone(objectName, current, time) {
+    var top = current;
+
+    var ActualObject = scene.getObjectByName(objectName);
+    if (ActualObject) {
+        var update = function () {
+            ActualObject.position.y = current.y;
+            ActualObject.position.x = current.x;
+            ActualObject.position.z = current.z;
+        }
+        var easing = TWEEN.Easing.Quadratic.EaseIn;
+        tweenBatteryDown = new TWEEN.Tween(top)
+                .to({y: +600}, time)
+//            .delay(userOpts.delay)
+                .easing(easing)
+                .onUpdate(update);
+        tweenBatteryDown.start();
+    } else {
+        console.log(objectName);
+        console.log("NO ActualObject ... Something wrong here");
+    }
+}
+
+
 function flyInChosenDisruptor() {
     var theDisruptor = scene.getObjectByName('groupMecanism');
     theDisruptor.position.x = 0;
@@ -174,13 +221,13 @@ function flyInChosenDisruptor() {
 function flyInChosenBattery() {
     var theBattery = scene.getObjectByName('groupBaterie');
     theBattery.position.x = -15;
-    theBattery.position.y =  -20;
+    theBattery.position.y = -20;
     theBattery.position.z = 0;
 }
 function flyInChosenFilter() {
     var theFilter = scene.getObjectByName('groupFiltru');
     theFilter.position.x = 0;
-    theFilter.position.y =  -20;
+    theFilter.position.y = -20;
     theFilter.position.z = 0;
 }
 
@@ -221,7 +268,7 @@ function animateWheelFlyOut() {
 
 function animateBatteriesFlyIns() {
     for (i = 0; i < 8; i++) {
-        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 50 + 350 * i, battery_clone_general_height);
+        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 150 + 250 * i, battery_clone_general_height);
     }
 }
 
@@ -233,7 +280,7 @@ function animateBatteriesFlyOuts() {
 
 function animateDisruptorFlyIns() {
     for (i = 0; i < 3; i++) {
-        flyInPart('group_clona_disruptor_' + i, disruptor_positions_three_only[i], 200 + 500 * i, -30);
+        flyInDisruptorClone('group_clona_disruptor_' + i, disruptor_positions_three_only[i], 200 + 500 * i, -30);
     }
 }
 
@@ -245,11 +292,12 @@ function animateDisruptorFlyOuts() {
 
 function animateFiltersFlyIn() {
     console.log("flyinfFILTRU");
-    flyInPart('group_clona_filtru_0', {x: -15, y: 0, z: -15}, 300, -60);
-    flyInPart('group_clona_filtru_1', {x: 15, y: 0, z: 15}, 300, -60);
+    setCameraPositionScene3();
+    flyInPart('group_clona_filtru_0', {x: -10, y: 0, z: -15}, 300, -60);
+    flyInPart('group_clona_filtru_1', {x: 33, y: 0, z: -15}, 300, -60);
 }
 
 function animateFiltersFlyOut() {
-    flyOutFilter('group_clona_filtru_0', {x: -15, y: 0, z: -15}, 1500);
-    flyOutFilter('group_clona_filtru_1', {x: 15, y: 0, z: 15}, 1500);
+    flyOutFilter('group_clona_filtru_0', {x: -10, y: 0, z: -15}, 1500);
+    flyOutFilter('group_clona_filtru_1', {x: 33, y: 0, z: 15}, 1500);
 }

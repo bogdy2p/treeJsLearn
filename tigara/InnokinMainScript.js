@@ -18,13 +18,12 @@ function playScene2() {
     setTimeout(function () {
         animateBatteriesFlyIns();
         animateWheelGroupRotation('left');
-    }, 200);
+    }, 300);
 
 }
 
 
 function playScene3() {
-//    removeScene2();
     console.log("Started Playing Scene 3");
     animateFiltersFlyIn();
 
@@ -199,6 +198,7 @@ function onDocumentMouseDown(event) {
                     if (disruptor_chosen == null) {
                         disruptor_chosen = clickedObject.name;
                         clickedObject.position.y += 30;
+                        clickedObject.position.z += 30;
                     } else {
                         var old_choice_name = disruptor_chosen;
                         if (clickedObject.name == disruptor_chosen) {
@@ -219,11 +219,15 @@ function onDocumentMouseDown(event) {
                     break;
                 case "filterChoicesGroup":
                     console.log("FILTERCLICK CAUGHT");
+                    
+                    var zAmount = 20;
+                    
                     var clickedObject = Object.object.parent.parent;
                     var old_choice_object = null;
                     if (filter_chosen == null) {
                         filter_chosen = clickedObject.name;
-                        clickedObject.position.y += 30;
+                        clickedObject.position.z += zAmount;
+                        clickedObject.position.y += zAmount;
                     } else {
                         var old_choice_name = filter_chosen;
                         if (clickedObject.name == filter_chosen) {
@@ -239,8 +243,10 @@ function onDocumentMouseDown(event) {
                         } else {
                             old_choice_object = scene.getObjectByName(old_choice_name);
                             filter_chosen = clickedObject.name;
-                            old_choice_object.position.y -= 30;
-                            clickedObject.position.y += 30;
+                            old_choice_object.position.z -= zAmount;
+                            old_choice_object.position.y -= zAmount;
+                            clickedObject.position.y += zAmount;
+                            clickedObject.position.z += zAmount;
                         }
                     }
                     break;
