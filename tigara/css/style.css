@@ -1,3 +1,9 @@
+@font-face {
+    font-family: "DisrupterLCDFont";
+    src: url("chesstype.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
 body {
     color: #FFFFFF;
     font-family:Monospace;
@@ -43,11 +49,4 @@ a {
     z-index: 500;
     visibility: hidden;
     display:none;
-}
-
-@font-face {
-    font-family: "DisrupterLCDFont";
-    src: url("chesstype.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
 }

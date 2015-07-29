@@ -24,8 +24,6 @@ function setUpGroups(groups_array) {
     }
 }
 
-
-
 function addOrbitControlsToScene() {
     controls = new THREE.OrbitControls(camera, container);
     controls.noZoom = false;
@@ -61,4 +59,30 @@ function addPerspectiveCameraToScene() {
     }
     camera.rotateOnAxis(300);
     scene.add(camera);
+}
+
+function prepareFontForScreen() {
+    //Temporarely create a screen with texture to load the font the first time. Auto-Remove after 2 seconds
+    tempDynamicTexture = new THREEx.DynamicTexture(10, 10);
+    tempGeometry = new THREE.PlaneBufferGeometry(45, 20, 30, 30);
+    tempMaterial = new THREE.MeshBasicMaterial({map: tempDynamicTexture.texture});
+    tempPlane = new THREE.Mesh(tempGeometry, tempMaterial);
+    tempPlane.name = 'tempScreenFarAway';
+    tempPlane.position.z = 900;
+    tempPlane.position.x = 900;
+    tempPlane.position.y = 900;
+    scene.add(tempPlane);
+    tempDynamicTexture.drawTextCooked(
+            {
+                text: 'SomeRandoMText',
+                align: 'center',
+                lineHeight: 0.3,
+                fillStyle: '#FDFDFD',
+                font: "" + (0.2 * 190) + "px DisrupterLCDFont",
+                family: "DisrupterLCDFont"
+            }
+    );
+    setTimeout(function () {
+        scene.remove(tempPlane);
+    }, 2000);
 }

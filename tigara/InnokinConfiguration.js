@@ -1,4 +1,4 @@
-var debug_mode_on = false;
+var debug_mode_on = true;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
 var scale_to_move = 0.5;
@@ -57,6 +57,15 @@ var startTime = Date.now();
 var emitter, particleGroup;
 var disruptor_colours_shown = false;
 var battery_colours_shown = false;
+
+//Screen Part variables
+
+var screenDynamicTexture;
+var planeGeometry1;
+var planeGeometry2;
+var planeMaterial;
+var ScreenPlane;
+var LargeScreen;
 
 
 var userOpts = {
