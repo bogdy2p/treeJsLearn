@@ -30,7 +30,7 @@ function addOrbitControlsToScene() {
     controls = new THREE.OrbitControls(camera, container);
     controls.noZoom = false;
     controls.minDistance = 80;
-    controls.maxDistance = 180;
+    controls.maxDistance = 120;
     controls.noPan = true;
 
     controls.minPolarAngle = 0.8;

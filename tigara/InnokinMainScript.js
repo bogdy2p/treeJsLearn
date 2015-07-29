@@ -7,21 +7,13 @@ document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 initializeEmptyScene();
 
-setTimeout(function () {
-    playScene1();
-}, 4000);
-
 function playScene1() {
     console.log("Playing Scene 1");
     animateDisruptorFlyIns();
 }
 
-
-
-
 function playScene2() {
     console.log("Playing Scene 2");
-
     animateWheelFlyIn();
     setTimeout(function () {
         animateBatteriesFlyIns();
@@ -32,6 +24,7 @@ function playScene2() {
 
 
 function playScene3() {
+//    removeScene2();
     console.log("Started Playing Scene 3");
     animateFiltersFlyIn();
 
@@ -39,7 +32,6 @@ function playScene3() {
 }
 
 function playScene4() {
-
     console.log("CONGRATZ YOU ARE CONFIGURED");
     flyInChosenDisruptor();
     flyInChosenBattery();
@@ -181,7 +173,7 @@ function onDocumentMouseDown(event) {
                     if (battery_chosen == null) {
                         battery_chosen = clickedObject.name;
                         clickedObject.position.y += 30;
-                    } else {                        
+                    } else {
                         var old_choice_name = battery_chosen;
                         if (clickedObject.name == battery_chosen) {
                             theName = battery_chosen + "invelis_baterie";
@@ -216,7 +208,7 @@ function onDocumentMouseDown(event) {
                             temp_disruptor_color = chosenMaterial.color.getHex();
                             temp_disruptor_specular = chosenMaterial.specular.getHex();
                             colorizeMechanism({color: temp_disruptor_color, shininess: 30, specular: temp_disruptor_specular, metal: true, side: THREE.DoubleSide});
-                            removeScene1();
+                            removeScene1(1000);
                         } else {
                             old_choice_object = scene.getObjectByName(old_choice_name);
                             disruptor_chosen = clickedObject.name;
@@ -451,6 +443,7 @@ function render(dt) {
             loadDisruptorChoices();
             loadBatteryChoices();
             loadFilterChoices();
+            playScene1();
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
@@ -462,8 +455,8 @@ function render(dt) {
 
 
 
-    staticizeThreeBoxesGroup();
-    staticizeSevenBoxes();
+//    staticizeThreeBoxesGroup();
+//    staticizeSevenBoxes();
     staticizeDisruptors();
     staticizeLargeScreenCanvas();
 
@@ -962,12 +955,12 @@ function removeScene2() {
     }, 3000);
 }
 
-function removeScene1() {
+function removeScene1(timeout) {
     animateDisruptorFlyOuts();
     setTimeout(function () {
         setCameraPositionScene2();
         playScene2();
-    }, 2800);
+    }, timeout);
 }
 
 function innokinSplitInThree() {
@@ -1299,6 +1292,8 @@ function loadFilterChoices() {
 
     for (i = 0; i < 2; i++) {
         //Create a new clone Group
+
+        console.log("Should create a box / some text over-the filters to display what ammount they have " + i);
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_filtru_' + i;
         newGroup.position.x = disruptor_positions_three_only[i].x;
@@ -1325,19 +1320,19 @@ function clearScene() {
         console.log(scene);
     }
 }
-
-function displaySceneInformation() {
-    var informationDynamicTexture = new THREEx.DynamicTexture(100, 100);
-    informationDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
-    var informationSquare = new THREE.PlaneBufferGeometry(100, 100, 0, 0);
-
-    var informationPlaneMaterial = new THREE.MeshBasicMaterial({
-        map: informationDynamicTexture.texture
-    });
-    var informationPlane = new THREE.Mesh(informationSquare, informationPlaneMaterial);
-    informationPlane.name = 'informationPlane';
-    scene.add(informationPlane);
-}
+//
+//function displaySceneInformation() {
+//    var informationDynamicTexture = new THREEx.DynamicTexture(100, 100);
+//    informationDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
+//    var informationSquare = new THREE.PlaneBufferGeometry(100, 100, 0, 0);
+//
+//    var informationPlaneMaterial = new THREE.MeshBasicMaterial({
+//        map: informationDynamicTexture.texture
+//    });
+//    var informationPlane = new THREE.Mesh(informationSquare, informationPlaneMaterial);
+//    informationPlane.name = 'informationPlane';
+//    scene.add(informationPlane);
+//}
 
 function activateTheDevice() {
     console.log("ACTIVATING THE DEVICE!");

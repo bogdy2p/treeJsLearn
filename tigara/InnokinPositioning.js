@@ -45,51 +45,51 @@ function staticizeDisruptors() {
 
 }
 
-
-function staticizeSevenBoxes() {
-
-    sevenBoxesGroup = scene.getObjectByName("sevenColourBoxes");
-    if (sevenBoxesGroup) {
-        var boxes = [];
-        for (i = 0; i < 7; i++) {
-            boxes[i] = sevenBoxesGroup.children[i];
-            boxes[i].position.copy(camera.position);
-            boxes[i].rotation.copy(camera.rotation);
-
-            boxes[i].translateZ(-300);
-            boxes[i].translateY(100);
-            boxes[i].translateX(-110 + 40 * i);
-        }
-    }
-}
-
-function staticizeThreeBoxesGroup() {
-
-    threeBoxesGroup = scene.getObjectByName("threeColourBoxes");
-    if (threeBoxesGroup) {
-        goldenBox = threeBoxesGroup.children[0];
-        silverBox = threeBoxesGroup.children[1];
-        blackBox = threeBoxesGroup.children[2];
-        goldenBox.position.copy(camera.position);
-        goldenBox.rotation.copy(camera.rotation);
-        goldenBox.updateMatrix();
-        goldenBox.translateZ(-300);
-        goldenBox.translateX(40);
-        goldenBox.translateY(100);
-        silverBox.position.copy(camera.position);
-        silverBox.rotation.copy(camera.rotation);
-        silverBox.updateMatrix();
-        silverBox.translateZ(-300);
-        silverBox.translateX(-40);
-        silverBox.translateY(100);
-        blackBox.position.copy(camera.position);
-        blackBox.rotation.copy(camera.rotation);
-        blackBox.updateMatrix();
-        blackBox.translateZ(-300);
-        blackBox.translateX(-00);
-        blackBox.translateY(100);
-    }
-}
+//
+//function staticizeSevenBoxes() {
+//
+//    sevenBoxesGroup = scene.getObjectByName("sevenColourBoxes");
+//    if (sevenBoxesGroup) {
+//        var boxes = [];
+//        for (i = 0; i < 7; i++) {
+//            boxes[i] = sevenBoxesGroup.children[i];
+//            boxes[i].position.copy(camera.position);
+//            boxes[i].rotation.copy(camera.rotation);
+//
+//            boxes[i].translateZ(-300);
+//            boxes[i].translateY(100);
+//            boxes[i].translateX(-110 + 40 * i);
+//        }
+//    }
+//}
+//
+//function staticizeThreeBoxesGroup() {
+//
+//    threeBoxesGroup = scene.getObjectByName("threeColourBoxes");
+//    if (threeBoxesGroup) {
+//        goldenBox = threeBoxesGroup.children[0];
+//        silverBox = threeBoxesGroup.children[1];
+//        blackBox = threeBoxesGroup.children[2];
+//        goldenBox.position.copy(camera.position);
+//        goldenBox.rotation.copy(camera.rotation);
+//        goldenBox.updateMatrix();
+//        goldenBox.translateZ(-300);
+//        goldenBox.translateX(40);
+//        goldenBox.translateY(100);
+//        silverBox.position.copy(camera.position);
+//        silverBox.rotation.copy(camera.rotation);
+//        silverBox.updateMatrix();
+//        silverBox.translateZ(-300);
+//        silverBox.translateX(-40);
+//        silverBox.translateY(100);
+//        blackBox.position.copy(camera.position);
+//        blackBox.rotation.copy(camera.rotation);
+//        blackBox.updateMatrix();
+//        blackBox.translateZ(-300);
+//        blackBox.translateX(-00);
+//        blackBox.translateY(100);
+//    }
+//}
 
 //function staticizeOptionsGroup() {
 //
@@ -167,4 +167,5 @@ function setCameraPositionScene4() {
     camera.rotation.z = -1.27628;
     controls.minPolarAngle = 0.8;
     controls.maxPolarAngle = 1.8;
+    controls.maxDistance = 180;
 }
