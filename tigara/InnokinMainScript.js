@@ -94,6 +94,7 @@ function initParticles() {
     });
     particleGroup.addEmitter(emitter);
     scene.add(particleGroup.mesh);
+    smoking = true;
 }
 
 
@@ -112,13 +113,13 @@ function animate() {
     TWEEN.update();
 }
 
-function restartEngine(parameters)
-{
-    engine.destroy();
-    engine = new ParticleEngine();
-    engine.setValues(parameters);
-    engine.initialize();
-}
+//function restartEngine(parameters)
+//{
+//    engine.destroy();
+//    engine = new ParticleEngine();
+//    engine.setValues(parameters);
+//    engine.initialize();
+//}
 
 
 function onDocumentMouseDown(event) {
@@ -173,6 +174,30 @@ function onDocumentTouchMove(event) {
 //                    alert("TOUCH MOVEMENT DETECTED");
 }
 
+function startButtonClickedDeviceStarted() {
+    console.log("Device already started. startButtonClickedDeviceStarted();");
+
+    if (!smoking) {
+        playSmoke = setTimeout(function () {
+            initParticles();
+        }, 2000);
+    } else {
+        removeSmoke = setTimeout(function () {
+            console.log("SHOULD REMOVE PARTICLES OF SMOKE HERE");
+            scene.remove(particleGroup.mesh);
+//            particleGroup = null;
+//            emitter = null;
+            smoking = false;
+        }, 2000);
+    }
+
+
+
+
+
+}
+
+
 function startButtonClick() {
     var startButton = scene.getObjectByName('buton_mare');
     var twoClicksDifference = 0;
@@ -190,16 +215,16 @@ function startButtonClick() {
             setTimeout(function () {
                 if (timer_running) {
                     displayStartInformation();
-//                                    console.log('SOMETHING WENT WRONG');
 //                                    console.log("the 400 ms timeout has been exceeded or too many clicks");
-                } else {
-//                    if (startButtonCounter2 > 0)
-//                        if ((startButtonCounter2 % 3) == 0)
-//                        {
-////                                            console.log("I THINK WE SHOULD START THE LIGHTER (LOGO)");
-////                                            console.log(startButtonCounter2);
-//                        }
                 }
+//                else {
+////                    if (startButtonCounter2 > 0)
+////                        if ((startButtonCounter2 % 3) == 0)
+////                        {
+//////                                            console.log("I THINK WE SHOULD START THE LIGHTER (LOGO)");
+//////                                            console.log(startButtonCounter2);
+////                        }
+//                }
             }, 400);
         }
         if (startButtonCounter % 3 == 2) {
@@ -315,6 +340,9 @@ function resetButtonPositions() {
     startButton.position.x = 0;
     buttonSmall1.position.x = 0;
     buttonSmall2.position.x = 0;
+    startButtonPushed = false;
+    clearTimeout(playSmoke);
+    clearTimeout(removeSmoke);
 }
 
 function render(dt) {

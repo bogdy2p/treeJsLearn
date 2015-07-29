@@ -7,6 +7,14 @@ var selectList;
 var scalesList;
 
 
+//SMOKE PART
+var playSmoke = null;
+var removeSmoke = null;
+var smoking = false;
+
+//END SMOKE PART
+
+
 var all_obj_models_loaded = false;
 var sceneNumber = 0;
 var loadProgress = 0;

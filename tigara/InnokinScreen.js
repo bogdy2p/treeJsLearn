@@ -72,8 +72,6 @@ function displayStartInformation() {
 function displayDisruptor() {
     generalStartScreen();
     drawAllFourOnTexture(screenDynamicTexture);
-
-
 //    generalClearScreen(5000);
 }
 
@@ -97,30 +95,7 @@ function refreshDisruptorInformations() {
 
 
 function drawAllFourOnTexture(screenDynamicTexture) {
-
-
-    // SHOULD FINISH UP THE VARIABLES FOR A WELL DISPLAY
-
-    if (device_variables.volt < 10) {
-        volt_ammount_display = '0' + device_variables.volt;
-    } else {
-        volt_ammount_display = device_variables.volt;
-    }
-
-
-    if (device_variables.watt % 1 == 0.5) {
-        watt_ammount_display = device_variables.watt;
-        if (device_variables.watt < 10) {
-            watt_ammount_display = ' ' + watt_ammount_display;
-        }
-    } else {
-        watt_ammount_display = device_variables.watt + '.0';
-        if (device_variables.watt < 10) {
-            watt_ammount_display = ' ' + watt_ammount_display;
-        }
-    }
-
-
+    fineTuneVariablesDisplay();
     //Draw OHMZ
     screenDynamicTexture.drawText(device_variables.ohmz + '\u03A9', 10, 90, '#FDFDFD', (0.2 * 256) + "px DisrupterLCDFont");
     //Draw Volts
@@ -132,5 +107,23 @@ function drawAllFourOnTexture(screenDynamicTexture) {
     screenDynamicTexture.drawText('w', 289, 130, '#FDFDFD', (0.3 * 256) + "px DisrupterLCDFont");
     //Draw Battery
     screenDynamicTexture.drawText('\uE000', 345, 120, '#FFFFFF', (0.3 * 256) + "px DisrupterLCDFont");
+}
 
+function fineTuneVariablesDisplay() {
+    if (device_variables.volt < 10) {
+        volt_ammount_display = '0' + device_variables.volt;
+    } else {
+        volt_ammount_display = device_variables.volt;
+    }
+    if (device_variables.watt % 1 == 0.5) {
+        watt_ammount_display = device_variables.watt;
+        if (device_variables.watt < 10) {
+            watt_ammount_display = ' ' + watt_ammount_display;
+        }
+    } else {
+        watt_ammount_display = device_variables.watt + '.0';
+        if (device_variables.watt < 10) {
+            watt_ammount_display = ' ' + watt_ammount_display;
+        }
+    }
 }
