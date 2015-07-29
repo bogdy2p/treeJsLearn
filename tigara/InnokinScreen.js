@@ -49,35 +49,11 @@ function generalClearScreen(timeout) {
 
 function startDisruptorWithLogo() {
     generalStartScreen();
-     screenDynamicTexture.drawTextCooked(
-            {
-                align: 'left',
-                text: '\uE001',
-                lineHeight: 0.58,
-                margin: 0.05,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.6 * 190) + "px DisrupterLCDFont"
-            }
-    );
-    screenDynamicTexture.drawTextCooked(
-            {
-                align: 'center',
-                text: '      innokin',
-                lineHeight: 0.35,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.18 * 190) + "px DisrupterLCDFont"
-            }
-    );
-    screenDynamicTexture.drawTextCooked(
-            {
-                text: '                            technology',
-                align: 'center',
-                lineHeight: 0.3,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.18 * 190) + "px DisrupterLCDFont",
-                family: "DisrupterLCDFont"
-            }
-    );
+
+    screenDynamicTexture.drawText('\uE001', 25, 130, '#FDFDFD', (0.6 * 190) + "px DisrupterLCDFont");
+    screenDynamicTexture.drawText('innokin', 170, 90, '#FDFDFD', (0.2 * 190) + "px DisrupterLCDFont");
+    screenDynamicTexture.drawText('technology', 145, 130, '#FDFDFD', (0.2 * 190) + "px DisrupterLCDFont");
+
     setTimeout(function () {
         screenDynamicTexture.clear('#667788');
         displayDisruptor();
@@ -88,67 +64,17 @@ function startDisruptorWithLogo() {
 
 function displayStartInformation() {
     generalStartScreen();
-    screenDynamicTexture.drawTextCooked(
-            {
-                text: "     OFF",
-                lineHeight: 0.35,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.2 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    screenDynamicTexture.drawTextCooked(
-            {
-                text: "              click 3x on",
-                lineHeight: 0.33,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.2 * 256) + "px DisrupterLCDFont"
-            });
-
-
+    screenDynamicTexture.drawText('OFF', 150, 90, '#FDFDFD', (0.2 * 256) + "px DisrupterLCDFont");
+    screenDynamicTexture.drawText('click 3x on', 45, 145, '#FDFDFD', (0.2 * 256) + "px DisrupterLCDFont");
     generalTurnOffScreen(1500);
 }
 
 
 function displayDisruptor() {
     generalStartScreen();
-    screenDynamicTexture.drawTextCooked(
-            {
-                margin: 0.05,
-                text: device_variables.ohmz + ohmLetter,
-                lineHeight: 0.35,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.20 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    //VOLTAGE INFORMATION
-    screenDynamicTexture.drawTextCooked(
-            {
-                margin: 0.05,
-                top: 0.5,
-                text: '                     ' + device_variables.volt + 'V',
-                lineHeight: 0.35,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.20 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    //WATTAGE INFORMATION
-    screenDynamicTexture.drawTextCooked(
-            {
-                text: '      ' + device_variables.watt + 'W',
-                lineHeight: 0.5,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.3 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    //BATTERY INFORMATION
-    screenDynamicTexture.drawTextCooked(
-            {
-                text: '                          B',
-                lineHeight: 0.25,
-                fillStyle: '#00FDFD',
-                font: "" + (0.2 * 256) + "px DisrupterLCDFont"
-            }
-    );
+    drawAllFourOnTexture(screenDynamicTexture);
+
+
 //    generalClearScreen(5000);
 }
 
@@ -160,48 +86,52 @@ function refreshDisruptorInformations() {
     newScreenDynamicTexture.texture.anisotropy = renderer.getMaxAnisotropy();
     newScreenDynamicTexture.texture.needsUpdate = true;
     newScreenDynamicTexture.clear('#667788');
-    //OHM INFORMATION
-    newScreenDynamicTexture.drawTextCooked(
-            {
-                margin: 0.05,
-                text: device_variables.ohmz + ohmLetter,
-                lineHeight: 0.35,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.20 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    //VOLTAGE INFORMATION
-    newScreenDynamicTexture.drawTextCooked(
-            {
-                margin: 0.05,
-                top: 0.5,
-                text: '                          ' + device_variables.volt + 'V',
-                lineHeight: 0.35,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.20 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    //WATTAGE INFORMATION
-    newScreenDynamicTexture.drawTextCooked(
-            {
-                text: '      ' + device_variables.watt + 'W',
-                lineHeight: 0.5,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.3 * 256) + "px DisrupterLCDFont"
-            }
-    );
-    //BATTERY INFORMATION
-    newScreenDynamicTexture.drawTextCooked(
-            {
-                text: '                                            B',
-                lineHeight: 0.25,
-                fillStyle: '#00FDFD',
-                font: "bold " + (0.2 * 256) + "px DisrupterLCDFont"
-            }
-    );
+    drawAllFourOnTexture(newScreenDynamicTexture);
     var newPlaneMaterial = new THREE.MeshBasicMaterial({
         map: newScreenDynamicTexture.texture
     });
     existingSmallScreen.material = newPlaneMaterial;
     existingLargeScreen.material = newPlaneMaterial;
+}
+
+
+
+
+function drawAllFourOnTexture(screenDynamicTexture) {
+
+
+    // SHOULD FINISH UP THE VARIABLES FOR A WELL DISPLAY
+
+    if (device_variables.volt < 10) {
+        volt_ammount_display = '0' + device_variables.volt;
+    } else {
+        volt_ammount_display = device_variables.volt;
+    }
+
+
+    if (device_variables.watt % 1 == 0.5) {
+        watt_ammount_display = device_variables.watt;
+        if (device_variables.watt < 10) {
+            watt_ammount_display = ' ' + watt_ammount_display;
+        }
+    } else {
+        watt_ammount_display = device_variables.watt + '.0';
+        if (device_variables.watt < 10) {
+            watt_ammount_display = ' ' + watt_ammount_display;
+        }
+    }
+
+
+    //Draw OHMZ
+    screenDynamicTexture.drawText(device_variables.ohmz + '\u03A9', 10, 90, '#FDFDFD', (0.2 * 256) + "px DisrupterLCDFont");
+    //Draw Volts
+    screenDynamicTexture.drawText(volt_ammount_display + 'v', 10, 150, '#FDFDFD', (0.2 * 256) + "px DisrupterLCDFont");
+
+    // Draw WATTAGE AMMOUNT INFORMATION
+    screenDynamicTexture.drawText(watt_ammount_display, 150, 130, '#FDFDFD', (0.3 * 256) + "px DisrupterLCDFont");
+    // Draw WATTAGE LOGO Information
+    screenDynamicTexture.drawText('w', 289, 130, '#FDFDFD', (0.3 * 256) + "px DisrupterLCDFont");
+    //Draw Battery
+    screenDynamicTexture.drawText('\uE000', 345, 120, '#FFFFFF', (0.3 * 256) + "px DisrupterLCDFont");
+
 }
