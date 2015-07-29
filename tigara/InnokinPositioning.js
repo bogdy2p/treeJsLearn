@@ -104,7 +104,7 @@ function setCameraPositionScene4() {
 
 function setDebugCameraProperties() {
     if (debug_mode_on) {
-        zoomoutAmmount = 4;
+        
         controls.noRotate = false;
         controls.maxDistance = 10000;
         controls.minDistance = 1;
@@ -112,8 +112,8 @@ function setDebugCameraProperties() {
         controls.noPan = false;
         controls.minPolarAngle = -0.8;
         controls.maxPolarAngle = 8;
-        camera.position.x = camera.position.x * zoomoutAmmount;
-        camera.position.y = camera.position.y * zoomoutAmmount;
-        camera.position.z = camera.position.z * zoomoutAmmount;
+        camera.position.x = camera.position.x * debugZoomoutAmmount;
+        camera.position.y = camera.position.y * debugZoomoutAmmount;
+        camera.position.z = camera.position.z * debugZoomoutAmmount;
     }
 }

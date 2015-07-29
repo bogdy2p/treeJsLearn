@@ -47,47 +47,41 @@ function generalClearScreen(timeout) {
 }
 
 
-function paintScreenTexture() {
-    screenDynamicTexture.drawTextCooked(
-            {
-                text: '                                      TECHNOLOGY',
-                align: 'center',
-                lineHeight: 0.3,
-                fillStyle: '#FDFDFD',
-                font: "" + (0.2 * 190) + "px DisrupterLCDFont",
-                family: "DisrupterLCDFont"
-            }
-    );
-    setTimeout(function () {
-        screenDynamicTexture.clear('#667788');
-    }, 1000);
-}
-
 function startDisruptorWithLogo() {
     generalStartScreen();
-    screenDynamicTexture.drawTextCooked(
+     screenDynamicTexture.drawTextCooked(
             {
-                align: 'center',
-                text: '          INNOKIN',
-                lineHeight: 0.35,
+                align: 'left',
+                text: '\uE001',
+                lineHeight: 0.58,
+                margin: 0.05,
                 fillStyle: '#FDFDFD',
-                font: "" + (0.2 * 190) + "px DisrupterLCDFont"
+                font: "" + (0.6 * 190) + "px DisrupterLCDFont"
             }
     );
     screenDynamicTexture.drawTextCooked(
             {
-                text: '                                      TECHNOLOGY',
+                align: 'center',
+                text: '      innokin',
+                lineHeight: 0.35,
+                fillStyle: '#FDFDFD',
+                font: "" + (0.18 * 190) + "px DisrupterLCDFont"
+            }
+    );
+    screenDynamicTexture.drawTextCooked(
+            {
+                text: '                            technology',
                 align: 'center',
                 lineHeight: 0.3,
                 fillStyle: '#FDFDFD',
-                font: "" + (0.2 * 190) + "px DisrupterLCDFont",
+                font: "" + (0.18 * 190) + "px DisrupterLCDFont",
                 family: "DisrupterLCDFont"
             }
     );
     setTimeout(function () {
         screenDynamicTexture.clear('#667788');
         displayDisruptor();
-    }, 2100);
+    }, 1500);
 
 }
 
@@ -96,7 +90,7 @@ function displayStartInformation() {
     generalStartScreen();
     screenDynamicTexture.drawTextCooked(
             {
-                text: "  OFF",
+                text: "     OFF",
                 lineHeight: 0.35,
                 fillStyle: '#FDFDFD',
                 font: "" + (0.2 * 256) + "px DisrupterLCDFont"
@@ -104,8 +98,8 @@ function displayStartInformation() {
     );
     screenDynamicTexture.drawTextCooked(
             {
-                text: "              Click 3x ON",
-                lineHeight: 0.35,
+                text: "              click 3x on",
+                lineHeight: 0.33,
                 fillStyle: '#FDFDFD',
                 font: "" + (0.2 * 256) + "px DisrupterLCDFont"
             });
@@ -131,7 +125,7 @@ function displayDisruptor() {
             {
                 margin: 0.05,
                 top: 0.5,
-                text: '                          ' + device_variables.volt + 'V',
+                text: '                     ' + device_variables.volt + 'V',
                 lineHeight: 0.35,
                 fillStyle: '#FDFDFD',
                 font: "" + (0.20 * 256) + "px DisrupterLCDFont"
