@@ -61,23 +61,48 @@ function staticizeLargeScreenCanvas() {
 
 function setCameraPositionScene1() {
     controls.noRotate = true;
+    controls.minDistance = 80;
+    controls.maxDistance = 100;
     camera.position.x = -60.1852;
     camera.position.y = 28.989;
     camera.position.z = 44.015;
     camera.rotation.x = -0.582393;
     camera.rotation.y = -0.85157;
     camera.rotation.z = -0.46001;
-//    camera.position.x = 0;
-//    camera.position.y = 54.0302;
-//    camera.position.z = 84.147;
-//    camera.rotation.x = -0.5708;
-//    camera.rotation.y = 0.0;
-//    camera.rotation.z = 0.0;
-//     camera.rotation.y = 0.0012516;
-//    camera.rotation.z = 0.0008;
+    setDebugCameraProperties();
+
 }
 
 function setCameraPositionScene2() {
+    controls.noRotate = false;
+    controls.minDistance = 100;
+    controls.maxDistance = 140;
+    camera.position.x = -120;
+    camera.position.y = 80;
+    camera.position.z = 20;
+    camera.rotation.x = -1.32581;
+    camera.rotation.y = -0.96872;
+    camera.rotation.z = -1.27628;
+    setDebugCameraProperties();
+}
+
+function setCameraPositionScene3() {
+
+    controls.noRotate = true;
+    camera.position.x = 0;
+    camera.position.y = 54.0302;
+    camera.position.z = 84.147;
+    camera.rotation.x = -0.5708;
+    camera.rotation.y = 0.0012516;
+    camera.rotation.z = 0.0008;
+    controls.minDistance = 100;
+    controls.maxDistance = 180;
+    controls.minPolarAngle = 1;
+    controls.maxPolarAngle = 1;
+    setDebugCameraProperties();
+}
+
+function setCameraPositionScene4() {
     controls.noRotate = false;
     camera.position.x = -120;
     camera.position.y = 80;
@@ -85,36 +110,24 @@ function setCameraPositionScene2() {
     camera.rotation.x = -1.32581;
     camera.rotation.y = -0.96872;
     camera.rotation.z = -1.27628;
-}
-
-function setCameraPositionScene3() {
-    camera.position.x = 0;
-    camera.position.y = 54.0302;
-    camera.position.z = 84.147;
-    camera.rotation.x = -0.5708;
-    camera.rotation.y = 0.0012516;
-    camera.rotation.z = 0.0008;
-//    camera.position.x = -60.1852;
-//    camera.position.y = 28.989;
-//    camera.position.z = 44.015;
-//    camera.rotation.x = -0.582393;
-//    camera.rotation.y = -0.85157;
-//    camera.rotation.z = -0.46001;
-    controls.minDistance = 100;
-    controls.maxDistance = 180;
-    controls.noRotate = true;
-    controls.minPolarAngle = 1;
-    controls.maxPolarAngle = 1;
-}
-
-function setCameraPositionScene4() {
-    camera.position.x = -120;
-    camera.position.y = 80;
-    camera.position.z = 20;
-    camera.rotation.x = -1.32581;
-    camera.rotation.y = -0.96872;
-    camera.rotation.z = -1.27628;
-    controls.minPolarAngle = 0.8;
+    controls.minPolarAngle = 0.7;
     controls.maxPolarAngle = 1.8;
-    controls.maxDistance = 180;
+    controls.maxDistance = 160;
+    setDebugCameraProperties();
+}
+
+function setDebugCameraProperties() {
+    if (debug_mode_on) {
+        zoomoutAmmount = 4;
+        controls.noRotate = false;
+        controls.maxDistance = 10000;
+        controls.minDistance = 1;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.minPolarAngle = -0.8;
+        controls.maxPolarAngle = 8;
+        camera.position.x = camera.position.x * zoomoutAmmount;
+        camera.position.y = camera.position.y * zoomoutAmmount;
+        camera.position.z = camera.position.z * zoomoutAmmount;
+    }
 }

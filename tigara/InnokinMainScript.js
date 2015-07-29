@@ -197,11 +197,15 @@ function onDocumentMouseDown(event) {
                     var old_choice_object = null;
                     if (disruptor_chosen == null) {
                         disruptor_chosen = clickedObject.name;
-                        clickedObject.position.y += 30;
-                        clickedObject.position.z += 30;
+                        clickedObject.position.y += 10;
+//                        clickedObject.position.z += 30;
+//                        clickedObject.position.x += 15;
+//                        clickedObject.position.z += 15;
+//                        camera.lookAt(clickedObject);
                     } else {
                         var old_choice_name = disruptor_chosen;
                         if (clickedObject.name == disruptor_chosen) {
+
                             theName = disruptor_chosen + "shell_mecanism_tigara";
                             var whatActuallyClicked = scene.getObjectByName(disruptor_chosen + "shell_mecanism_tigara");
                             var chosenMaterial = whatActuallyClicked.children[0].material;
@@ -210,18 +214,19 @@ function onDocumentMouseDown(event) {
                             colorizeMechanism({color: temp_disruptor_color, shininess: 30, specular: temp_disruptor_specular, metal: true, side: THREE.DoubleSide});
                             removeScene1(1000);
                         } else {
+//                            camera.lookAt(clickedObject);
                             old_choice_object = scene.getObjectByName(old_choice_name);
                             disruptor_chosen = clickedObject.name;
-                            old_choice_object.position.y -= 30;
-                            clickedObject.position.y += 30;
+                            old_choice_object.position.y -= 10;
+                            clickedObject.position.y += 10;
                         }
                     }
                     break;
                 case "filterChoicesGroup":
                     console.log("FILTERCLICK CAUGHT");
-                    
+
                     var zAmount = 20;
-                    
+
                     var clickedObject = Object.object.parent.parent;
                     var old_choice_object = null;
                     if (filter_chosen == null) {
@@ -1269,9 +1274,9 @@ function loadDisruptorChoices() {
         //Create a new clone Group
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_disruptor_' + i;
-        newGroup.position.x = disruptor_positions_three_only[i].x;
-        newGroup.position.y = disruptor_positions_three_only[i].y + 750;
-        newGroup.position.z = disruptor_positions_three_only[i].z;
+        newGroup.position.x = disruptor_clone_positions[i].x;
+        newGroup.position.y = disruptor_clone_positions[i].y + 750;
+        newGroup.position.z = disruptor_clone_positions[i].z;
 
         for (k = 0; k < mecanism_only.length; k++) {
             var newObject = scene.getObjectByName(mecanism_only[k]).clone();
@@ -1302,9 +1307,9 @@ function loadFilterChoices() {
         console.log("Should create a box / some text over-the filters to display what ammount they have " + i);
         var newGroup = new THREE.Group();
         newGroup.name = 'group_clona_filtru_' + i;
-        newGroup.position.x = disruptor_positions_three_only[i].x;
-        newGroup.position.y = disruptor_positions_three_only[i].y + 750;
-        newGroup.position.z = disruptor_positions_three_only[i].z;
+        newGroup.position.x = disruptor_clone_positions[i].x;
+        newGroup.position.y = disruptor_clone_positions[i].y + 750;
+        newGroup.position.z = disruptor_clone_positions[i].z;
 
         for (k = 0; k < filtru_only.length; k++) {
             var newObject = scene.getObjectByName(filtru_only[k]).clone();

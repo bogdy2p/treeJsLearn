@@ -49,7 +49,7 @@ function addOrbitControlsToScene() {
 }
 
 function addPerspectiveCameraToScene() {
-    camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 600);
+    camera = new THREE.PerspectiveCamera(50, ASPECT_RATIO, 1, 250);
     camera.position.x = -140;
     camera.position.y = 70;
     camera.position.z = 85;

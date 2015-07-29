@@ -143,7 +143,7 @@ function flyOutWheel(objectName, current, time) {
 
 function flyOutFilter(objectName, current, time) {
     var top = current;
-
+    top.y = current.y - 150;
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
         var update = function () {
@@ -151,10 +151,10 @@ function flyOutFilter(objectName, current, time) {
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
         }
-        var easing = TWEEN.Easing.Elastic.EaseIn;
+        var easing = TWEEN.Easing.Quartic.EaseOut;
         // build the tween lift the battery from the support
         tweenBatteryDown = new TWEEN.Tween(top)
-                .to({y: +250}, time)
+                .to({y: +150}, time)
 //                .delay(50)
                 .easing(easing)
                 .onUpdate(update);
@@ -280,13 +280,13 @@ function animateBatteriesFlyOuts() {
 
 function animateDisruptorFlyIns() {
     for (i = 0; i < 3; i++) {
-        flyInDisruptorClone('group_clona_disruptor_' + i, disruptor_positions_three_only[i], 200 + 500 * i, -30);
+        flyInDisruptorClone('group_clona_disruptor_' + i, disruptor_clone_positions[i], 200 + 500 * i, -30);
     }
 }
 
 function animateDisruptorFlyOuts() {
     for (i = 0; i < 3; i++) {
-        flyOutPart('group_clona_disruptor_' + (3 - (i + 1)), disruptor_positions_three_only[(3 - (i + 1))], 200 + 500 * i);
+        flyOutPart('group_clona_disruptor_' + (3 - (i + 1)), disruptor_clone_positions[(3 - (i + 1))], 200 + 500 * i);
     }
 }
 
@@ -299,5 +299,5 @@ function animateFiltersFlyIn() {
 
 function animateFiltersFlyOut() {
     flyOutFilter('group_clona_filtru_0', {x: -10, y: 0, z: -15}, 1500);
-    flyOutFilter('group_clona_filtru_1', {x: 33, y: 0, z: 15}, 1500);
+    flyOutFilter('group_clona_filtru_1', {x: 33, y: 0, z: -15}, 1500);
 }
