@@ -133,30 +133,10 @@ function onDocumentMouseDown(event) {
     if (intersectedObjects.length > 0) {
 
         var Object = intersectedObjects[0];
+        
         if (Object.object.parent.name) {
-            switch (Object.object.parent.name) {
-                case 'buton_mare':
-                    console.log("You clicked START");
-                    startButtonClick();
-                    break;
-                case 'buton_mic_1':
-                    console.log("You pressed the +");
-                    plusButtonClick();
-                    break;
-                case 'buton_mic_2':
-                    console.log("You pressed the -");
-                    minusButtonClick();
-                    break;
-                case 13:
-                    console.log("Why did you click the screen ?");
-                    break;
-                case 14:
-                    console.log("Why click the Filter ?");
-                    break;
-                default:
-//                                console.log("UNKNOWN CLICK. ID OR NAME NOT RECOGNIZED");
-                    break;
-            }
+            buttonClicksLogic(Object.object.parent.name);
+
         }
 
 
@@ -165,97 +145,9 @@ function onDocumentMouseDown(event) {
         //
 
         if (Object.object.parent.parent.parent.name) {
-            switch (Object.object.parent.parent.parent.name) {
-                case "batteryChoicesGroup":
-                    var clickedObject = Object.object.parent.parent;
-                    var old_choice_object = null;
-                    if (battery_chosen == null) {
-                        battery_chosen = clickedObject.name;
-                        clickedObject.position.y += 30;
-                    } else {
-                        var old_choice_name = battery_chosen;
-                        if (clickedObject.name == battery_chosen) {
-                            theName = battery_chosen + "invelis_baterie";
-                            var batteryIntendedToBeClicked = scene.getObjectByName(battery_chosen + "invelis_baterie");
-                            var batteryChosenMaterial = batteryIntendedToBeClicked.children[0].material;
-                            temp_battery_color = batteryChosenMaterial.color.getHex();
-                            temp_battery_specular = batteryChosenMaterial.specular.getHex();
-                            colorizeBattery({color: temp_battery_color, shininess: 30, specular: temp_battery_specular, metal: true, side: THREE.DoubleSide});
-                            removeScene2();
 
-                        } else {
-                            old_choice_object = scene.getObjectByName(old_choice_name);
-                            battery_chosen = clickedObject.name;
-                            old_choice_object.position.y -= 30;
-                            clickedObject.position.y += 30;
-                        }
-                    }
-                    break;
+            cloneChoicesGroupLogic(Object);
 
-                case "disruptorChoicesGroup":
-                    var clickedObject = Object.object.parent.parent;
-                    var old_choice_object = null;
-                    if (disruptor_chosen == null) {
-                        disruptor_chosen = clickedObject.name;
-                        clickedObject.position.y += 10;
-//                        clickedObject.position.z += 30;
-//                        clickedObject.position.x += 15;
-//                        clickedObject.position.z += 15;
-//                        camera.lookAt(clickedObject);
-                    } else {
-                        var old_choice_name = disruptor_chosen;
-                        if (clickedObject.name == disruptor_chosen) {
-
-                            theName = disruptor_chosen + "shell_mecanism_tigara";
-                            var whatActuallyClicked = scene.getObjectByName(disruptor_chosen + "shell_mecanism_tigara");
-                            var chosenMaterial = whatActuallyClicked.children[0].material;
-                            temp_disruptor_color = chosenMaterial.color.getHex();
-                            temp_disruptor_specular = chosenMaterial.specular.getHex();
-                            colorizeMechanism({color: temp_disruptor_color, shininess: 30, specular: temp_disruptor_specular, metal: true, side: THREE.DoubleSide});
-                            removeScene1(1000);
-                        } else {
-//                            camera.lookAt(clickedObject);
-                            old_choice_object = scene.getObjectByName(old_choice_name);
-                            disruptor_chosen = clickedObject.name;
-                            old_choice_object.position.y -= 10;
-                            clickedObject.position.y += 10;
-                        }
-                    }
-                    break;
-                case "filterChoicesGroup":
-                    console.log("FILTERCLICK CAUGHT");
-
-                    var zAmount = 20;
-
-                    var clickedObject = Object.object.parent.parent;
-                    var old_choice_object = null;
-                    if (filter_chosen == null) {
-                        filter_chosen = clickedObject.name;
-                        clickedObject.position.z += zAmount;
-                        clickedObject.position.y += zAmount;
-                    } else {
-                        var old_choice_name = filter_chosen;
-                        if (clickedObject.name == filter_chosen) {
-                            console.log("Second Click On Chosen Filter !!!");
-//                            var chosenMaterial = clickedObject.children[0].material;
-//                            temp_material = Object.object.material.color;
-//                            temp_color = Object.object.material.color.getHex();
-//                            temp_specular = Object.object.material.specular.getHex();
-//                            colorizeMechanism({color: temp_color, shininess: 30, specular: temp_specular, metal: true, side: THREE.DoubleSide});
-                            removeScene3();
-//                            playScene4();
-
-                        } else {
-                            old_choice_object = scene.getObjectByName(old_choice_name);
-                            filter_chosen = clickedObject.name;
-                            old_choice_object.position.z -= zAmount;
-                            old_choice_object.position.y -= zAmount;
-                            clickedObject.position.y += zAmount;
-                            clickedObject.position.z += zAmount;
-                        }
-                    }
-                    break;
-            }
         }
     }
 
@@ -881,45 +773,7 @@ function load3DOBJmodelsWithDefaultMaterials() {
     }
 }
 
-//
-//function loadObjWithoutMaterials() {
-//    var manager = new THREE.LoadingManager();
-//    var objLoader = new THREE.OBJLoader(manager);
-//    manager.onProgress = function (item, loaded, total) {
-//        loadProgress = loaded / total * 100;
-//    }
-//    loadObjectsAndAssignMaterials(roata_only, 'groupRoata');
-//    loadObjectsAndAssignMaterials(baterie_only, 'groupBaterie');
-//    loadObjectsAndAssignMaterials(filtru_only, 'groupFiltru');
-//    loadObjectsAndAssignMaterials(mecanism_only, 'groupMecanism');
-//
-//    function loadObjectsAndAssignMaterials(array, groupName) {
-//        var group = scene.getObjectByName(groupName);
-//        array.forEach(function (name) {
-//            objLoader.load('js/daes/OBJ/' + name + '.obj', function (object) {
-//                object.traverse(function (child) {
-//                    if (child instanceof THREE.Mesh) {
-//                        child.material.map = texture;
-//                    }
-//                });
-//                object.name = name;
-//                object.scale.x = 0.5;
-//                object.scale.y = 0.5;
-//                object.scale.z = 0.5;
-//                group.position.y = -600;
-//                group.add(object);
-//                if (!debug_mode_on) {
-//                    console.clear();
-//                }
-//            }, onProgress, onError);
-//        });
-//    }
-//}
-
-
 function basicColorizeOBJ() {
-
-//    bringDeviceToCenterScreen(groups_array);
     colorizeConnectors(defaultMaterials.defaultConnectorMaterial);
     colorizeBatteryInside(defaultMaterials.defaultBatteryInside);
     colorizeGlass(defaultMaterials.defaultFilterGlass);

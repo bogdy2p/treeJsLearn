@@ -16,36 +16,22 @@ function resetWheelRotation() {
     }
 }
 
-
 function bringDeviceToCenterScreen(groups_array) {
     console.log("fixGroupsPositionsToCenter");
     for (i = 0; i < groups_array.length; i++) {
         console.log("Fixing group " + groups_array[i].name + " to center pos.");
         var group = scene.getObjectByName(groups_array[i].name);
         group.position.set(groups_array[i].x, groups_array[i].y, groups_array[i].z);
-
     }
 
 }
 
 function staticizeDisruptors() {
-
     disruptorsGroup = scene.getObjectByName("disruptorChoicesGroup");
     if (disruptorsGroup) {
-
         disruptorsGroup.rotation.y = 0.65;
-        for (i = 0; i < disruptorsGroup.children.length; i++) {
-//            disruptorsGroup.children[i].position.copy(camera.position);
-//            disruptorsGroup.children[i].rotation.copy(camera.rotation);
-//            disruptorsGroup.children[i].translateZ(-150);
-//            disruptorsGroup.children[i].translateY(-10);
-//            disruptorsGroup.children[i].translateX(-10 + 30 * i);
-        }
     }
-
 }
-
-
 
 function staticizeLargeScreenCanvas() {
     largeScreenShown = scene.getObjectByName('largeScreen');
@@ -76,7 +62,7 @@ function setCameraPositionScene1() {
 function setCameraPositionScene2() {
     controls.noRotate = false;
     controls.minDistance = 100;
-    controls.maxDistance = 140;
+    controls.maxDistance = 150;
     camera.position.x = -120;
     camera.position.y = 80;
     camera.position.z = 20;

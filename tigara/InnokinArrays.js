@@ -19,6 +19,18 @@ var disruptor_clone_positions = [
     {x: 32.5, y: -120, z: 34},
 ];
 
+
+var filter_clone_positions = [
+    {x: -10, y: 0, z: -15},
+    {x: 33, y: 0, z: -15},
+];
+
+var wheel_scene_positions = [
+    {x: 0, y: -46, z: 0},
+    {x: 0, y: 0, z: 0},
+];
+
+
 var groups_array = [
     {name: "groupPrincipal", x: 0, y: 0, z: 0},
     {name: "groupFiltru", x: 5.5, y: -15, z: 2},
