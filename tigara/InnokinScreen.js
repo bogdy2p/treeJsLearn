@@ -58,7 +58,6 @@ function startDisruptorWithLogo() {
         screenDynamicTexture.clear('#667788');
         displayDisruptor();
     }, 1500);
-
 }
 
 
