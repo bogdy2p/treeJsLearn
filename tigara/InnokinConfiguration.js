@@ -1,4 +1,4 @@
-var debug_mode_on = false;
+var debug_mode_on = true;
 var debugZoomoutAmmount = 1;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
@@ -35,11 +35,12 @@ var timer_running = false;
 var disruptor_started = false;
 var startButtonPushStart = null;
 var startButtonPushed = false;
+//Device variables should be 10 times the actual values
 var device_variables = {
-    ohmz: 0.48,
-    volt: 7.5,
-    watt: 30.0,
-    battery: 100,
+    ohmz: 5,
+    volt: 63,
+    watt: 450,
+    battery: 1000,
 }
 
 var ohmLetter = String.fromCharCode(0x2126);

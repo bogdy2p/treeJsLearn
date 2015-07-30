@@ -89,7 +89,7 @@ function initParticles() {
         colorEnd: new THREE.Color(0x000000),
         sizeStart: 15,
         sizeEnd: 500,
-        particleCount: device_variables.watt * 3,
+        particleCount: device_variables.watt / 10 * 3,
     });
     particleGroup.addEmitter(emitter);
     scene.add(particleGroup.mesh);
@@ -245,8 +245,8 @@ function startButtonClick() {
             startDisruptorWithLogo();
             device_status = "ON";
         }
-        console.log("ClickNUMBER");
-        console.log(startButtonCounter);
+//        console.log("ClickNUMBER");
+//        console.log(startButtonCounter);
 //                        
     }
     setTimeout(function () {
@@ -259,33 +259,29 @@ function startButtonClick() {
 }
 
 function plusButtonClick() {
-    console.log("Plusbuttonclick LOGGED");
+//    console.log("Plusbuttonclick LOGGED");
     var buttonSmall1 = scene.getObjectByName('buton_mic_1');
     buttonSmall1.position.x += 0.3;
-    console.log(device_status);
+//    console.log(device_status);
     if (device_status === "ON") {
-        console.log(device_state);
-        console.log(device_variables);
+//        console.log(device_state);
+//        console.log(device_variables);
         switch (device_state) {
-
-            case 'ohmz':
-//                console.log('ohmz');
-                device_variables.ohmz += 0.01;
-                refreshDisruptorInformations();
-                break;
             case 'volt':
-//                console.log('volt');
-                device_variables.volt += 0.1;
+                if (device_variables.volt < 74.1) {
+                    device_variables.volt += 1;
+                } else {
+                    device_variables.volt = 30;
+                }
+                device_variables.volt.toFixed(2);
                 refreshDisruptorInformations();
                 break;
             case 'watt':
-//                console.log('watt');
-                if (device_variables.watt < 49.6) {
-                    device_variables.watt += 0.5;
+                if (device_variables.watt < 496) {
+                    device_variables.watt += 5;
                 } else {
-                    device_variables.watt = 6.0;
+                    device_variables.watt = 60;
                 }
-
                 refreshDisruptorInformations();
                 clearTimeout(resetTimeout);
                 resetTimeout = setTimeout(function () {
@@ -302,33 +298,31 @@ function plusButtonClick() {
 }
 
 function minusButtonClick() {
-    console.log("Minusbutton click LOGGED");
+//    console.log("Minusbutton click LOGGED");
     var buttonSmall2 = scene.getObjectByName('buton_mic_2');
     buttonSmall2.position.x += 0.3;
-    console.log(device_status);
+//    console.log(device_status);
     if (device_status === "ON") {
-        console.log(device_state);
-        console.log(device_variables);
+//        console.log(device_state);
+//        console.log(device_variables);
         switch (device_state) {
-
-            case 'ohmz':
-                console.log('ohmz');
-                device_variables.ohmz -= 0.01;
-                refreshDisruptorInformations();
-                break;
             case 'volt':
                 console.log('volt');
-                device_variables.volt -= 0.1;
+
+                if (device_variables.volt > 31) {
+                    device_variables.volt -= 1;
+                } else {
+                    device_variables.volt = 75;
+                }
                 refreshDisruptorInformations();
                 break;
             case 'watt':
                 console.log('watt');
-                if (device_variables.watt > 6.4) {
-                    device_variables.watt -= 0.5;
+                if (device_variables.watt > 64) {
+                    device_variables.watt -= 5;
                 } else {
-                    device_variables.watt = 50.0;
+                    device_variables.watt = 500;
                 }
-//                resetParticlesWithNewInfo();
                 refreshDisruptorInformations();
                 clearTimeout(resetTimeout);
                 resetTimeout = setTimeout(function () {
