@@ -1,5 +1,5 @@
 
-    var final_position_y = -30;
+var final_position_y = -30;
 
 
 //////////////////////////////////////////////////////////////////
@@ -184,10 +184,32 @@ function rotateWheelY(objectName, direction, time, amount) {
 /////////////////////////// FILTER SPECIFIC ONLY
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+function flyInFilter(objectName, current, time, general_height) {
+    var top = current;
+    top.y += 100;
+    var ActualObject = scene.getObjectByName(objectName);
+    if (ActualObject) {
+        var update = function () {
+            ActualObject.position.y = current.y;
+            ActualObject.position.x = current.x;
+            ActualObject.position.z = current.z;
+
+        }
+        var easing = TWEEN.Easing.Linear.EaseNone;
+        tweenBatteryDown = new TWEEN.Tween(top)
+                .to({y: general_height}, time)
+                .easing(easing)
+                .onUpdate(update);
+        tweenBatteryDown.start();
+    } else {
+        console.log(objectName);
+        console.log("NO ActualObject ... Something wrong here");
+    }
+}
 
 function flyOutFilter(objectName, current, time) {
     var top = current;
-    top.y = current.y - 150;
+//    top.y = current.y - 150;
     var ActualObject = scene.getObjectByName(objectName);
     if (ActualObject) {
         var update = function () {
@@ -195,7 +217,7 @@ function flyOutFilter(objectName, current, time) {
             ActualObject.position.x = current.x;
             ActualObject.position.z = current.z;
         }
-        var easing = TWEEN.Easing.Quartic.EaseOut;
+        var easing = TWEEN.Easing.Quartic.EaseIn;
         tweenBatteryDown = new TWEEN.Tween(top)
                 .to({y: +150}, time)
                 .easing(easing)
@@ -207,17 +229,10 @@ function flyOutFilter(objectName, current, time) {
     }
 }
 
-function flyInChosenFilter() {
-    var theFilter = scene.getObjectByName('groupFiltru');
-    theFilter.position.x = 0;
-    theFilter.position.y = final_position_y;
-    theFilter.position.z = 0;
-}
-
 function animateFiltersFlyIn() {
     setCameraPositionScene3();
-    flyInPart('group_clona_filtru_0', filter_clone_positions[0], 300, -60);
-    flyInPart('group_clona_filtru_1', filter_clone_positions[1], 300, -60);
+    flyInFilter('group_clona_filtru_0', filter_clone_positions[0], 780, -70);
+    flyInFilter('group_clona_filtru_1', filter_clone_positions[1], 900, -70);
 }
 
 function animateFiltersFlyOut() {
@@ -281,12 +296,7 @@ function flyOutDisruptorClone(objectName, current, time) {
     }
 }
 
-function flyInChosenDisruptor() {
-    var theDisruptor = scene.getObjectByName('groupMecanism');
-    theDisruptor.position.x = 0;
-    theDisruptor.position.y = final_position_y;
-    theDisruptor.position.z = 0;
-}
+
 function animateDisruptorFlyIns() {
     for (i = 0; i < 3; i++) {
         flyInDisruptorClone('group_clona_disruptor_' + i, disruptor_clone_positions[i], 200 + 500 * i, -30);
@@ -306,12 +316,6 @@ function animateDisruptorFlyOuts() {
 //////////////////////////////////////////////////////////////////////////////
 
 
-function flyInChosenBattery() {
-    var theBattery = scene.getObjectByName('groupBaterie');
-    theBattery.position.x = -15;
-    theBattery.position.y = final_position_y;
-    theBattery.position.z = 0;
-}
 
 function animateBatteryChoicesGroupRotation(direction) {
     rotateObjectY('batteryChoicesGroup', direction, 2000, 4 * Math.PI / 2);
@@ -329,5 +333,149 @@ function animateBatteriesFlyOuts() {
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////// ASSEMBLY SCENE ANIMATION
+//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 
+
+function flyInChosenDisruptor(objectName, animationTime) {
+    var theDisruptor = scene.getObjectByName(objectName);
+    var fromWhere = {x: -60, y: -30, z: -60};
+    var position1 = {x: 0, y: -50, z: 0};
+    var position2 = {x: 0, y: -30, z: 0};
+    if (theDisruptor) {
+        var update = function () {
+            theDisruptor.position.y = fromWhere.y;
+            theDisruptor.position.x = fromWhere.x;
+            theDisruptor.position.z = fromWhere.z;
+        }
+        var easing = TWEEN.Easing.Quadratic.EaseIn;
+        flyDisruptorToPositionBelow = new TWEEN.Tween(fromWhere)
+                .to(position1, animationTime / 3)
+                .easing(easing)
+                .onUpdate(update);
+        flyDisruptorToPositionCorrect = new TWEEN.Tween(fromWhere)
+                .to(position2, animationTime / 8)
+                .easing(easing)
+                .onUpdate(update);
+        flyDisruptorToPositionBelow.chain(flyDisruptorToPositionCorrect);
+
+
+        flyDisruptorToPositionBelow.start();
+    } else {
+        console.log("NO DISRUPTOR FOUND IN SCENE.");
+    }
+}
+
+function flyInChosenBattery(objectName, animationTime) {
+    var theBattery = scene.getObjectByName(objectName);
+    var fromWhere = {x: 60, y: -30, z: 60};
+    var position1 = {x: -15, y: 20, z: 0};
+    var position2 = {x: -15, y: -27, z: 0};
+    var position3 = {x: -15, y: -30, z: 0};
+    if (theBattery) {
+        var update = function () {
+            theBattery.position.y = fromWhere.y;
+            theBattery.position.x = fromWhere.x;
+            theBattery.position.z = fromWhere.z;
+        }
+        var easing = TWEEN.Easing.Quadratic.EaseIn;
+        flyBatteryToPosition1 = new TWEEN.Tween(fromWhere)
+                .to(position1, animationTime / 2)
+                .easing(easing)
+                .onUpdate(update);
+        flyBatteryToPosition2 = new TWEEN.Tween(fromWhere)
+                .to(position2, animationTime / 6)
+                .easing(easing)
+                .delay(200)
+                .onUpdate(update);
+        flyBatteryToPosition3 = new TWEEN.Tween(fromWhere)
+                .to(position3, animationTime / 10)
+                .easing(easing)
+                .delay(200)
+                .onUpdate(update);
+        flyBatteryToPosition1.chain(flyBatteryToPosition2);
+        flyBatteryToPosition2.chain(flyBatteryToPosition3);
+        flyBatteryToPosition1.start();
+    } else {
+        console.log("NO BATTERY FOUND IN SCENE.");
+    }
+}
+
+function flyInChosenFilter(objectName, animationTime) {
+
+
+
+
+    var rotateToo = true;
+    var theFilter = scene.getObjectByName(objectName);
+
+
+
+    var asd =  scene.add(drawAxes(400, theFilter.position, theFilter.rotation));
+    
+    console.log(asd);
+    console.log(theFilter.position);
+    console.log(theFilter.rotation);
+    
+    var fromWhere = {x: 60, y: -30, z: 60};
+    var position1 = {x: -15, y: 20, z: 0};
+    var position2 = {x: -0, y: -27, z: 0};
+    var position3 = {x: -0, y: -30, z: 0};
+    if (rotateToo) {
+//        console.log(theFilter);
+        var rad = 1;
+        var axis = new THREE.Vector3(0, 1, 0);//tilted a bit on x and y - feel free to plug your different axis here
+        theFilter.rotateOnAxis(axis, rad);
+//        theFilter.quaternion = new THREE.Quaternion(0,0,0,0);
+        var rotation = {y: 0}
+    }
+    if (theFilter) {
+        var update = function () {
+            theFilter.position.y = fromWhere.y;
+            theFilter.position.x = fromWhere.x;
+            theFilter.position.z = fromWhere.z;
+        }
+        var easing = TWEEN.Easing.Quadratic.EaseIn;
+        flyFilterToPosition1 = new TWEEN.Tween(fromWhere)
+                .to(position1, animationTime / 2)
+                .easing(easing)
+                .delay(200)
+                .onUpdate(update);
+        flyFilterToPosition2 = new TWEEN.Tween(fromWhere)
+                .to(position2, animationTime / 6)
+                .easing(easing)
+                .delay(400)
+                .onUpdate(update);
+        flyFilterToPosition3 = new TWEEN.Tween(fromWhere)
+                .to(position3, animationTime / 10)
+                .easing(easing)
+                .delay(400)
+                .onUpdate(update);
+        if (rotateToo) {
+            rotateFilter = new TWEEN.Tween(theFilter.rotation)
+                    .to(rotation, animationTime)
+                    .easing(easing)
+                    .delay(400)
+                    .onUpdate(update);
+        }
+        flyFilterToPosition1.chain(flyFilterToPosition2);
+        flyFilterToPosition2.chain(flyFilterToPosition3);
+        if (rotateToo) {
+            flyFilterToPosition3.chain(rotateFilter);
+        }
+        flyFilterToPosition1.start();
+        
+        setTimeout(function() {
+            var asd2 =  scene.add(drawAxes(900, theFilter.position, theFilter.rotation));
+        },2000);
+        
+        
+        
+    } else {
+        console.log("NO FILTER FOUND IN SCENE.");
+    }
+}

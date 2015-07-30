@@ -10,18 +10,10 @@ function buttonClicksLogic(objectname) {
             }
             break;
         case 'buton_mic_1':
-            console.log("You pressed the +");
             plusButtonClick();
             break;
         case 'buton_mic_2':
-            console.log("You pressed the -");
             minusButtonClick();
-            break;
-        case 13:
-            console.log("Why did you click the screen ?");
-            break;
-        case 14:
-            console.log("Why click the Filter ?");
             break;
         default:
             break;

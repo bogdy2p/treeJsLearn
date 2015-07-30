@@ -37,9 +37,10 @@ function showDebugHUD() {
 function showLightingAndAxisDebug(lightingPositions) {
 
     //Add the 3-way AXIS
-    var testHelper = new THREE.AxisHelper(50);
-    scene.add(testHelper);
-
+    if (axisHelperEnabled) {
+        var testHelper = new THREE.AxisHelper(50);
+        scene.add(testHelper);
+    }
     //Collect the existing lights from the scene
     var lights = [];
     for (i = 0; i < lightingPositions.length; i++) {
@@ -51,15 +52,16 @@ function showLightingAndAxisDebug(lightingPositions) {
     //Create a white box for each of the light existing in the scene
     //Also display the  default ThreeJS lightHelpers
     var testBoxes = [];
-    var LightHelperSize = 100;
-    for (i = 0; i < lightingPositions.length; i++) {
-        testBoxes[i] = new THREE.Mesh(testBoxGeom, testBoxMat);
-        testBoxes[i].position.copy(lights[i].position);
-        scene.add(testBoxes[i]);
-        var LightHelper = new THREE.DirectionalLightHelper(lights[i], LightHelperSize);
-        scene.add(LightHelper);
+    if (lightingHelperEnabled) {
+        var LightHelperSize = 100;
+        for (i = 0; i < lightingPositions.length; i++) {
+            testBoxes[i] = new THREE.Mesh(testBoxGeom, testBoxMat);
+            testBoxes[i].position.copy(lights[i].position);
+            scene.add(testBoxes[i]);
+            var LightHelper = new THREE.DirectionalLightHelper(lights[i], LightHelperSize);
+            scene.add(LightHelper);
+        }
     }
-
 }
 
 function moveXplus(objectName) {

@@ -23,17 +23,18 @@ function playScene2() {
 
 
 function playScene3() {
-    console.log("Started Playing Scene 3");
+    console.log("Playing Scene 3");
     animateFiltersFlyIn();
 
 
 }
 
 function playScene4() {
-    console.log("CONGRATZ YOU ARE CONFIGURED");
-    flyInChosenDisruptor();
-    flyInChosenBattery();
-    flyInChosenFilter();
+    console.log("Playing Scene 4");
+    var animationTime = 2000;
+    flyInChosenDisruptor('groupMecanism', animationTime);
+    flyInChosenBattery('groupBaterie', animationTime);
+    flyInChosenFilter('groupFiltru', animationTime);
     activateTheDevice();
 
 }
@@ -361,7 +362,7 @@ function render(dt) {
             } else {
                 playScene1();
             }
-            console.log("Cleared OnDocumentMouseMove");
+//            console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
     }
@@ -464,8 +465,8 @@ function load3DOBJmodelsWithDefaultMaterials() {
                 object.scale.x = 0.5;
                 object.scale.y = 0.5;
                 object.scale.z = 0.5;
-                group.position.y = -500;
                 group.add(object);
+                group.position.y = -300;
                 object.children[0].material = defaultMaterial;
                 if (!debug_mode_on) {
                     console.clear();
@@ -896,7 +897,6 @@ function activateTheDevice() {
 
 function test() {
     console.log(scene);
-//    playScene3();
     console.log(camera.position);
     console.log(camera.rotation);
 }
@@ -907,6 +907,8 @@ function overrideStart() {
 
 
 function resetParticlesWithNewInfo() {
-    scene.remove(particleGroup.mesh);
-    initParticles();
+    if (smoking) {
+        scene.remove(particleGroup.mesh);
+        initParticles();
+    }
 }

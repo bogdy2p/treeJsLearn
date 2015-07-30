@@ -1,11 +1,12 @@
 var debug_mode_on = true;
-var debugZoomoutAmmount = 1;
+var debugZoomoutAmmount = 15;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
 var scale_to_move = 0.5;
 var selectList;
 var scalesList;
-
+var lightingHelperEnabled = false;
+var axisHelperEnabled = true;
 
 //SMOKE PART
 var playSmoke = null;
@@ -16,7 +17,6 @@ var resetTimeout = null;
 
 //END SMOKE PART
 
-
 var all_obj_models_loaded = false;
 var sceneNumber = 0;
 var loadProgress = 0;
@@ -26,7 +26,7 @@ var filter_chosen = null;
 var object_is_not_split = true;
 var innokin_centered_to_screen = false;
 var device_status = "OFF";
-var device_state = 'volt';
+var device_state = 'watt';
 var startButtonTime = null;
 var startClick1 = null;
 var startClick2 = null;
