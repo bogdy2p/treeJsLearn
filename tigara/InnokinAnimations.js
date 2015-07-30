@@ -152,7 +152,7 @@ function flyOutWheel(objectName, current, time) {
 }
 
 function animateWheelGroupRotation(direction) {
-    rotateWheelY('groupRoata', direction, 2500, 4 * Math.PI / 2);
+    rotateWheelY('groupRoata', direction, 2000, 4 * Math.PI / 2);
 
 }
 
@@ -319,7 +319,7 @@ function animateBatteryChoicesGroupRotation(direction) {
 
 function animateBatteriesFlyIns() {
     for (i = 0; i < 8; i++) {
-        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 150 + 250 * i, battery_clone_general_height);
+        flyInPart('group_clona_baterie_' + i, wheel_hole_positions[i], 150 + 200 * i, battery_clone_general_height);
     }
 }
 

@@ -19,7 +19,6 @@ function playScene2() {
         animateBatteriesFlyIns();
         animateWheelGroupRotation('left');
     }, 300);
-
 }
 
 
@@ -180,7 +179,7 @@ function startButtonClickedDeviceStarted() {
     if (!smoking) {
         playSmoke = setTimeout(function () {
             initParticles();
-        }, 2000);
+        }, ammount_of_ms_to_press);
     } else {
         removeSmoke = setTimeout(function () {
             console.log("SHOULD REMOVE PARTICLES OF SMOKE HERE");
@@ -188,7 +187,7 @@ function startButtonClickedDeviceStarted() {
 //            particleGroup = null;
 //            emitter = null;
             smoking = false;
-        }, 2000);
+        }, ammount_of_ms_to_press);
     }
 
 
@@ -270,24 +269,28 @@ function plusButtonClick() {
         switch (device_state) {
 
             case 'ohmz':
-                console.log('ohmz');
+//                console.log('ohmz');
                 device_variables.ohmz += 0.01;
                 refreshDisruptorInformations();
                 break;
             case 'volt':
-                console.log('volt');
+//                console.log('volt');
                 device_variables.volt += 0.1;
                 refreshDisruptorInformations();
                 break;
             case 'watt':
-                console.log('watt');
+//                console.log('watt');
                 if (device_variables.watt < 49.6) {
                     device_variables.watt += 0.5;
                 } else {
                     device_variables.watt = 6.0;
                 }
-                resetParticlesWithNewInfo();
+
                 refreshDisruptorInformations();
+                clearTimeout(resetTimeout);
+                resetTimeout = setTimeout(function () {
+                    resetParticlesWithNewInfo();
+                }, 500);
                 break;
         }
     }
@@ -325,14 +328,15 @@ function minusButtonClick() {
                 } else {
                     device_variables.watt = 50.0;
                 }
-                resetParticlesWithNewInfo();
+//                resetParticlesWithNewInfo();
                 refreshDisruptorInformations();
+                clearTimeout(resetTimeout);
+                resetTimeout = setTimeout(function () {
+                    resetParticlesWithNewInfo();
+                }, 500);
                 break;
         }
     }
-
-
-
 }
 
 function resetButtonPositions() {
@@ -363,7 +367,6 @@ function render(dt) {
             } else {
                 playScene1();
             }
-
             console.log("Cleared OnDocumentMouseMove");
             innokin_centered_to_screen = true;
         }
@@ -373,14 +376,8 @@ function render(dt) {
         particleGroup.tick(dt);
     }
 
-
-
-//    staticizeThreeBoxesGroup();
-//    staticizeSevenBoxes();
     staticizeDisruptors();
     staticizeLargeScreenCanvas();
-
-
 
     var newlightposition = camera.position;
     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
@@ -848,11 +845,10 @@ function loadFilterChoices() {
     filterChoicesGroup.name = "filterChoicesGroup";
     scene.add(filterChoicesGroup);
 
-    var materials = [
-        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
-        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
-//        new THREE.MeshPhongMaterial(disruptorMaterials.silver_material),
-    ];
+//    var materials = [
+//        new THREE.MeshPhongMaterial(disruptorMaterials.golden_material),
+//        new THREE.MeshPhongMaterial(disruptorMaterials.black_material),
+//    ];
 
     for (i = 0; i < 2; i++) {
         //Create a new clone Group
@@ -867,9 +863,9 @@ function loadFilterChoices() {
         for (k = 0; k < filtru_only.length; k++) {
             var newObject = scene.getObjectByName(filtru_only[k]).clone();
             newObject.name = 'group_clona_filtru_' + i + filtru_only[k];
-            if (filtru_only[k] == 'shell_mecanism_tigara') {
-                newObject.children[0].material = materials[i];
-            }
+//            if (filtru_only[k] == 'shell_mecanism_tigara') {
+//                newObject.children[0].material = materials[i];
+//            }
             newGroup.add(newObject);
         }
         filterChoicesGroup.add(newGroup);

@@ -1,4 +1,4 @@
-var debug_mode_on = true;
+var debug_mode_on = false;
 var debugZoomoutAmmount = 1;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
@@ -11,6 +11,8 @@ var scalesList;
 var playSmoke = null;
 var removeSmoke = null;
 var smoking = false;
+var ammount_of_ms_to_press = 1500;
+var resetTimeout = null;
 
 //END SMOKE PART
 
@@ -24,7 +26,7 @@ var filter_chosen = null;
 var object_is_not_split = true;
 var innokin_centered_to_screen = false;
 var device_status = "OFF";
-var device_state = 'watt';
+var device_state = 'volt';
 var startButtonTime = null;
 var startClick1 = null;
 var startClick2 = null;
