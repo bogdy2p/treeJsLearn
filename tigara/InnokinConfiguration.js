@@ -7,6 +7,7 @@ var selectList;
 var scalesList;
 var lightingHelperEnabled = false;
 var axisHelperEnabled = true;
+var overrideSceneNumber = 4;
 
 //SMOKE PART
 var playSmoke = null;

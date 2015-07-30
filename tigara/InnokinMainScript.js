@@ -906,7 +906,22 @@ function test() {
 }
 
 function overrideStart() {
-    playScene4();
+
+    switch (overrideSceneNumber) {
+        case 1:
+            playScene1();
+            break;
+        case 2:
+            playScene2();
+            break;
+        case 3:
+            playScene3();
+            break;
+        case 4:
+            playScene4();
+            break;
+    }
+    
 }
 
 
