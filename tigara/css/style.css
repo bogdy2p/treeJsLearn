@@ -13,22 +13,22 @@ body {
     margin: 0px;
     overflow: hidden;
 }
-#info {
+/*#info {
     position: absolute;
     top: 0px; width: 100%;
     padding: 5px;
-}
-
+}*/
+/*
 #debugDiv{
     position:absolute;
     top:20px;
-}
+}*/
 
-.stateButtons{
+/*.stateButtons{
     margin:0px auto;
     margin-top: 3px;
     text-align:center;
-}
+}*/
 
 a {
     color: #FF80ff;
@@ -42,11 +42,15 @@ a {
     background-color: #FF66FF;
     /*display: none;*/
 }
-#container{
-    position: absolute; left:0px; top:0px;
+#innokinContainer{
+    width: 1024px;
+    height: 768px;
+    margin: 0px auto;
+    /*position: absolute; left:0px; top:0px;*/
 }
+/*
 #hidden{
     z-index: 500;
     visibility: hidden;
     display:none;
-}
+}*/

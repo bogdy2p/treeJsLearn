@@ -89,10 +89,11 @@ function setCameraPositionScene3() {
 }
 
 function setCameraPositionScene4() {
+    multiplier = 1.3;
     controls.noRotate = false;
-    camera.position.x = -120;
-    camera.position.y = 80;
-    camera.position.z = 20;
+    camera.position.x = -120 * multiplier;
+    camera.position.y = 80 * multiplier;
+    camera.position.z = 20 * multiplier;
     camera.rotation.x = -1.32581;
     camera.rotation.y = -0.96872;
     camera.rotation.z = -1.27628;

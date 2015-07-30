@@ -2,17 +2,18 @@ if (debug_mode_on) {
     showDebugHUD();
 }
 
-
 document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 initializeEmptyScene();
 
 function playScene1() {
+    setCameraPositionScene1();
     console.log("Playing Scene 1");
     animateDisruptorFlyIns();
 }
 
 function playScene2() {
+    setCameraPositionScene2();
     console.log("Playing Scene 2");
     animateWheelFlyIn();
     setTimeout(function () {
@@ -23,6 +24,7 @@ function playScene2() {
 
 
 function playScene3() {
+    setCameraPositionScene3();
     console.log("Playing Scene 3");
     animateFiltersFlyIn();
 
@@ -30,6 +32,7 @@ function playScene3() {
 }
 
 function playScene4() {
+    setCameraPositionScene4();
     console.log("Playing Scene 4");
     var animationTime = 2000;
     flyInChosenDisruptor('groupMecanism', animationTime);
@@ -41,12 +44,13 @@ function playScene4() {
 
 animate();
 function initializeEmptyScene() {
-    container = document.getElementById('container');
+    container = document.getElementById('innokinContainer');
     scene = new THREE.Scene();
     raycaster = new THREE.Raycaster();
     clock = new THREE.Clock();
-    SCREEN_WIDTH = window.innerWidth;
-    SCREEN_HEIGHT = window.innerHeight;
+
+    SCREEN_WIDTH = container.clientWidth;
+    SCREEN_HEIGHT = container.clientHeight;
     ASPECT_RATIO = SCREEN_WIDTH / SCREEN_HEIGHT;
 
     addPerspectiveCameraToScene();
@@ -56,9 +60,9 @@ function initializeEmptyScene() {
     setUpGroups(groups_array);
     load3DOBJmodelsWithDefaultMaterials();
     renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setClearColor(0x559955, 1);
+    renderer.setClearColor(0x559955, 5);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.gammaInput = true;
     renderer.gammaOutput = true;
     container.appendChild(renderer.domElement);
@@ -100,11 +104,11 @@ function initParticles() {
 
 
 function onWindowResize() {
-    windowHalfX = window.innerWidth / 2;
-    windowHalfY = window.innerHeight / 2;
-    camera.aspect = window.innerWidth / window.innerHeight;
+    windowHalfX = container.clientWidth / 2;
+    windowHalfY = container.clientHeight / 2;
+    camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
 function animate() {
@@ -132,6 +136,7 @@ function onDocumentMouseDown(event) {
     mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
     raycaster.setFromCamera(mouseVector, camera);
     var intersectedObjects = raycaster.intersectObjects(scene.children, true);
+    console.log(intersectedObjects);
     if (intersectedObjects.length > 0) {
 
         var Object = intersectedObjects[0];
@@ -376,7 +381,7 @@ function render(dt) {
 
     var newlightposition = camera.position;
     pointLight.position.set(camera.position.x, camera.position.y, camera.position.z);
-    var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+    var SCREEN_WIDTH = container.clientWidth, SCREEN_HEIGHT = container.clientHeight;
     camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
     camera.updateProjectionMatrix();
     // setViewport parameters:
@@ -502,8 +507,8 @@ function removeScene3() {
         animateFiltersFlyOut();
     }
     setTimeout(function () {
+
         playScene4();
-        setCameraPositionScene4();
     }, 1500);
 }
 
@@ -526,7 +531,6 @@ function removeScene2() {
 function removeScene1(timeout) {
     animateDisruptorFlyOuts();
     setTimeout(function () {
-        setCameraPositionScene2();
         playScene2();
     }, timeout);
 }

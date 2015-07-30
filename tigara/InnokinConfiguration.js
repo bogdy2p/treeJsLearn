@@ -1,5 +1,5 @@
 var debug_mode_on = true;
-var debugZoomoutAmmount = 15;
+var debugZoomoutAmmount = 1;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
 var scale_to_move = 0.5;

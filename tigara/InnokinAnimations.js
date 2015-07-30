@@ -372,7 +372,7 @@ function flyInChosenDisruptor(objectName, animationTime) {
 
 function flyInChosenBattery(objectName, animationTime) {
     var theBattery = scene.getObjectByName(objectName);
-    var fromWhere = {x: 60, y: -30, z: 60};
+    var fromWhere = {x: 80, y: 70, z: 80};
     var position1 = {x: -15, y: 20, z: 0};
     var position2 = {x: -15, y: -27, z: 0};
     var position3 = {x: -15, y: -30, z: 0};
@@ -413,26 +413,12 @@ function flyInChosenFilter(objectName, animationTime) {
     var rotateToo = true;
     var theFilter = scene.getObjectByName(objectName);
 
-
-
-    var asd =  scene.add(drawAxes(400, theFilter.position, theFilter.rotation));
-    
-    console.log(asd);
-    console.log(theFilter.position);
-    console.log(theFilter.rotation);
-    
     var fromWhere = {x: 60, y: -30, z: 60};
-    var position1 = {x: -15, y: 20, z: 0};
-    var position2 = {x: -0, y: -27, z: 0};
-    var position3 = {x: -0, y: -30, z: 0};
-    if (rotateToo) {
-//        console.log(theFilter);
-        var rad = 1;
-        var axis = new THREE.Vector3(0, 1, 0);//tilted a bit on x and y - feel free to plug your different axis here
-        theFilter.rotateOnAxis(axis, rad);
-//        theFilter.quaternion = new THREE.Quaternion(0,0,0,0);
-        var rotation = {y: 0}
-    }
+    var position1 = {x: -0, y: 20, z: 0};
+    var position2 = {x: -11, y: -28, z: -2};
+    var position3 = {x: -11, y: -30, z: -2};
+
+    var rotation = {y: -14.3}
     if (theFilter) {
         var update = function () {
             theFilter.position.y = fromWhere.y;
@@ -464,17 +450,21 @@ function flyInChosenFilter(objectName, animationTime) {
         }
         flyFilterToPosition1.chain(flyFilterToPosition2);
         flyFilterToPosition2.chain(flyFilterToPosition3);
-        if (rotateToo) {
-            flyFilterToPosition3.chain(rotateFilter);
-        }
         flyFilterToPosition1.start();
-        
-        setTimeout(function() {
-            var asd2 =  scene.add(drawAxes(900, theFilter.position, theFilter.rotation));
-        },2000);
-        
-        
-        
+
+        setTimeout(function () {
+
+            rotateFilter.start();
+        }, 500);
+
+//        if (debug_mode_on) {
+//            setTimeout(function () {
+//                var asd2 = scene.add(drawAxes(900, theFilter.position, theFilter.rotation));
+//            }, 2000);
+//        }
+
+
+
     } else {
         console.log("NO FILTER FOUND IN SCENE.");
     }
