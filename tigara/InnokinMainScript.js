@@ -90,7 +90,7 @@ function initParticles() {
         colorEnd: new THREE.Color(0x000000),
         sizeStart: 15,
         sizeEnd: 500,
-        particleCount: device_variables.watt * 3 ,
+        particleCount: device_variables.watt * 3,
     });
     particleGroup.addEmitter(emitter);
     scene.add(particleGroup.mesh);
@@ -286,6 +286,7 @@ function plusButtonClick() {
                 } else {
                     device_variables.watt = 6.0;
                 }
+                resetParticlesWithNewInfo();
                 refreshDisruptorInformations();
                 break;
         }
@@ -324,6 +325,7 @@ function minusButtonClick() {
                 } else {
                     device_variables.watt = 50.0;
                 }
+                resetParticlesWithNewInfo();
                 refreshDisruptorInformations();
                 break;
         }
@@ -911,4 +913,10 @@ function test() {
 
 function overrideStart() {
     playScene4();
+}
+
+
+function resetParticlesWithNewInfo() {
+    scene.remove(particleGroup.mesh);
+    initParticles();
 }
