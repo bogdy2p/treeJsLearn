@@ -80,7 +80,7 @@ function initParticles() {
         colorize: true
     });
     emitter = new SPE.Emitter({
-        position: new THREE.Vector3(-11.5, 45, -2),
+        position: new THREE.Vector3(-11.5, 47, -2),
         positionSpread: new THREE.Vector3(0, 0, 0),
         acceleration: new THREE.Vector3(0, 30, 00),
         accelerationSpread: new THREE.Vector3(0, 5, 0),
@@ -90,7 +90,7 @@ function initParticles() {
         colorEnd: new THREE.Color(0x000000),
         sizeStart: 15,
         sizeEnd: 500,
-        particleCount: 100,
+        particleCount: device_variables.watt * 3 ,
     });
     particleGroup.addEmitter(emitter);
     scene.add(particleGroup.mesh);
