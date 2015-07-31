@@ -196,11 +196,17 @@ function flyInFilter(objectName, current, time, general_height) {
 
         }
         var easing = TWEEN.Easing.Linear.EaseNone;
-        tweenBatteryDown = new TWEEN.Tween(top)
-                .to({y: general_height}, time)
+        tweenFilterDown = new TWEEN.Tween(top)
+                .to({y: general_height - 10}, time)
                 .easing(easing)
                 .onUpdate(update);
-        tweenBatteryDown.start();
+        tweenFilterForward = new TWEEN.Tween(top)
+                .to({y: general_height, z: 10}, time)
+                .easing(easing)
+                .onUpdate(update);
+        tweenFilterDown.chain(tweenFilterForward);
+
+        tweenFilterDown.start();
     } else {
         console.log(objectName);
         console.log("NO ActualObject ... Something wrong here");
@@ -345,7 +351,10 @@ function flyInChosenDisruptor(objectName, animationTime) {
     var theDisruptor = scene.getObjectByName(objectName);
     var fromWhere = {x: -60, y: -30, z: -60};
     var position1 = {x: 0, y: -50, z: 0};
-    var position2 = {x: 0, y: -30, z: 0};
+//    var position2 = {x: 0, y: -30, z: 0};
+
+    var position2 = final_device_positioning;
+
     if (theDisruptor) {
         var update = function () {
             theDisruptor.position.y = fromWhere.y;
@@ -375,7 +384,11 @@ function flyInChosenBattery(objectName, animationTime) {
     var fromWhere = {x: 80, y: 70, z: 80};
     var position1 = {x: -15, y: 20, z: 0};
     var position2 = {x: -15, y: -27, z: 0};
-    var position3 = {x: -15, y: -30, z: 0};
+
+    var position3 = final_device_positioning;
+    position3.x -= 15;
+
+//    var position3 = {x: -15, y: -30, z: 0};
     if (theBattery) {
         var update = function () {
             theBattery.position.y = fromWhere.y;
@@ -407,18 +420,15 @@ function flyInChosenBattery(objectName, animationTime) {
 
 function flyInChosenFilter(objectName, animationTime) {
 
-
-
-
-    var rotateToo = true;
     var theFilter = scene.getObjectByName(objectName);
-
     var fromWhere = {x: 60, y: -30, z: 60};
     var position1 = {x: -0, y: 20, z: 0};
     var position2 = {x: -11, y: -28, z: -2};
-    var position3 = {x: -11, y: -30, z: -2};
+    var position3 = final_device_positioning;
+    position3.x = -11;
+    position3.z = -2;
 
-    var rotation = {y: -14.3}
+    var rotation = {y: -14.3};
     if (theFilter) {
         var update = function () {
             theFilter.position.y = fromWhere.y;
@@ -437,35 +447,79 @@ function flyInChosenFilter(objectName, animationTime) {
                 .delay(400)
                 .onUpdate(update);
         flyFilterToPosition3 = new TWEEN.Tween(fromWhere)
-                .to(position3, animationTime / 10)
+                .to(position3, animationTime / 3)
                 .easing(easing)
                 .delay(400)
                 .onUpdate(update);
-        if (rotateToo) {
-            rotateFilter = new TWEEN.Tween(theFilter.rotation)
-                    .to(rotation, animationTime)
-                    .easing(easing)
-                    .delay(400)
-                    .onUpdate(update);
-        }
+        rotateFilter = new TWEEN.Tween(theFilter.rotation)
+                .to(rotation, animationTime)
+                .easing(easing)
+                .delay(400)
+                .onUpdate(update);
         flyFilterToPosition1.chain(flyFilterToPosition2);
         flyFilterToPosition2.chain(flyFilterToPosition3);
         flyFilterToPosition1.start();
 
         setTimeout(function () {
-
             rotateFilter.start();
         }, 500);
-
-//        if (debug_mode_on) {
-//            setTimeout(function () {
-//                var asd2 = scene.add(drawAxes(900, theFilter.position, theFilter.rotation));
-//            }, 2000);
-//        }
-
-
 
     } else {
         console.log("NO FILTER FOUND IN SCENE.");
     }
+}
+
+function rotateTheDevice(objectName, animationTime) {
+
+    var theDevice = scene.getObjectByName(objectName);
+    var fromWhere = {x: 60, y: -30, z: 60};
+    var position1 = {x: -0, y: 20, z: 0};
+    var position2 = {x: -11, y: -28, z: -2};
+    var position3 = final_device_positioning;
+    position3.x = -11;
+    position3.z = -2;
+    var rotation = {z: 1.3, x: 1.4};
+    if (theDevice) {
+        var update = function () {
+            //DO NOT UPDATE THE POSITION IF WE WANT IT TO REMAIN CENTERED
+//            theDevice.position.y = fromWhere.y;
+//            theDevice.position.x = fromWhere.x;
+//            theDevice.position.z = fromWhere.z;
+        }
+        var easing = TWEEN.Easing.Quadratic.EaseIn;
+        rotateDevice = new TWEEN.Tween(theDevice.rotation)
+                .to(rotation, animationTime)
+                .easing(easing)
+                .delay(0)
+                .onUpdate(update);
+
+        rotateDevice.start();
+
+    } else {
+        console.log("NO DEVICE FOUND IN SCENE.");
+    }
+}
+
+function zoomInTheCameraAnimationScene4() {
+    var theCamera = camera;
+
+    var fromWhere = camera.position;
+    zoomAmount = 0.7;
+    var toWhere = {x: 1, y: 1, z: 1};
+    toWhere.x = -75.07179904582648 * zoomAmount;
+    toWhere.y = 15.027656674615061 * zoomAmount;
+    toWhere.z = -64.33035459946542 * zoomAmount;
+
+    if (theCamera) {
+        var update = function () {
+        };
+        var easing = TWEEN.Easing.Quadratic.EaseOut;
+        zoomIn1 = new TWEEN.Tween(fromWhere)
+                .to(toWhere, 1000)
+                .easing(easing)
+//                .delay(000)
+                .onUpdate(update);
+        zoomIn1.start();
+    }
+
 }

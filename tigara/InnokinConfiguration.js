@@ -1,4 +1,4 @@
-var debug_mode_on = true;
+var debug_mode_on = false;
 var debugZoomoutAmmount = 1;
 var no_polar = false;
 var objectToMoveOnDebug = 'roata';
@@ -45,7 +45,7 @@ var device_variables = {
 }
 
 var ohmLetter = String.fromCharCode(0x2126);
-var group, groupMecanism, groupFiltru, groupBaterie, groupRoata, group2, group3, batteryChoicesGroup;
+var group, groupMecanism, groupFiltru, groupBaterie, groupRoata, groupDevice, group3, batteryChoicesGroup;
 var disruptor;
 var battery;
 var tigara;

@@ -15,12 +15,22 @@ function addLightingToScene(lightingPositions) {
     }
 }
 
+
+function setUpDeviceGroup() {
+    group = new THREE.Group();
+    group.name = 'groupDevice';
+    scene.add(group);
+}
+
 function setUpGroups(groups_array) {
+
+    groupDevice = scene.getObjectByName('groupDevice');
     for (i = 0; i < groups_array.length; i++) {
+
 
         group = new THREE.Group();
         group.name = groups_array[i].name;
-        scene.add(group);
+        groupDevice.add(group);
     }
 }
 

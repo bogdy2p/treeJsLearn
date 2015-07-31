@@ -46,26 +46,32 @@ function staticizeLargeScreenCanvas() {
 }
 
 function setCameraPositionScene1() {
+    multiplier = 1;
+    controls.noZoom = true;
     controls.noRotate = true;
-    controls.minDistance = 80;
-    controls.maxDistance = 100;
-    camera.position.x = -60.1852;
-    camera.position.y = 28.989;
-    camera.position.z = 44.015;
-    camera.rotation.x = -0.582393;
-    camera.rotation.y = -0.85157;
-    camera.rotation.z = -0.46001;
+//    controls.minDistance = 40;
+//    controls.maxDistance = 100;
+    camera.position.x = -41.26555087900631 * multiplier;
+    camera.position.y = 35.05179776153716 * multiplier;
+    camera.position.z = 29.535452843228835 * multiplier;
+    camera.rotation.x = -0.5769296339006073;
+    camera.rotation.y = -0.8441911673592711;
+    camera.rotation.z = -0.452726163970057;
     setDebugCameraProperties();
 
 }
 
 function setCameraPositionScene2() {
+    multiplier = 1.456;
+    multiplier = 1;
+    multiplier = 1.2;
+    controls.noZoom = false;
     controls.noRotate = false;
     controls.minDistance = 100;
     controls.maxDistance = 150;
-    camera.position.x = -120;
-    camera.position.y = 80;
-    camera.position.z = 20;
+    camera.position.x = -120 / multiplier;
+    camera.position.y = 80 / multiplier;
+    camera.position.z = 20 / multiplier;
     camera.rotation.x = -1.32581;
     camera.rotation.y = -0.96872;
     camera.rotation.z = -1.27628;
@@ -89,28 +95,62 @@ function setCameraPositionScene3() {
 }
 
 function setCameraPositionScene4() {
-    multiplier = 1.3;
+    multiplier = 1;
     controls.noRotate = false;
-    camera.position.x = -120 * multiplier;
-    camera.position.y = 80 * multiplier;
-    camera.position.z = 20 * multiplier;
-    camera.rotation.x = -1.32581;
-    camera.rotation.y = -0.96872;
-    camera.rotation.z = -1.27628;
+   
+    controls.minAzimuthAngle = - Infinity; // radians
+	controls.maxAzimuthAngle 
+//    controls.noPan = false;
+//    camera.position.x = -120 * multiplier;
+//    camera.position.y = 80 * multiplier;
+//    camera.position.z = 20 * multiplier;
+//    camera.rotation.x = -1.32581;
+//    camera.rotation.y = -0.96872;
+//    camera.rotation.z = -1.27628;
+//
+//
+//    camera.position.x = -56.37748752010526 * multiplier;
+//    camera.position.y = 69.80148876473167 * multiplier;
+//    camera.position.z = -44.15122950889827 * multiplier;
+//    camera.rotation.x = -2.134788998491361;
+//    camera.rotation.y = -0.5989491813424832;
+//    camera.rotation.z = -2.4136008035803767;
+//
+
+    //try3
+//    camera.position.x = -75.47639375128176;
+//    camera.position.y = -17.980596768532852;
+//    camera.position.z = -54.76625675649709;
+//    camera.rotation.x = 2.6798487003295572;
+//    camera.rotation.y = -0.8611304274918877;
+//    camera.rotation.z = 2.780643921146614;
+
+
+//    try4
+    camera.position.x = -75.07179904582648;
+    camera.position.y = 15.027656674615061;
+    camera.position.z = -64.33035459946542;
+    camera.rotation.x = -2.9121065744547727;
+    camera.rotation.y = -0.8491482583344366;
+    camera.rotation.z = -2.9679892414057765;
+
     controls.minPolarAngle = 0.7;
     controls.maxPolarAngle = 1.8;
-    controls.maxDistance = 160;
+    controls.minDistance = 45;
+    controls.maxDistance = 120;
+    controls.noPan = false;
+
     setDebugCameraProperties();
 }
 
 function setDebugCameraProperties() {
     if (debug_mode_on) {
-        
-        controls.noRotate = false;
+
+//        controls.noRotate = false;
         controls.maxDistance = 10000;
-        controls.minDistance = 1;
-        controls.noZoom = false;
-        controls.noPan = false;
+//        controls.minDistance = 1;
+//        controls.noZoom = false;
+//        controls.noPan = false;
         controls.minPolarAngle = -0.8;
         controls.maxPolarAngle = 8;
         camera.position.x = camera.position.x * debugZoomoutAmmount;

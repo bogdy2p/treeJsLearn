@@ -1,4 +1,10 @@
 
+
+var final_device_positioning = {
+    x: 0, y: -40, z: 0
+};
+
+
 var wheel_general_height = -30;
 var battery_clone_general_height = 10;
 
@@ -21,8 +27,8 @@ var disruptor_clone_positions = [
 
 
 var filter_clone_positions = [
-    {x: -10, y: 0, z: -15},
-    {x: 33, y: 0, z: -15},
+    {x: -30, y: 0, z: -15},
+    {x: 30, y: 0, z: -15},
 ];
 
 var wheel_scene_positions = [
@@ -32,7 +38,6 @@ var wheel_scene_positions = [
 
 
 var groups_array = [
-    {name: "groupPrincipal", x: 0, y: 0, z: 0},
     {name: "groupFiltru", x: 5.5, y: -15, z: 2},
     {name: "groupBaterie", x: -9.45, y: -15, z: 2},
     {name: "groupRoata", x: 0, y: -46, z: 0},
