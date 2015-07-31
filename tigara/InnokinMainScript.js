@@ -131,15 +131,35 @@ function onDocumentMouseDown(event) {
     renderer.domElement.addEventListener('mousemove', onDocumentMouseMove, false);
     renderer.domElement.addEventListener('mouseup', onDocumentMouseUp, false);
     renderer.domElement.addEventListener('mouseout', onDocumentMouseOut, false);
-    var mouseVector = new THREE.Vector3();
-    mouseVector.x = 2 * (event.clientX / SCREEN_WIDTH) - 1;
-    mouseVector.y = 1 - 2 * (event.clientY / SCREEN_HEIGHT);
+    var mouseVector = new THREE.Vector2();
+    //WORKING @ FULLSCREEN
+    mouseVector.x = 2 * ((event.clientX -container.offsetLeft) / SCREEN_WIDTH) - 1;
+    mouseVector.y = 1 - 2 * ((event.clientY- container.offsetTop)  / SCREEN_HEIGHT);
+
+    console.clear();
+
+//    mouseVector.x = 2 * ((event.clientX - renderer.domElement.offsetLeft) / renderer.domElement.width) - 1;
+//    mouseVector.y = 1 - 2 * ((event.clientY - renderer.domElement.offsetTop) / renderer.domElement.height);
+    //    console.log(mouseVector);
+
+    //Try2
+
+//    mouseVector.x = 2 * ((event.clientX - container.offsetLeft) / container.clientWidth) - 1;
+//    mouseVector.y = 1 - 2 * ((event.clientY - container.offsetTop) / container.clientHeight);
+
+    console.log(container.clientWidth);
+    console.log(container.offsetLeft);
+    console.log(mouseVector.x);
+    console.log(mouseVector.y);
+
     raycaster.setFromCamera(mouseVector, camera);
+//    raycaster.ray.
     var intersectedObjects = raycaster.intersectObjects(scene.children, true);
-    console.log(intersectedObjects);
+//    console.log(intersectedObjects);
     if (intersectedObjects.length > 0) {
 
         var Object = intersectedObjects[0];
+        console.log(Object.object);
         if (Object.object.parent.name) {
             buttonClicksLogic(Object.object.parent.name);
         }
@@ -921,7 +941,7 @@ function overrideStart() {
             playScene4();
             break;
     }
-    
+
 }
 
 

@@ -13,22 +13,10 @@ body {
     margin: 0px;
     overflow: hidden;
 }
-/*#info {
-    position: absolute;
-    top: 0px; width: 100%;
-    padding: 5px;
-}*/
-/*
 #debugDiv{
     position:absolute;
     top:20px;
-}*/
-
-/*.stateButtons{
-    margin:0px auto;
-    margin-top: 3px;
-    text-align:center;
-}*/
+}
 
 a {
     color: #FF80ff;
@@ -46,11 +34,7 @@ a {
     width: 1024px;
     height: 768px;
     margin: 0px auto;
-    /*position: absolute; left:0px; top:0px;*/
+    padding:0px;
+    /*position: static;*/
 }
-/*
-#hidden{
-    z-index: 500;
-    visibility: hidden;
-    display:none;
-}*/
+
